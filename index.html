@@ -3,11 +3,22 @@
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/todo.svg" />
+    <link rel="stylesheet" href="src/style.css"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Web todolist project</title>
   </head>
   <body>
-    <h1>Web todolist app</h1>
-    <script type="module" src="/src/main.ts"></script>
+    <div id="welcome-screen" class="welcome-screen">
+      <div class="welcome-card">
+        <h1>✨ Welcome to your ToDo List ✨</h1>
+        <p>Organize your days with efficiency.</p>
+        <button id="start-button">Click here</button>
+      </div>
+    </div>
+    
+    <div id="app" class="hidden">
+      <!--ToDo List App-->
+    </div>
+        <script type="module" src="/src/main.ts"></script>
   </body>
 </html>
