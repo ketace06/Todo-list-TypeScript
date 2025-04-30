@@ -133,6 +133,14 @@ button:hover {
   color: red;
 }
 
+#letter-count {
+  margin-top: 8px;
+  font-size: 0.9rem;
+  color: var(--thirdcolor);
+  font-style: italic;
+}
+
+
 /*Animations*/
 @keyframes moveGradient {
   0% {

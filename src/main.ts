@@ -8,7 +8,23 @@ document.addEventListener('DOMContentLoaded', () => {
   const todoInputElement = document.getElementById('todo-input') as HTMLInputElement;
   const todoContainer = document.getElementById('todo-item') as HTMLElement;
   const clearButton = document.getElementById('delete-all') as HTMLButtonElement;
+  const letterCountElement = document.getElementById('letter-count') as HTMLParagraphElement;
 
+
+  todoInputElement.addEventListener('input', () => {
+    const value = todoInputElement.value;
+    const letterCount = (value.match(/./g) || []).length;
+    letterCountElement.textContent = `Letters: ${letterCount} / 200`;
+ 
+    if (letterCount > 200) {
+      todoInputElement.style.borderColor = 'red';
+      letterCountElement.style.color = 'red';
+    } else {
+      todoInputElement.style.borderColor = '#ccc';
+      letterCountElement.style.color = 'var(--thirdcolor)';
+    }
+  });
+  
   const texts = [
     "Let's go 🚀",
     "Back already?",
