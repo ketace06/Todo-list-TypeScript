@@ -22,5 +22,4 @@ document.addEventListener('DOMContentLoaded', () => {
       startButton.addEventListener("click", exitMainPage);
     }, 1500);
   }
-  
 });
