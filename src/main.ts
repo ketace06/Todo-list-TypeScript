@@ -15,6 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
     "Just, do it!",
     "No way, you're back!?",
     "Yes, you can.",
+    "First time.. uh?"
   ];
 
   function randomText() {
