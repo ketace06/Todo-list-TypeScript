@@ -77,13 +77,17 @@ button:hover {
 
 .todolist {
   display: none;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: space-between;
   padding: 100px 150px;
   opacity: 0;
   transform: translateY(-100%);
   transition: opacity 1s ease, transform 1s ease; 
+}
+
+.test {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 .todolist.slide-in {
