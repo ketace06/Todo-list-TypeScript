@@ -4,7 +4,11 @@ document.addEventListener('DOMContentLoaded', () => {
   const startButton = document.getElementById('start-button') as HTMLButtonElement;
   const welcomeScreen = document.getElementById('welcome-screen') as HTMLElement;
   const app = document.getElementById('app') as HTMLElement;
-  
+  const todoAddElement = document.getElementById('add-todo-button') as HTMLButtonElement;
+  const todoInputElement = document.getElementById('todo-input') as HTMLInputElement;
+  const todoContainer = document.getElementById('todo-item') as HTMLElement;
+  const clearButton = document.getElementById('delete-all') as HTMLButtonElement;
+
   const texts = [
     "Let's go 🚀",
     "Back already?",
@@ -32,7 +36,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   startButton?.addEventListener('click', exitMainPage);
 
-  function getTodosFromLocalStorage() {
+  function getTodosFromLocalStorage(): string[] {
     const todos = localStorage.getItem('todos');
     return todos ? JSON.parse(todos) : [];
   }
@@ -40,26 +44,44 @@ document.addEventListener('DOMContentLoaded', () => {
   function addTodo() {
     const todoText = (document.getElementById('todo-input') as HTMLInputElement).value.trim();
     if (todoText === '' || todoText.length > 200) return;
-  
+
     const todos = getTodosFromLocalStorage();
     todos.push(todoText);
     localStorage.setItem('todos', JSON.stringify(todos));
-  
+
     (document.getElementById('todo-input') as HTMLInputElement).value = '';
+    updateTodosDisplay(); 
   }
-  
-  const todoAddElement = document.getElementById('add-todo-button') as HTMLLIElement;
   todoAddElement.addEventListener('click', addTodo);
-  
-  const todoInputElement = document.getElementById('todo-input') as HTMLInputElement;
+
   todoInputElement.addEventListener('keydown', (event) => {
     if (event.key === 'Enter') {
       addTodo();
     }
   });
-  
-  const clearButton = document.getElementById('delete-all') as HTMLButtonElement;
-  clearButton.addEventListener("click", () => localStorage.clear());
-  
-});
 
+  function updateTodosDisplay() {
+    todoContainer.innerHTML = '';
+
+    const todos = getTodosFromLocalStorage();
+
+    for (const todo of todos) {
+      const p = document.createElement("p") as HTMLParagraphElement;
+      p.textContent = todo;
+      todoContainer.appendChild(p);
+    }
+  }
+
+  updateTodosDisplay();
+
+  window.addEventListener('storage', (event) => {
+    if (event.key === 'todos') {
+      updateTodosDisplay(); 
+    }
+  });
+  clearButton.addEventListener('click', () => {
+    localStorage.clear();
+    updateTodosDisplay(); 
+    (document.getElementById('todo-input') as HTMLInputElement).value = '';
+  });
+});
