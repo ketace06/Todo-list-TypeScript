@@ -53,6 +53,7 @@ document.addEventListener('DOMContentLoaded', () => {
     (document.getElementById('todo-input') as HTMLInputElement).value = '';
     updateTodosDisplay(); 
   }
+
   todoAddElement.addEventListener('click', addTodo);
 
   todoInputElement.addEventListener('keydown', (event) => {
@@ -62,27 +63,47 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   function updateTodosDisplay() {
-    todoContainer.innerHTML = '';
+    todoContainer.innerHTML = '';  
 
     const todos = getTodosFromLocalStorage();
 
     for (const todo of todos) {
       const p = document.createElement("p") as HTMLParagraphElement;
       p.textContent = todo;
+      p.classList.add('todo-item');  
+
+      const closeSpan = document.createElement('span');
+      closeSpan.textContent = '×';
+      closeSpan.classList.add('close');
+
+      closeSpan.addEventListener('click', () => {
+        deleteTodo(todo);  
+      });
+
+      p.appendChild(closeSpan);  
+
       todoContainer.appendChild(p);
     }
   }
 
-  updateTodosDisplay();
+  function deleteTodo(todo: string) {
+    const todos = getTodosFromLocalStorage();
+    const updatedTodos = todos.filter(t => t !== todo);  
+    localStorage.setItem('todos', JSON.stringify(updatedTodos)); 
+    updateTodosDisplay(); 
+  }
+
+  updateTodosDisplay();  
 
   window.addEventListener('storage', (event) => {
     if (event.key === 'todos') {
       updateTodosDisplay(); 
     }
   });
+
   clearButton.addEventListener('click', () => {
-    localStorage.clear();
-    updateTodosDisplay(); 
-    (document.getElementById('todo-input') as HTMLInputElement).value = '';
+    localStorage.clear();  
+    updateTodosDisplay();  
+    (document.getElementById('todo-input') as HTMLInputElement).value = ''; 
   });
 });
