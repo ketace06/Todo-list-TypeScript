@@ -58,7 +58,7 @@ document.addEventListener('DOMContentLoaded', () => {
   todoInputElement.addEventListener('keydown', (event) => {
     if (event.key === 'Enter') {
       addTodo();
-      event.preventDefault()
+      event.preventDefault();
     }
   });
 
@@ -67,7 +67,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const todos = getTodosFromLocalStorage();
 
-    for (const todo of todos) {
+    for (let i = 0; i < todos.length; i++) {
+      const todo = todos[i];
       const li = document.createElement("li") as HTMLLIElement;
       li.textContent = todo;
       li.classList.add('todo-item');  
@@ -88,7 +89,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function deleteTodo(todo: string) {
     const todos = getTodosFromLocalStorage();
-    const updatedTodos = todos.filter(t => t !== todo);  
+    const updatedTodos = todos.filter((t, index) => {
+      return t !== todo || todos.indexOf(t) !== index; 
+    });
+
     localStorage.setItem('todos', JSON.stringify(updatedTodos)); 
     updateTodosDisplay(); 
   }
