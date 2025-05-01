@@ -1,4 +1,3 @@
-
 import './style.css'
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -15,26 +14,34 @@ document.addEventListener('DOMContentLoaded', () => {
   ) as HTMLInputElement
   const todoContainer = document.getElementById('todo-item') as HTMLElement
   const deleteAllTAsks = document.getElementById('delete-all') as HTMLElement
-  const dateTimeElement = document.getElementById('current-date-time') as HTMLElement
+  const dateTimeElement = document.getElementById(
+    'current-date-time',
+  ) as HTMLElement
 
-  function getCurrentDateTime(): { day: number, mois: number, year: number, hour: number, minute: number } {
-    const today = new Date(); 
-    const day = today.getDate(); 
-    const mois = today.getMonth() + 1;
-    const year = today.getFullYear();
-    const hour = today.getHours();
-    const minute = today.getMinutes();
+  function getCurrentDateTime(): {
+    day: number
+    mois: number
+    year: number
+    hour: number
+    minute: number
+  } {
+    const today = new Date()
+    const day = today.getDate()
+    const mois = today.getMonth() + 1
+    const year = today.getFullYear()
+    const hour = today.getHours()
+    const minute = today.getMinutes()
 
-    return { day, mois, year, hour, minute };
+    return { day, mois, year, hour, minute }
   }
 
   function updateDateTime() {
-    const { day, mois, year, hour, minute } = getCurrentDateTime();
-    const timeString = `day: ${day}/${mois}/${year} | hour: ${hour}:${minute.toString().padStart(2, '0')}`;
-    dateTimeElement.textContent = timeString;
+    const { day, mois, year, hour, minute } = getCurrentDateTime()
+    const timeString = `day: ${day}/${mois}/${year} | hour: ${hour}:${minute.toString().padStart(2, '0')}`
+    dateTimeElement.textContent = timeString
   }
 
-  setInterval(updateDateTime, 1000);
+  setInterval(updateDateTime, 1000)
 
   const texts = [
     "Let's go 🚀",
