@@ -91,6 +91,7 @@ document.addEventListener('DOMContentLoaded', () => {
       })
 
       li.appendChild(closeSpan)
+
       todoContainer.appendChild(li)
     }
   }
