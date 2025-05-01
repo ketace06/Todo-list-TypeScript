@@ -13,6 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
     'todo-input',
   ) as HTMLInputElement
   const todoContainer = document.getElementById('todo-item') as HTMLElement
+  const deleteAllTAsks = document.getElementById('delete-all') as HTMLElement
 
   const texts = [
     "Let's go 🚀",
@@ -56,6 +57,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const todos = getTodosFromLocalStorage()
     todos.push(todoText)
     localStorage.setItem('todos', JSON.stringify(todos))
+    todoInputElement.value = ''
     ;(document.getElementById('todo-input') as HTMLInputElement).value = ''
     updateTodosDisplay()
   }
@@ -102,6 +104,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
     localStorage.setItem('todos', JSON.stringify(updatedTodos))
     updateTodosDisplay()
+  }
+
+  function deleteTasks() {
+    localStorage.removeItem('todos')
+    todoInputElement.value = ''
+    updateTodosDisplay()
+  }
+
+  if (deleteAllTAsks) {
+    deleteAllTAsks.addEventListener('click', deleteTasks)
   }
 
   updateTodosDisplay()
