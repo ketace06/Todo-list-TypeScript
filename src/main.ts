@@ -100,10 +100,4 @@ document.addEventListener('DOMContentLoaded', () => {
       updateTodosDisplay();
     }
   });
-
-  clearButton.addEventListener('click', () => {
-    localStorage.clear();  
-    updateTodosDisplay();  
-    (document.getElementById('todo-input') as HTMLInputElement).value = ''; 
-  });
 });
