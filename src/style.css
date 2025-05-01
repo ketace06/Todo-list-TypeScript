@@ -133,13 +133,13 @@ button:hover {
   color: red;
 }
 
-#letter-count {
-  margin-top: 8px;
-  font-size: 0.9rem;
-  color: var(--thirdcolor);
-  font-style: italic;
+#todo-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
 }
-
 
 /*Animations*/
 @keyframes moveGradient {
