@@ -1,3 +1,4 @@
+
 import './style.css'
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -14,6 +15,26 @@ document.addEventListener('DOMContentLoaded', () => {
   ) as HTMLInputElement
   const todoContainer = document.getElementById('todo-item') as HTMLElement
   const deleteAllTAsks = document.getElementById('delete-all') as HTMLElement
+  const dateTimeElement = document.getElementById('current-date-time') as HTMLElement
+
+  function getCurrentDateTime(): { jour: number, mois: number, annee: number, heure: number, minute: number } {
+    const today = new Date(); 
+    const jour = today.getDate(); 
+    const mois = today.getMonth() + 1;
+    const annee = today.getFullYear();
+    const heure = today.getHours();
+    const minute = today.getMinutes();
+
+    return { jour, mois, annee, heure, minute };
+  }
+
+  function updateDateTime() {
+    const { jour, mois, annee, heure, minute } = getCurrentDateTime();
+    const timeString = `Jour: ${jour}/${mois}/${annee} | Heure: ${heure}:${minute.toString().padStart(2, '0')}`;
+    dateTimeElement.textContent = timeString;
+  }
+
+  setInterval(updateDateTime, 1000);
 
   const texts = [
     "Let's go 🚀",
@@ -58,7 +79,6 @@ document.addEventListener('DOMContentLoaded', () => {
     todos.push(todoText)
     localStorage.setItem('todos', JSON.stringify(todos))
     todoInputElement.value = ''
-    ;(document.getElementById('todo-input') as HTMLInputElement).value = ''
     updateTodosDisplay()
   }
 
