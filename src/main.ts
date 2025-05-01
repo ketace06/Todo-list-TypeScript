@@ -1,11 +1,17 @@
 import './style.css'
 
 document.addEventListener('DOMContentLoaded', () => {
-  const startButton = document.getElementById('start-button') as HTMLButtonElement
+  const startButton = document.getElementById(
+    'start-button',
+  ) as HTMLButtonElement
   const welcomeScreen = document.getElementById('welcome-screen') as HTMLElement
   const app = document.getElementById('app') as HTMLElement
-  const todoAddElement = document.getElementById('add-todo-button') as HTMLButtonElement
-  const todoInputElement = document.getElementById('todo-input') as HTMLInputElement
+  const todoAddElement = document.getElementById(
+    'add-todo-button',
+  ) as HTMLButtonElement
+  const todoInputElement = document.getElementById(
+    'todo-input',
+  ) as HTMLInputElement
   const todoContainer = document.getElementById('todo-item') as HTMLElement
   const deleteAllTAsks = document.getElementById('delete-all') as HTMLElement
 
@@ -97,7 +103,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function deleteTasks() {
-    localStorage.removeItem('todos') 
+    localStorage.removeItem('todos')
     todoInputElement.value = ''
     updateTodosDisplay()
   }
