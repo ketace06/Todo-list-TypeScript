@@ -7,23 +7,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const todoAddElement = document.getElementById('add-todo-button') as HTMLButtonElement;
   const todoInputElement = document.getElementById('todo-input') as HTMLInputElement;
   const todoContainer = document.getElementById('todo-item') as HTMLElement;
-  const letterCountElement = document.getElementById('letter-count') as HTMLParagraphElement;
-
-  let todos: string[] = [];
-
-  todoInputElement.addEventListener('input', () => {
-    const value = todoInputElement.value;
-    const letterCount = (value.match(/./g) || []).length;
-    letterCountElement.textContent = `Letters: ${letterCount} / 200`;
-
-    if (letterCount > 200) {
-      todoInputElement.style.borderColor = 'red';
-      letterCountElement.style.color = 'red';
-    } else {
-      todoInputElement.style.borderColor = '#ccc';
-      letterCountElement.style.color = 'var(--thirdcolor)';
-    }
-  });
 
   const texts = [
     "Let's go 🚀",
@@ -34,11 +17,11 @@ document.addEventListener('DOMContentLoaded', () => {
     "First time.. uh?"
   ];
 
-  function randomText(): string {
+  function randomText() {
     return texts[Math.floor(Math.random() * texts.length)];
   }
 
-  function exitMainPage(): void {
+  function exitMainPage() {
     app.style.display = 'block';
     startButton.innerText = randomText();
     startButton.classList.add('start-button-fade');
@@ -53,47 +36,74 @@ document.addEventListener('DOMContentLoaded', () => {
 
   startButton?.addEventListener('click', exitMainPage);
 
-  function addTodo(): void {
-    const todoText = todoInputElement.value.trim();
+  function getTodosFromLocalStorage(): string[] {
+    const todos = localStorage.getItem('todos');
+    return todos ? JSON.parse(todos) : [];
+  }
+
+  function addTodo() {
+    const todoText = (document.getElementById('todo-input') as HTMLInputElement).value.trim();
     if (todoText === '' || todoText.length > 200) return;
 
+    const todos = getTodosFromLocalStorage();
     todos.push(todoText);
-    todoInputElement.value = '';
-    updateTodosDisplay();
+    localStorage.setItem('todos', JSON.stringify(todos));
+
+    (document.getElementById('todo-input') as HTMLInputElement).value = '';
+    updateTodosDisplay(); 
   }
 
   todoAddElement.addEventListener('click', addTodo);
 
-  todoInputElement.addEventListener('keydown', (event: KeyboardEvent) => {
+  todoInputElement.addEventListener('keydown', (event) => {
     if (event.key === 'Enter') {
       addTodo();
-      event.preventDefault();
+      event.preventDefault()
     }
   });
 
-  function updateTodosDisplay(): void {
-    todoContainer.textContent = '';
+  function updateTodosDisplay() {
+    todoContainer.textContent = '';  
+
+    const todos = getTodosFromLocalStorage();
 
     for (const todo of todos) {
-      const li = document.createElement('li');
+      const li = document.createElement("li") as HTMLLIElement;
       li.textContent = todo;
-      li.classList.add('todo-item');
+      li.classList.add('todo-item');  
 
       const closeSpan = document.createElement('span');
       closeSpan.textContent = '×';
       closeSpan.classList.add('close');
 
       closeSpan.addEventListener('click', () => {
-        deleteTodo(todo);
+        deleteTodo(todo);  
       });
 
-      li.appendChild(closeSpan);
+      li.appendChild(closeSpan);  
+
       todoContainer.appendChild(li);
     }
   }
 
-  function deleteTodo(todo: string): void {
-    todos = todos.filter(t => t !== todo);
-    updateTodosDisplay();
+  function deleteTodo(todo: string) {
+    const todos = getTodosFromLocalStorage();
+    const updatedTodos = todos.filter(t => t !== todo);  
+    localStorage.setItem('todos', JSON.stringify(updatedTodos)); 
+    updateTodosDisplay(); 
   }
+
+  updateTodosDisplay();  
+
+  window.addEventListener('storage', (event) => {
+    if (event.key === 'todos') {
+      updateTodosDisplay();
+    }
+  });
+
+  clearButton.addEventListener('click', () => {
+    localStorage.clear();  
+    updateTodosDisplay();  
+    (document.getElementById('todo-input') as HTMLInputElement).value = ''; 
+  });
 });
