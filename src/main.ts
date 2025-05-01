@@ -7,8 +7,23 @@ document.addEventListener('DOMContentLoaded', () => {
   const todoAddElement = document.getElementById('add-todo-button') as HTMLButtonElement;
   const todoInputElement = document.getElementById('todo-input') as HTMLInputElement;
   const todoContainer = document.getElementById('todo-item') as HTMLElement;
+  const letterCountElement = document.getElementById('letter-count') as HTMLParagraphElement;
 
-  const todos: string[] = [];
+  let todos: string[] = [];
+
+  todoInputElement.addEventListener('input', () => {
+    const value = todoInputElement.value;
+    const letterCount = (value.match(/./g) || []).length;
+    letterCountElement.textContent = `Letters: ${letterCount} / 200`;
+
+    if (letterCount > 200) {
+      todoInputElement.style.borderColor = 'red';
+      letterCountElement.style.color = 'red';
+    } else {
+      todoInputElement.style.borderColor = '#ccc';
+      letterCountElement.style.color = 'var(--thirdcolor)';
+    }
+  });
 
   const texts = [
     "Let's go 🚀",
@@ -19,11 +34,11 @@ document.addEventListener('DOMContentLoaded', () => {
     "First time.. uh?"
   ];
 
-  function randomText() {
+  function randomText(): string {
     return texts[Math.floor(Math.random() * texts.length)];
   }
 
-  function exitMainPage() {
+  function exitMainPage(): void {
     app.style.display = 'block';
     startButton.innerText = randomText();
     startButton.classList.add('start-button-fade');
@@ -38,7 +53,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   startButton?.addEventListener('click', exitMainPage);
 
-  function addTodo() {
+  function addTodo(): void {
     const todoText = todoInputElement.value.trim();
     if (todoText === '' || todoText.length > 200) return;
 
@@ -47,25 +62,38 @@ document.addEventListener('DOMContentLoaded', () => {
     updateTodosDisplay();
   }
 
-  function updateTodosDisplay() {
+  todoAddElement.addEventListener('click', addTodo);
+
+  todoInputElement.addEventListener('keydown', (event: KeyboardEvent) => {
+    if (event.key === 'Enter') {
+      addTodo();
+      event.preventDefault();
+    }
+  });
+
+  function updateTodosDisplay(): void {
     todoContainer.textContent = '';
 
     for (const todo of todos) {
       const li = document.createElement('li');
       li.textContent = todo;
       li.classList.add('todo-item');
+
+      const closeSpan = document.createElement('span');
+      closeSpan.textContent = '×';
+      closeSpan.classList.add('close');
+
+      closeSpan.addEventListener('click', () => {
+        deleteTodo(todo);
+      });
+
+      li.appendChild(closeSpan);
       todoContainer.appendChild(li);
     }
   }
 
-
-
-  todoAddElement.addEventListener('click', addTodo);
-
-  todoInputElement.addEventListener('keydown', (event) => {
-    if (event.key === 'Enter') {
-      addTodo();
-      event.preventDefault()
-    }
-  });
+  function deleteTodo(todo: string): void {
+    todos = todos.filter(t => t !== todo);
+    updateTodosDisplay();
+  }
 });
