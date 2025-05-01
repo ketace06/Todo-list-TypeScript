@@ -1,4 +1,4 @@
-import './style.css'
+import './style.css';
 
 document.addEventListener('DOMContentLoaded', () => {
   const startButton = document.getElementById('start-button') as HTMLButtonElement;
@@ -7,24 +7,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const todoAddElement = document.getElementById('add-todo-button') as HTMLButtonElement;
   const todoInputElement = document.getElementById('todo-input') as HTMLInputElement;
   const todoContainer = document.getElementById('todo-item') as HTMLElement;
-  const clearButton = document.getElementById('delete-all') as HTMLButtonElement;
-  const letterCountElement = document.getElementById('letter-count') as HTMLParagraphElement;
 
-  let todos: string[] = [];
-
-  todoInputElement.addEventListener('input', () => {
-    const value = todoInputElement.value;
-    const letterCount = (value.match(/./g) || []).length;
-    letterCountElement.textContent = `Letters: ${letterCount} / 200`;
-
-    if (letterCount > 200) {
-      todoInputElement.style.borderColor = 'red';
-      letterCountElement.style.color = 'red';
-    } else {
-      todoInputElement.style.borderColor = '#ccc';
-      letterCountElement.style.color = 'var(--thirdcolor)';
-    }
-  });
+  const todos: string[] = [];
 
   const texts = [
     "Let's go 🚀",
@@ -40,15 +24,16 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function exitMainPage() {
-    startButton.innerText = "Let's go 🚀";
+    app.style.display = 'block';
+    startButton.innerText = randomText();
     startButton.classList.add('start-button-fade');
 
+    setTimeout(() => welcomeScreen.classList.add('fade-out'), 1000);
+
     setTimeout(() => {
-      welcomeScreen.classList.add('fade-out');
-    }, 1000);
-    setTimeout(() => {
-      welcomeScreen.remove()
-    }, 2000)
+      welcomeScreen.remove();
+      app.classList.add('slide-in');
+    }, 2000);
   }
 
   startButton?.addEventListener('click', exitMainPage);
@@ -63,42 +48,24 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function updateTodosDisplay() {
-    todoContainer.innerHTML = '';
+    todoContainer.textContent = '';
 
     for (const todo of todos) {
-      const p = document.createElement('p');
-      p.textContent = todo;
-      p.classList.add('todo-item');
-
-      const closeSpan = document.createElement('span');
-      closeSpan.textContent = '×';
-      closeSpan.classList.add('close');
-
-      closeSpan.addEventListener('click', () => {
-        deleteTodo(todo);
-      });
-
-      p.appendChild(closeSpan);
-      todoContainer.appendChild(p);
+      const li = document.createElement('li');
+      li.textContent = todo;
+      li.classList.add('todo-item');
+      todoContainer.appendChild(li);
     }
   }
 
-  function deleteTodo(todo: string) {
-    todos = todos.filter(t => t !== todo);
-    updateTodosDisplay();
-  }
+
 
   todoAddElement.addEventListener('click', addTodo);
 
   todoInputElement.addEventListener('keydown', (event) => {
     if (event.key === 'Enter') {
       addTodo();
+      event.preventDefault()
     }
-  });
-
-  clearButton.addEventListener('click', () => {
-    todos = [];
-    updateTodosDisplay();
-    todoInputElement.value = '';
   });
 });

@@ -1,13 +1,12 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8" />
-    
-    <link rel="icon" type="image/svg+xml" href="/todo.svg" />
-    <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;600&display=swap" rel="stylesheet" href="src/style.css"/>
-
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Web todolist project</title>
+    <meta charset="UTF-8">
+    <link rel="icon" type="image/svg+xml" href="/todo.svg">
+    <link rel="stylesheet" href="src/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;600&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your ToDo List</title>
   </head>
   <body>
     <div id="welcome-screen" class="welcome-screen">
@@ -18,8 +17,14 @@
       </div>
     </div>
     <main id="app" class="todolist">
-      <h1>Todo List App</h1>
+      <div class="todolistDiv">      
+        <h1>My Todo List</h1>
+        <textarea name="todo-text" id="todo-input" placeholder="What will you do?" autocomplete="off"></textarea>
+
+        <button id="add-todo-button">Add</button>
+        <ul id="todo-item"></ul>
+      </div>
     </main>
-        <script type="module" src="/src/main.ts"></script>
+    <script type="module" src="/src/main.ts"></script>
   </body>
 </html>
