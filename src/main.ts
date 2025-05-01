@@ -10,12 +10,13 @@ document.addEventListener('DOMContentLoaded', () => {
   const clearButton = document.getElementById('delete-all') as HTMLButtonElement;
   const letterCountElement = document.getElementById('letter-count') as HTMLParagraphElement;
 
+  let todos: string[] = [];
 
   todoInputElement.addEventListener('input', () => {
     const value = todoInputElement.value;
     const letterCount = (value.match(/./g) || []).length;
     letterCountElement.textContent = `Letters: ${letterCount} / 200`;
- 
+
     if (letterCount > 200) {
       todoInputElement.style.borderColor = 'red';
       letterCountElement.style.color = 'red';
@@ -24,7 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
       letterCountElement.style.color = 'var(--thirdcolor)';
     }
   });
-  
+
   const texts = [
     "Let's go 🚀",
     "Back already?",
@@ -53,21 +54,39 @@ document.addEventListener('DOMContentLoaded', () => {
 
   startButton?.addEventListener('click', exitMainPage);
 
-  function getTodosFromLocalStorage(): string[] {
-    const todos = localStorage.getItem('todos');
-    return todos ? JSON.parse(todos) : [];
-  }
-
   function addTodo() {
-    const todoText = (document.getElementById('todo-input') as HTMLInputElement).value.trim();
+    const todoText = todoInputElement.value.trim();
     if (todoText === '' || todoText.length > 200) return;
 
-    const todos = getTodosFromLocalStorage();
     todos.push(todoText);
-    localStorage.setItem('todos', JSON.stringify(todos));
+    todoInputElement.value = '';
+    updateTodosDisplay();
+  }
 
-    (document.getElementById('todo-input') as HTMLInputElement).value = '';
-    updateTodosDisplay(); 
+  function updateTodosDisplay() {
+    todoContainer.innerHTML = '';
+
+    for (const todo of todos) {
+      const p = document.createElement('p');
+      p.textContent = todo;
+      p.classList.add('todo-item');
+
+      const closeSpan = document.createElement('span');
+      closeSpan.textContent = '×';
+      closeSpan.classList.add('close');
+
+      closeSpan.addEventListener('click', () => {
+        deleteTodo(todo);
+      });
+
+      p.appendChild(closeSpan);
+      todoContainer.appendChild(p);
+    }
+  }
+
+  function deleteTodo(todo: string) {
+    todos = todos.filter(t => t !== todo);
+    updateTodosDisplay();
   }
 
   todoAddElement.addEventListener('click', addTodo);
@@ -78,48 +97,9 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  function updateTodosDisplay() {
-    todoContainer.innerHTML = '';  
-
-    const todos = getTodosFromLocalStorage();
-
-    for (const todo of todos) {
-      const p = document.createElement("p") as HTMLParagraphElement;
-      p.textContent = todo;
-      p.classList.add('todo-item');  
-
-      const closeSpan = document.createElement('span');
-      closeSpan.textContent = '×';
-      closeSpan.classList.add('close');
-
-      closeSpan.addEventListener('click', () => {
-        deleteTodo(todo);  
-      });
-
-      p.appendChild(closeSpan);  
-
-      todoContainer.appendChild(p);
-    }
-  }
-
-  function deleteTodo(todo: string) {
-    const todos = getTodosFromLocalStorage();
-    const updatedTodos = todos.filter(t => t !== todo);  
-    localStorage.setItem('todos', JSON.stringify(updatedTodos)); 
-    updateTodosDisplay(); 
-  }
-
-  updateTodosDisplay();  
-
-  window.addEventListener('storage', (event) => {
-    if (event.key === 'todos') {
-      updateTodosDisplay(); 
-    }
-  });
-
   clearButton.addEventListener('click', () => {
-    localStorage.clear();  
-    updateTodosDisplay();  
-    (document.getElementById('todo-input') as HTMLInputElement).value = ''; 
+    todos = [];
+    updateTodosDisplay();
+    todoInputElement.value = '';
   });
 });
