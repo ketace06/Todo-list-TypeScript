@@ -49,13 +49,16 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function addTodo() {
-    const todoText = todoInputElement.value.trim()
+    const todoText = (
+      document.getElementById('todo-input') as HTMLInputElement
+    ).value.trim()
     if (todoText === '' || todoText.length > 200) return
 
     const todos = getTodosFromLocalStorage()
     todos.push(todoText)
     localStorage.setItem('todos', JSON.stringify(todos))
     todoInputElement.value = ''
+    ;(document.getElementById('todo-input') as HTMLInputElement).value = ''
     updateTodosDisplay()
   }
 
