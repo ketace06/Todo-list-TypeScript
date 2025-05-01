@@ -17,20 +17,20 @@ document.addEventListener('DOMContentLoaded', () => {
   const deleteAllTAsks = document.getElementById('delete-all') as HTMLElement
   const dateTimeElement = document.getElementById('current-date-time') as HTMLElement
 
-  function getCurrentDateTime(): { jour: number, mois: number, annee: number, heure: number, minute: number } {
+  function getCurrentDateTime(): { day: number, mois: number, year: number, hour: number, minute: number } {
     const today = new Date(); 
-    const jour = today.getDate(); 
+    const day = today.getDate(); 
     const mois = today.getMonth() + 1;
-    const annee = today.getFullYear();
-    const heure = today.getHours();
+    const year = today.getFullYear();
+    const hour = today.getHours();
     const minute = today.getMinutes();
 
-    return { jour, mois, annee, heure, minute };
+    return { day, mois, year, hour, minute };
   }
 
   function updateDateTime() {
-    const { jour, mois, annee, heure, minute } = getCurrentDateTime();
-    const timeString = `Jour: ${jour}/${mois}/${annee} | Heure: ${heure}:${minute.toString().padStart(2, '0')}`;
+    const { day, mois, year, hour, minute } = getCurrentDateTime();
+    const timeString = `day: ${day}/${mois}/${year} | hour: ${hour}:${minute.toString().padStart(2, '0')}`;
     dateTimeElement.textContent = timeString;
   }
 
