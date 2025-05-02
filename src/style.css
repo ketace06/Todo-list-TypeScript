@@ -107,6 +107,14 @@ button:hover {
   transform: translateY(0%);
 }
 
+#current-date-time {
+  font-size: 1.5rem;
+  color: var(--thirdcolor);
+  margin-bottom: 20px;
+  font-family: var(--fontalt);
+  font-weight: 600;
+}
+
 #todo-input {
   width: 250px;
   height: auto;
