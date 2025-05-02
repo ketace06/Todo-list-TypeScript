@@ -37,7 +37,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function updateDateTime() {
     const { day, month, year, hour, minute } = getCurrentDateTime()
-    const timeString = `day: ${month}/${day}/${year} | hour: ${hour}:${minute.toString().padStart(2, '0')}`
+    const timeString = `day: ${year}/${month}/${day} | hour: ${hour}:${minute.toString().padStart(2, '0')}`
     dateTimeElement.textContent = timeString
   }
 
