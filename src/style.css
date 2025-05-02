@@ -2,6 +2,10 @@ html {
   user-select: none;
 }
 
+* {
+  transition: all 0.3s ease;
+}
+
 :root {
   --primarycolor: #2e3440; /* Bleu-gris profond */
   --secondarycolor: #5e81ac; /* Bleu doux */
@@ -11,6 +15,11 @@ html {
   --dangercolor: #bf616a; /* Rouge doux (priorité haute) */
 
   --fontmain: "Ubuntu", sans-serif;
+  --fontalt: "Poppins", sans-serif;
+}
+h1,
+h2 {
+  font-family: var(--fontalt);
 }
 
 body {
@@ -50,8 +59,12 @@ button {
   background: var(--thirdcolor);
   color: black;
   transition: background 0.3s ease;
+  background: var(--secondarycolor);
+  color: var(--thirdcolor);
+  transform: scale(1.05);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+  margin-bottom: 20px;
 }
-
 button:hover {
   background: var(--secondarycolor);
   color: var(--thirdcolor);
@@ -77,7 +90,6 @@ button:hover {
 
 .todolist {
   display: none;
-  padding: 100px 150px;
   opacity: 0;
   transform: translateY(-100%);
   transition: opacity 1s ease, transform 1s ease;
@@ -87,12 +99,20 @@ button:hover {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  width: 100%;
 }
 
 .todolist.slide-in {
   opacity: 1;
   transform: translateY(0%);
+}
+
+#current-date-time {
+  font-size: 1.5rem;
+  color: var(--thirdcolor);
+  margin-bottom: 20px;
+  font-family: var(--fontalt);
+  font-weight: 600;
 }
 
 #todo-input {
@@ -126,19 +146,61 @@ button:hover {
 #todo-input:focus::placeholder {
   color: var(--secondarycolor);
 }
-
-.close {
-  cursor: pointer;
-  font-size: 20px;
-  color: red;
-}
-
-#todo-item {
+ul {
+  list-style: none;
+  padding: 20px 0;
+  margin: 0 auto;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  gap: 15px;
+  max-width: 600px;
+  width: 100%;
+
+  max-height: 60vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+ul::-webkit-scrollbar {
+  width: 8px;
+}
+
+ul::-webkit-scrollbar-thumb {
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+}
+
+ul::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.todo-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  max-width: 500px;
+  word-break: break-word;
+  padding: 10px 20px;
+  background: rgba(255, 255, 255, 0.05);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  margin: 8px 0;
+  border-radius: 10px;
+  transition: background 0.3s ease;
+}
+
+.todo-item:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.close {
+  cursor: pointer;
+  transform: scale(1.5);
+}
+
+.close:hover {
+  color: var(--dangercolor);
+  transform: scale(3);
 }
 
 /*Animations*/
