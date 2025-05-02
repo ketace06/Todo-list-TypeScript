@@ -63,7 +63,6 @@ button {
   color: var(--thirdcolor);
   transform: scale(1.05);
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
-  margin-bottom: 20px;
 }
 button:hover {
   background: var(--secondarycolor);
@@ -114,7 +113,14 @@ button:hover {
   font-family: var(--fontalt);
   font-weight: 600;
 }
-
+#todo-due-date {
+  margin-top: 20px;
+  font-size: 1.5rem;
+  color: var(--secondarycolor);
+  margin-bottom: 20px;
+  font-family: var(--fontalt);
+  font-weight: 600;
+}
 #todo-input {
   width: 250px;
   height: auto;
@@ -195,12 +201,17 @@ ul::-webkit-scrollbar-track {
 
 .close {
   cursor: pointer;
+
   transform: scale(1.5);
 }
 
 .close:hover {
   color: var(--dangercolor);
   transform: scale(3);
+}
+
+.checkboxes:hover {
+  cursor: pointer;
 }
 
 /*Animations*/

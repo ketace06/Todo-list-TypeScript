@@ -1,6 +1,7 @@
 import './style.css'
 
 document.addEventListener('DOMContentLoaded', () => {
+  // Définition des variables liées au DOM
   const startButton = document.getElementById(
     'start-button',
   ) as HTMLButtonElement
@@ -13,28 +14,27 @@ document.addEventListener('DOMContentLoaded', () => {
     'todo-input',
   ) as HTMLInputElement
   const todoContainer = document.getElementById('todo-item') as HTMLElement
-  const deleteAllTAsks = document.getElementById('delete-all') as HTMLElement
+  const deleteAllTasks = document.getElementById('delete-all') as HTMLElement
   const dateTimeElement = document.getElementById(
     'current-date-time',
   ) as HTMLElement
+  const dueDateInput = document.getElementById(
+    'todo-due-date',
+  ) as HTMLInputElement
 
-  function getCurrentDateTime(): {
-    day: number
-    month: number
-    year: number
-    hour: number
-    minute: number
-  } {
+  // Fonction pour obtenir la date et l'heure actuelles
+  function getCurrentDateTime() {
     const today = new Date()
-    const day = today.getDate()
-    const month = today.getMonth() + 1
-    const year = today.getFullYear()
-    const hour = today.getHours()
-    const minute = today.getMinutes()
-
-    return { day, month, year, hour, minute }
+    return {
+      day: today.getDate(),
+      month: today.getMonth() + 1,
+      year: today.getFullYear(),
+      hour: today.getHours(),
+      minute: today.getMinutes(),
+    }
   }
 
+  // Mise à jour de la date et de l'heure à chaque seconde
   function updateDateTime() {
     const { day, month, year, hour, minute } = getCurrentDateTime()
     const timeString = `day: ${year}/${month}/${day} | hour: ${hour}:${minute.toString().padStart(2, '0')}`
@@ -43,26 +43,26 @@ document.addEventListener('DOMContentLoaded', () => {
 
   setInterval(updateDateTime, 1000)
 
-  const texts = [
-    "Let's go 🚀",
-    'Back already?',
-    'Just, do it!',
-    "No way, you're back!?",
-    'Yes, you can.',
-    'First time.. uh?',
-  ]
-
+  // Fonction pour afficher un message aléatoire sur le bouton de démarrage
   function randomText() {
+    const texts = [
+      "Let's go 🚀",
+      'Back already?',
+      'Just, do it!',
+      "No way, you're back!?",
+      'Yes, you can.',
+      'First time.. uh?',
+    ]
     return texts[Math.floor(Math.random() * texts.length)]
   }
 
+  // Fonction pour quitter la page d'accueil
   function exitMainPage() {
     app.style.display = 'block'
     startButton.innerText = randomText()
     startButton.classList.add('start-button-fade')
 
     setTimeout(() => welcomeScreen.classList.add('fade-out'), 1000)
-
     setTimeout(() => {
       welcomeScreen.remove()
       app.classList.add('slide-in')
@@ -71,31 +71,36 @@ document.addEventListener('DOMContentLoaded', () => {
 
   startButton?.addEventListener('click', exitMainPage)
 
+  // Gestion des tâches Todo
   type Todo = {
     id: number
     text: string
     checked: boolean
+    dueDate: string
   }
 
+  // Récupération des tâches depuis le stockage local
   function getTodosFromLocalStorage(): Todo[] {
     const todos = localStorage.getItem('todos')
     return todos ? JSON.parse(todos) : []
   }
 
+  // Sauvegarde des tâches dans le stockage local
   function setTodosToLocalStorage(todos: Todo[]) {
     localStorage.setItem('todos', JSON.stringify(todos))
   }
 
+  // Ajout d'une nouvelle tâche
   function addTodo() {
     const todoText = todoInputElement.value.trim()
-    if (todoText === '' || todoText.length > 200) return
+    if (todoText === '' /*|| todoText.length > 200 */) return
 
     const todos = getTodosFromLocalStorage()
-
-    const newTodo = {
+    const newTodo: Todo = {
       id: Date.now(),
       text: todoText,
       checked: false,
+      dueDate: dueDateInput.value || 'no due date',
     }
 
     todos.push(newTodo)
@@ -113,8 +118,10 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   })
 
+  // Mise à jour de l'affichage des tâches
   function updateTodosDisplay() {
     todoContainer.textContent = ''
+    dueDateInput.value = ''
 
     const todos = getTodosFromLocalStorage()
 
@@ -123,10 +130,11 @@ document.addEventListener('DOMContentLoaded', () => {
       const li = document.createElement('li') as HTMLLIElement
       li.classList.add('todo-item')
 
+      // Création des éléments de la tâche
       const checkbox = document.createElement('input')
       checkbox.type = 'checkbox'
+      checkbox.classList.add('checkboxes')
       checkbox.checked = todo.checked
-
       checkbox.addEventListener('change', () => {
         todo.checked = checkbox.checked
         setTodosToLocalStorage(todos)
@@ -136,19 +144,23 @@ document.addEventListener('DOMContentLoaded', () => {
       const closeSpan = document.createElement('span')
       closeSpan.textContent = '×'
       closeSpan.classList.add('close')
+      closeSpan.addEventListener('click', () => deleteTodo(todo.id))
 
-      closeSpan.addEventListener('click', () => {
-        deleteTodo(todo.id)
-      })
+      const dueDateNode = document.createElement('span')
+      dueDateNode.classList.add('due-date')
+      dueDateNode.textContent = `${todo.dueDate}`
 
+      // Ajout des éléments à la tâche
       li.appendChild(checkbox)
       li.appendChild(textNode)
+      li.appendChild(dueDateNode)
       li.appendChild(closeSpan)
 
-      todoContainer.appendChild(li)
+      todoContainer.prepend(li)
     }
   }
 
+  // Suppression d'une tâche
   function deleteTodo(todoId: number) {
     let todos = getTodosFromLocalStorage()
     todos = todos.filter((todo) => todo.id !== todoId)
@@ -156,18 +168,20 @@ document.addEventListener('DOMContentLoaded', () => {
     updateTodosDisplay()
   }
 
+  // Suppression de toutes les tâches
   function deleteTasks() {
     localStorage.removeItem('todos')
     todoInputElement.value = ''
     updateTodosDisplay()
   }
 
-  if (deleteAllTAsks) {
-    deleteAllTAsks.addEventListener('click', deleteTasks)
+  if (deleteAllTasks) {
+    deleteAllTasks.addEventListener('click', deleteTasks)
   }
 
   updateTodosDisplay()
 
+  // Synchronisation des tâches en cas de modification du stockage local
   window.addEventListener('storage', (event) => {
     if (event.key === 'todos') {
       updateTodosDisplay()
