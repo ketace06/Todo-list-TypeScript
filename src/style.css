@@ -88,6 +88,7 @@ button:hover {
   pointer-events: none;
 }
 
+
 .todolist {
   display: none;
   opacity: 0;
@@ -108,9 +109,10 @@ button:hover {
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
 }
 .todo-inputs {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
+  display:flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  gap: 70px;
   width: 100%;
 }
 .todo-actions {
@@ -176,6 +178,7 @@ ul {
   align-items: center;
   max-width: 600px;
   width: 100%;
+  
 
   max-height: 60vh;
   overflow-y: auto;
