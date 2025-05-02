@@ -28,7 +28,6 @@ body {
   background: linear-gradient(to right, var(--primarycolor), #2c2f3c);
   color: var(--thirdcolor);
   height: 100vh;
-  overflow: hidden;
 }
 
 .welcome-screen {
