@@ -181,10 +181,4 @@ document.addEventListener('DOMContentLoaded', () => {
 
   updateTodosDisplay()
 
-  // Synchronisation des tâches en cas de modification du stockage local
-  window.addEventListener('storage', (event) => {
-    if (event.key === 'todos') {
-      updateTodosDisplay()
-    }
-  })
 })
