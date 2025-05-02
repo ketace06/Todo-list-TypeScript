@@ -7,25 +7,25 @@ html {
 }
 
 :root {
-  --primarycolor: #2e3440; /* Bleu-gris profond */
-  --secondarycolor: #5e81ac; /* Bleu doux */
-  --thirdcolor: #eceff4; /* Presque blanc */
-  --successcolor: #a3be8c; /* Vert doux (tâche accomplie) */
-  --warningcolor: #ebcb8b; /* Jaune doux (priorité moyenne) */
-  --dangercolor: #bf616a; /* Rouge doux (priorité haute) */
+  --primarycolor: #1e1e2e; /* Fond général, très sombre bleu/noir */
+  --secondarycolor: #3b4b64; /* Bleu profond secondaire (boutons/hover) */
+  --thirdcolor: #e6ecf1; /* Texte clair, presque blanc */
+  --successcolor: #a3c67c; /* Vert doux pour succès */
+  --warningcolor: #f1d28c; /* Jaune pastel pour avertissement */
+  --dangercolor: #ff6b6b; /* Rouge clair pour suppression */
 
   --fontmain: "Ubuntu", sans-serif;
   --fontalt: "Poppins", sans-serif;
 }
+
 h1,
 h2 {
   font-family: var(--fontalt);
 }
 
 body {
-  margin: 0;
   font-family: var(--fontmain);
-  background: linear-gradient(to right, var(--primarycolor), #3b4252);
+  background: linear-gradient(to right, var(--primarycolor), #2c2f3c);
   color: var(--thirdcolor);
   height: 100vh;
   overflow: hidden;
@@ -64,9 +64,10 @@ button {
   transform: scale(1.05);
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
 }
+
 button:hover {
-  background: var(--secondarycolor);
-  color: var(--thirdcolor);
+  background: var(--thirdcolor);
+  color: var(--primarycolor);
 }
 
 .fade-out {
@@ -98,9 +99,26 @@ button:hover {
   display: flex;
   flex-direction: column;
   align-items: center;
+  gap: 24px;
+  padding: 40px;
+  max-width: 600px;
+  margin: 0 auto;
+  background-color: rgba(255, 255, 255, 0.05);
+  border-radius: 20px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+}
+.todo-inputs {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
   width: 100%;
 }
-
+.todo-actions {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
 .todolist.slide-in {
   opacity: 1;
   transform: translateY(0%);
@@ -109,15 +127,12 @@ button:hover {
 #current-date-time {
   font-size: 1.5rem;
   color: var(--thirdcolor);
-  margin-bottom: 20px;
   font-family: var(--fontalt);
   font-weight: 600;
 }
 #todo-due-date {
-  margin-top: 20px;
   font-size: 1.5rem;
   color: var(--secondarycolor);
-  margin-bottom: 20px;
   font-family: var(--fontalt);
   font-weight: 600;
 }
@@ -190,6 +205,7 @@ ul::-webkit-scrollbar-track {
   padding: 10px 20px;
   background: rgba(255, 255, 255, 0.05);
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--thirdcolor);
   margin: 8px 0;
   border-radius: 10px;
   transition: background 0.3s ease;
