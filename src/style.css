@@ -90,7 +90,6 @@ button:hover {
 
 .todolist {
   display: none;
-  padding: 100px 150px;
   opacity: 0;
   transform: translateY(-100%);
   transition: opacity 1s ease, transform 1s ease;
