@@ -21,10 +21,12 @@ document.addEventListener('DOMContentLoaded', () => {
   const dueDateInput = document.getElementById(
     'todo-due-date',
   ) as HTMLInputElement
+  const today = new Date()
+  const curHr = today.getHours()
+  const curHrText = document.getElementById('curHrText') as HTMLElement
 
   // Fonction pour obtenir la date et l'heure actuelles
   function getCurrentDateTime() {
-    const today = new Date()
     return {
       day: today.getDate(),
       month: today.getMonth() + 1,
@@ -67,6 +69,15 @@ document.addEventListener('DOMContentLoaded', () => {
       welcomeScreen.remove()
       app.classList.add('slide-in')
     }, 2000)
+  }
+
+  // Fonctions pour interagir entre user et site 
+  if (curHr < 12) {
+    curHrText.innerText = 'Good morning'
+  } else if (curHr < 18) {
+    curHrText.innerText = 'Good afternoon'
+  } else {
+    curHrText.innerText = 'Good evening'
   }
 
   startButton?.addEventListener('click', exitMainPage)
@@ -150,6 +161,18 @@ document.addEventListener('DOMContentLoaded', () => {
       dueDateNode.classList.add('due-date')
       dueDateNode.textContent = `${todo.dueDate}`
 
+      // Ajout de couleurs par rapport au tâches et dates
+      const dueDate = new Date(todo.dueDate)
+      const todayDateOnly = new Date(
+        today.getFullYear(),
+        today.getMonth(),
+        today.getDate(),
+      )
+      if (dueDate.toDateString() === todayDateOnly.toDateString()) {
+        dueDateNode.style.color = '#ff6b6b';
+      } else if (dueDate.toDateString() > todayDateOnly.toDateString()) {
+        dueDateNode.style.color = '#a3c67c';
+      }
       // Ajout des éléments à la tâche
       li.appendChild(checkbox)
       li.appendChild(textNode)
@@ -180,5 +203,4 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   updateTodosDisplay()
-
 })
