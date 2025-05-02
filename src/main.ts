@@ -2,15 +2,25 @@ import './style.css'
 
 document.addEventListener('DOMContentLoaded', () => {
   // Définition des variables liées au DOM
-  const startButton = document.getElementById('start-button') as HTMLButtonElement
+  const startButton = document.getElementById(
+    'start-button',
+  ) as HTMLButtonElement
   const welcomeScreen = document.getElementById('welcome-screen') as HTMLElement
   const app = document.getElementById('app') as HTMLElement
-  const todoAddElement = document.getElementById('add-todo-button') as HTMLButtonElement
-  const todoInputElement = document.getElementById('todo-input') as HTMLInputElement
+  const todoAddElement = document.getElementById(
+    'add-todo-button',
+  ) as HTMLButtonElement
+  const todoInputElement = document.getElementById(
+    'todo-input',
+  ) as HTMLInputElement
   const todoContainer = document.getElementById('todo-item') as HTMLElement
   const deleteAllTasks = document.getElementById('delete-all') as HTMLElement
-  const dateTimeElement = document.getElementById('current-date-time') as HTMLElement
-  const dueDateInput = document.getElementById('todo-due-date') as HTMLInputElement
+  const dateTimeElement = document.getElementById(
+    'current-date-time',
+  ) as HTMLElement
+  const dueDateInput = document.getElementById(
+    'todo-due-date',
+  ) as HTMLInputElement
 
   // Fonction pour obtenir la date et l'heure actuelles
   function getCurrentDateTime() {
@@ -20,7 +30,7 @@ document.addEventListener('DOMContentLoaded', () => {
       month: today.getMonth() + 1,
       year: today.getFullYear(),
       hour: today.getHours(),
-      minute: today.getMinutes()
+      minute: today.getMinutes(),
     }
   }
 
@@ -41,7 +51,7 @@ document.addEventListener('DOMContentLoaded', () => {
       'Just, do it!',
       "No way, you're back!?",
       'Yes, you can.',
-      'First time.. uh?'
+      'First time.. uh?',
     ]
     return texts[Math.floor(Math.random() * texts.length)]
   }
@@ -90,7 +100,7 @@ document.addEventListener('DOMContentLoaded', () => {
       id: Date.now(),
       text: todoText,
       checked: false,
-      dueDate: dueDateInput.value || 'no due date'
+      dueDate: dueDateInput.value || 'no due date',
     }
 
     todos.push(newTodo)
@@ -153,7 +163,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // Suppression d'une tâche
   function deleteTodo(todoId: number) {
     let todos = getTodosFromLocalStorage()
-    todos = todos.filter(todo => todo.id !== todoId)
+    todos = todos.filter((todo) => todo.id !== todoId)
     setTodosToLocalStorage(todos)
     updateTodosDisplay()
   }
