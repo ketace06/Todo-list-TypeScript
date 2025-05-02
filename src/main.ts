@@ -145,7 +145,7 @@ document.addEventListener('DOMContentLoaded', () => {
       li.appendChild(textNode)
       li.appendChild(closeSpan)
 
-      todoContainer.appendChild(li)
+      todoContainer.prepend(li)
     }
   }
 
