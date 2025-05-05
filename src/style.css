@@ -7,12 +7,12 @@ html {
 }
 
 :root {
-  --primarycolor: #1e1e2e; /* Fond général, très sombre bleu/noir */
-  --secondarycolor: #3b4b64; /* Bleu profond secondaire (boutons/hover) */
-  --thirdcolor: #e6ecf1; /* Texte clair, presque blanc */
-  --successcolor: #a3c67c; /* Vert doux pour succès */
-  --warningcolor: #f1d28c; /* Jaune pastel pour avertissement */
-  --dangercolor: #ff6b6b; /* Rouge clair pour suppression */
+  --primarycolor: #1e1e2e; /* General background, very dark blue/black */
+  --secondarycolor: #3b4b64; /* Deep secondary blue (buttons/hover) */
+  --thirdcolor: #e6ecf1; /* Light text, almost white */
+  --successcolor: #a3c67c; /* Soft green for success messages */
+  --warningcolor: #f1d28c; /* Pastel yellow for warnings */
+  --dangercolor: #ff6b6b; /* Light red for delete/danger actions */
 
   --fontmain: "Ubuntu", sans-serif;
   --fontalt: "Poppins", sans-serif;
