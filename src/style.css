@@ -10,10 +10,10 @@ html {
   --primarycolor: #1e1e2e; /* General background, very dark blue/black */
   --secondarycolor: #3b4b64; /* Deep secondary blue (buttons/hover) */
   --thirdcolor: #e6ecf1; /* Light text, almost white */
-  --successcolor: #228B22; /* Soft green for success messages */
-  --warningcolor: #FFEA00	; /* Pastel yellow for warnings */
-  --dangercolor: #FF6B6B; /* Light red for delete/danger actions */
-  --todaycolor: #FFAC1C; /* Orange color for todayduedate*/ 
+  --successcolor: #228b22; /* Soft green for success messages */
+  --warningcolor: #ffea00; /* Pastel yellow for warnings */
+  --dangercolor: #ff6b6b; /* Light red for delete/danger actions */
+  --todaycolor: #ffac1c; /* Orange color for todayduedate*/
 
   --fontmain: "Ubuntu", sans-serif;
   --fontalt: "Poppins", sans-serif;
