@@ -1,7 +1,7 @@
 import './style.css'
 
 document.addEventListener('DOMContentLoaded', () => {
-  // Définition des variables liées au DOM
+  // DOM's variable
   const startButton = document.getElementById(
     'start-button',
   ) as HTMLButtonElement
@@ -21,10 +21,12 @@ document.addEventListener('DOMContentLoaded', () => {
   const dueDateInput = document.getElementById(
     'todo-due-date',
   ) as HTMLInputElement
+  const today = new Date()
+  const curHr = today.getHours()
+  const curHrText = document.getElementById('curHrText') as HTMLElement
 
-  // Fonction pour obtenir la date et l'heure actuelles
+  // Get current time
   function getCurrentDateTime() {
-    const today = new Date()
     return {
       day: today.getDate(),
       month: today.getMonth() + 1,
@@ -34,7 +36,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // Mise à jour de la date et de l'heure à chaque seconde
+  // Time updated every second
   function updateDateTime() {
     const { day, month, year, hour, minute } = getCurrentDateTime()
     const timeString = `day: ${year}/${month}/${day} | hour: ${hour}:${minute.toString().padStart(2, '0')}`
@@ -43,35 +45,59 @@ document.addEventListener('DOMContentLoaded', () => {
 
   setInterval(updateDateTime, 1000)
 
-  // Fonction pour afficher un message aléatoire sur le bouton de démarrage
+  // Display a random text when pressing the button
   function randomText() {
     const texts = [
       "Let's go 🚀",
-      'Back already?',
       'Just, do it!',
       "No way, you're back!?",
-      'Yes, you can.',
       'First time.. uh?',
+      'Keep calm, and do your tasks!',
     ]
     return texts[Math.floor(Math.random() * texts.length)]
   }
 
-  // Fonction pour quitter la page d'accueil
+  // Start main page with latency when click on start-button for no visual bug
+  startButton.disabled = true
+
+  setTimeout(() => {
+    startButton.disabled = false
+  }, 1600)
+
+  // Quit the main page
   function exitMainPage() {
-    app.style.display = 'block'
     startButton.innerText = randomText()
     startButton.classList.add('start-button-fade')
 
-    setTimeout(() => welcomeScreen.classList.add('fade-out'), 1000)
+    setTimeout(() => {
+      welcomeScreen.classList.add('fade-out')
+    }, 1000)
+
     setTimeout(() => {
       welcomeScreen.remove()
-      app.classList.add('slide-in')
+
+      requestAnimationFrame(() => {
+        setTimeout(() => {
+          app.style.display = 'block'
+          void app.offsetWidth
+          app.classList.add('slide-in')
+        }, 50)
+      })
     }, 2000)
+  }
+
+  // UI interactions
+  if (curHr < 12) {
+    curHrText.innerText = 'Good morning'
+  } else if (curHr < 18) {
+    curHrText.innerText = 'Good afternoon'
+  } else {
+    curHrText.innerText = 'Good evening'
   }
 
   startButton?.addEventListener('click', exitMainPage)
 
-  // Gestion des tâches Todo
+  // Tasks managements
   type Todo = {
     id: number
     text: string
@@ -79,21 +105,22 @@ document.addEventListener('DOMContentLoaded', () => {
     dueDate: string
   }
 
-  // Récupération des tâches depuis le stockage local
+  // Get tasks from local storage
   function getTodosFromLocalStorage(): Todo[] {
     const todos = localStorage.getItem('todos')
     return todos ? JSON.parse(todos) : []
   }
 
-  // Sauvegarde des tâches dans le stockage local
+  // Save tasks on local storage
   function setTodosToLocalStorage(todos: Todo[]) {
     localStorage.setItem('todos', JSON.stringify(todos))
   }
 
-  // Ajout d'une nouvelle tâche
+  // Add a new task
   function addTodo() {
     const todoText = todoInputElement.value.trim()
-    if (todoText === '' /*|| todoText.length > 200 */) return
+    if (todoText === '' /*|| todoText.length > 200 is for input verification */)
+      return
 
     const todos = getTodosFromLocalStorage()
     const newTodo: Todo = {
@@ -118,19 +145,26 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   })
 
-  // Mise à jour de l'affichage des tâches
+  // Updates localstorage on container to display the tasks
   function updateTodosDisplay() {
-    todoContainer.textContent = ''
-    dueDateInput.value = ''
-
     const todos = getTodosFromLocalStorage()
+
+    // Update a sentence if todos added or not
+    if (todos.length === 0) {
+      todoContainer.textContent =
+        "No todos yet, but there's always something to do!"
+    } else {
+      todoContainer.textContent = ''
+    }
+
+    dueDateInput.value = ''
 
     for (let i = 0; i < todos.length; i++) {
       const todo = todos[i]
       const li = document.createElement('li') as HTMLLIElement
       li.classList.add('todo-item')
 
-      // Création des éléments de la tâche
+      // Create new elements for the tasks
       const checkbox = document.createElement('input')
       checkbox.type = 'checkbox'
       checkbox.classList.add('checkboxes')
@@ -150,7 +184,36 @@ document.addEventListener('DOMContentLoaded', () => {
       dueDateNode.classList.add('due-date')
       dueDateNode.textContent = `${todo.dueDate}`
 
-      // Ajout des éléments à la tâche
+      // Add colors based on task dueDate
+      const dueDate = new Date(todo.dueDate)
+      const todayDateOnly = new Date(
+        today.getFullYear(),
+        today.getMonth(),
+        today.getDate(),
+      )
+      const dueDateOnly = new Date(
+        dueDate.getFullYear(),
+        dueDate.getMonth(),
+        dueDate.getDate(),
+      )
+      const fourDaysFromToday = new Date(todayDateOnly)
+      fourDaysFromToday.setDate(fourDaysFromToday.getDate() + 4)
+
+      // Compare using timestamps
+      if (dueDateOnly.getTime() === todayDateOnly.getTime()) {
+        dueDateNode.style.color = '#FFAC1C' // orange = today
+      } else if (
+        dueDateOnly.getTime() > todayDateOnly.getTime() &&
+        dueDateOnly.getTime() <= fourDaysFromToday.getTime()
+      ) {
+        dueDateNode.style.color = '#FFEA00' // yellow = within next 4 days
+      } else if (dueDateOnly.getTime() > fourDaysFromToday.getTime()) {
+        dueDateNode.style.color = '#228B22' // green = later
+      } else if (dueDateOnly.getTime() < todayDateOnly.getTime()) {
+        dueDateNode.style.color = '#FF6B6B' // red = overdue
+      }
+
+      // Display all elements on container
       li.appendChild(checkbox)
       li.appendChild(textNode)
       li.appendChild(dueDateNode)
@@ -160,7 +223,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // Suppression d'une tâche
+  // Delete a task
   function deleteTodo(todoId: number) {
     let todos = getTodosFromLocalStorage()
     todos = todos.filter((todo) => todo.id !== todoId)
@@ -168,7 +231,7 @@ document.addEventListener('DOMContentLoaded', () => {
     updateTodosDisplay()
   }
 
-  // Suppression de toutes les tâches
+  // Delete all tasks
   function deleteTasks() {
     localStorage.removeItem('todos')
     todoInputElement.value = ''
@@ -178,13 +241,5 @@ document.addEventListener('DOMContentLoaded', () => {
   if (deleteAllTasks) {
     deleteAllTasks.addEventListener('click', deleteTasks)
   }
-
   updateTodosDisplay()
-
-  // Synchronisation des tâches en cas de modification du stockage local
-  window.addEventListener('storage', (event) => {
-    if (event.key === 'todos') {
-      updateTodosDisplay()
-    }
-  })
 })

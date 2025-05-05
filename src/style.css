@@ -1,50 +1,57 @@
-html {
+html,
+body {
   user-select: none;
-}
-
-* {
-  transition: all 0.3s ease;
+  overflow-y: hidden;
+  height: 100%;
+  margin: 0;
+  padding: 0;
 }
 
 :root {
-  --primarycolor: #2e3440; /* Bleu-gris profond */
-  --secondarycolor: #5e81ac; /* Bleu doux */
-  --thirdcolor: #eceff4; /* Presque blanc */
-  --successcolor: #a3be8c; /* Vert doux (tâche accomplie) */
-  --warningcolor: #ebcb8b; /* Jaune doux (priorité moyenne) */
-  --dangercolor: #bf616a; /* Rouge doux (priorité haute) */
+  --primarycolor: #1e1e2e; /* General background, very dark blue/black */
+  --secondarycolor: #3b4b64; /* Deep secondary blue (buttons/hover) */
+  --thirdcolor: #e6ecf1; /* Light text, almost white */
+  --successcolor: #228b22; /* Soft green for success messages */
+  --warningcolor: #ffea00; /* Pastel yellow for warnings */
+  --dangercolor: #ff6b6b; /* Light red for delete/danger actions */
+  --todaycolor: #ffac1c; /* Orange color for todayduedate*/
 
   --fontmain: "Ubuntu", sans-serif;
   --fontalt: "Poppins", sans-serif;
 }
+
 h1,
 h2 {
   font-family: var(--fontalt);
 }
 
 body {
-  margin: 0;
-  font-family: var(--fontmain);
-  background: linear-gradient(to right, var(--primarycolor), #3b4252);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(to right, var(--primarycolor), #2c2f3c);
   color: var(--thirdcolor);
-  height: 100vh;
-  overflow: hidden;
+  font-family: var(--fontmain);
+  flex-direction: column;
+  box-sizing: border-box;
 }
 
 .welcome-screen {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
   animation: fadeIn 2s ease;
 }
 
 .welcome-card {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
   background: rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(10px);
   border-radius: 20px;
   padding: 40px;
-  text-align: center;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
   animation: slideUp 1.2s ease;
 }
@@ -64,9 +71,10 @@ button {
   transform: scale(1.05);
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
 }
+
 button:hover {
-  background: var(--secondarycolor);
-  color: var(--thirdcolor);
+  background: var(--thirdcolor);
+  color: var(--primarycolor);
 }
 
 .fade-out {
@@ -86,7 +94,6 @@ button:hover {
   color: black;
   pointer-events: none;
 }
-
 .todolist {
   display: none;
   opacity: 0;
@@ -98,9 +105,25 @@ button:hover {
   display: flex;
   flex-direction: column;
   align-items: center;
+  gap: 24px;
+  padding: 40px;
+  background-color: rgba(255, 255, 255, 0.05);
+  border-radius: 20px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+}
+.todo-inputs {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 70px;
   width: 100%;
 }
-
+.todo-actions {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
 .todolist.slide-in {
   opacity: 1;
   transform: translateY(0%);
@@ -109,17 +132,15 @@ button:hover {
 #current-date-time {
   font-size: 1.5rem;
   color: var(--thirdcolor);
-  margin-bottom: 20px;
   font-family: var(--fontalt);
   font-weight: 600;
 }
 #todo-due-date {
-  margin-top: 20px;
-  font-size: 1.5rem;
+  font-size: 1.7rem;
   color: var(--secondarycolor);
-  margin-bottom: 20px;
   font-family: var(--fontalt);
   font-weight: 600;
+  border-radius: 10px;
 }
 #todo-input {
   width: 250px;
@@ -137,7 +158,6 @@ button:hover {
 }
 
 #todo-input:focus {
-  width: 350px;
   border-color: #5e81f4;
   box-shadow: 0 0 10px rgba(94, 129, 244, 0.5);
   transform: scale(1.05);
@@ -190,7 +210,8 @@ ul::-webkit-scrollbar-track {
   padding: 10px 20px;
   background: rgba(255, 255, 255, 0.05);
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-  margin: 8px 0;
+  color: var(--thirdcolor);
+  margin: 10px 0;
   border-radius: 10px;
   transition: background 0.3s ease;
 }
@@ -203,6 +224,7 @@ ul::-webkit-scrollbar-track {
   cursor: pointer;
 
   transform: scale(1.5);
+  transition: transform 0.2s ease;
 }
 
 .close:hover {
