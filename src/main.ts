@@ -132,10 +132,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Updates localstorage on container to display the tasks
   function updateTodosDisplay() {
-    todoContainer.textContent = ''
-    dueDateInput.value = ''
-
     const todos = getTodosFromLocalStorage()
+
+    // Update a sentence if todos added or not
+    if (todos.length === 0) {
+      todoContainer.textContent = 'No Todos recently added'
+    } else {
+      todoContainer.textContent = ''
+    }
+
+    dueDateInput.value = ''
 
     for (let i = 0; i < todos.length; i++) {
       const todo = todos[i]
@@ -219,6 +225,5 @@ document.addEventListener('DOMContentLoaded', () => {
   if (deleteAllTasks) {
     deleteAllTasks.addEventListener('click', deleteTasks)
   }
-
   updateTodosDisplay()
 })
