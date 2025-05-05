@@ -12,7 +12,7 @@ html {
   --thirdcolor: #e6ecf1; /* Light text, almost white */
   --successcolor: #228B22; /* Soft green for success messages */
   --warningcolor: #FFEA00	; /* Pastel yellow for warnings */
-  --dangercolor: #ff6b6b; /* Light red for delete/danger actions */
+  --dangercolor: #FF6B6B; /* Light red for delete/danger actions */
   --todaycolor: #FFAC1C; /* Orange color for todayduedate*/ 
 
   --fontmain: "Ubuntu", sans-serif;
