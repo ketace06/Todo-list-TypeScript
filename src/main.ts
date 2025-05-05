@@ -2,20 +2,34 @@ import './style.css'
 
 document.addEventListener('DOMContentLoaded', () => {
   // Get references to all DOM elements used in the app
-  const startButton = document.getElementById('start-button') as HTMLButtonElement
+  const startButton = document.getElementById(
+    'start-button',
+  ) as HTMLButtonElement
   const welcomeScreen = document.getElementById('welcome-screen') as HTMLElement
   const app = document.getElementById('app') as HTMLElement
-  const todoAddElement = document.getElementById('add-todo-button') as HTMLButtonElement
-  const todoInputElement = document.getElementById('todo-input') as HTMLInputElement
+  const todoAddElement = document.getElementById(
+    'add-todo-button',
+  ) as HTMLButtonElement
+  const todoInputElement = document.getElementById(
+    'todo-input',
+  ) as HTMLInputElement
   const todoContainer = document.getElementById('todo-item') as HTMLElement
   const deleteAllTasks = document.getElementById('delete-all') as HTMLElement
-  const dateTimeElement = document.getElementById('current-date-time') as HTMLElement
-  const dueDateInput = document.getElementById('todo-due-date') as HTMLInputElement
+  const dateTimeElement = document.getElementById(
+    'current-date-time',
+  ) as HTMLElement
+  const dueDateInput = document.getElementById(
+    'todo-due-date',
+  ) as HTMLInputElement
   const today = new Date()
   const curHr = today.getHours()
   const curHrText = document.getElementById('curHrText') as HTMLElement
-  const letterCountElement = document.getElementById('letter-count') as HTMLParagraphElement
-  const errorMessageP = document.getElementById('todo-creation-error') as HTMLParagraphElement
+  const letterCountElement = document.getElementById(
+    'letter-count',
+  ) as HTMLParagraphElement
+  const errorMessageP = document.getElementById(
+    'todo-creation-error',
+  ) as HTMLParagraphElement
 
   // Show live letter count in the input field and apply validation styles
   todoInputElement.addEventListener('input', () => {
@@ -142,7 +156,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Validation: input must not exceed 200 characters
     if (todoText.length > 200) {
-      errorMessageP.innerText = 'Error: the task must be 200 characters or fewer.'
+      errorMessageP.innerText =
+        'Error: the task must be 200 characters or fewer.'
       todoInputElement.style.borderColor = 'red'
       return
     }
@@ -152,10 +167,7 @@ document.addEventListener('DOMContentLoaded', () => {
       errorMessageP.innerText = 'Error: due date cannot be in the past.'
       dueDateInput.style.borderColor = 'red'
       return
-    } else {
-      dueDateInput.style.borderColor = '#ccc'
     }
-
     const todos = getTodosFromLocalStorage()
     const newTodo: Todo = {
       id: Date.now(),
@@ -166,10 +178,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     todos.push(newTodo)
     setTodosToLocalStorage(todos)
-    todoInputElement.value = ''
-    dueDateInput.value = ''
-    errorMessageP.innerText = ''
-    letterCountElement.textContent = 'Letters: 0 / 200'
     updateTodosDisplay()
   }
 
@@ -187,12 +195,19 @@ document.addEventListener('DOMContentLoaded', () => {
   // Update and render the todo list UI
   function updateTodosDisplay() {
     const todos = getTodosFromLocalStorage()
+
+    // Reset to normal phase
     todoContainer.innerHTML = ''
     letterCountElement.textContent = 'Letters: 0 / 200'
+    dueDateInput.style.borderColor = '#ccc'
+    dueDateInput.value = ''
+    errorMessageP.innerText = ''
+    todoInputElement.value = ''
 
     // Show placeholder if no todos
     if (todos.length === 0) {
-      todoContainer.textContent = "No todos yet, but there's always something to do!"
+      todoContainer.textContent =
+        "No todos yet, but there's always something to do!"
     }
 
     for (let i = 0; i < todos.length; i++) {
