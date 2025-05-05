@@ -58,35 +58,34 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // Start main page with latency when click on start-button for no visual bug
-  startButton.disabled = true;
-    
+  startButton.disabled = true
+
   setTimeout(() => {
-    startButton.disabled = false;
-  }, 1600);
+    startButton.disabled = false
+  }, 1600)
 
   // Quit the main page
-  function exitMainPage() {  
-    startButton.innerText = randomText();
-    startButton.classList.add('start-button-fade');
-  
+  function exitMainPage() {
+    startButton.innerText = randomText()
+    startButton.classList.add('start-button-fade')
+
     setTimeout(() => {
-      welcomeScreen.classList.add('fade-out');
-    }, 1000);
-  
+      welcomeScreen.classList.add('fade-out')
+    }, 1000)
+
     setTimeout(() => {
-      welcomeScreen.remove();
-  
+      welcomeScreen.remove()
+
       requestAnimationFrame(() => {
         setTimeout(() => {
-          app.style.display = 'block';
-          void app.offsetWidth;
-          app.classList.add('slide-in');
-        }, 50);
-      });
-  
-    }, 2000);
+          app.style.display = 'block'
+          void app.offsetWidth
+          app.classList.add('slide-in')
+        }, 50)
+      })
+    }, 2000)
   }
-  
+
   // UI interactions
   if (curHr < 12) {
     curHrText.innerText = 'Good morning'

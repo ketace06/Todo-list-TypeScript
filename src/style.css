@@ -95,7 +95,7 @@ button:hover {
   pointer-events: none;
 }
 .todolist {
-  display: none; 
+  display: none;
   opacity: 0;
   transform: translateY(-100%);
   transition: opacity 1s ease, transform 1s ease;
