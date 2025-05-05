@@ -156,6 +156,14 @@ button:hover {
   backdrop-filter: blur(6px);
 }
 
+#todo-creation-error {
+  color: var(--dangercolor);
+  font-family: var(--fontalt);
+  font-size: 1.2rem;
+  margin-top: 10px;
+  text-align: center;
+}
+
 #current-date-time {
   display: flex;
   flex-direction: row;
