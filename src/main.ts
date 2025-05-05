@@ -136,9 +136,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Add a new task
   function addTodo() {
-    const todoText = todoInputElement.value.trim()
-    if (todoText === '' || todoText.length > 200) return
-
+    const todoText = todoInputElement.value.trim();
+    if (todoText === '' || todoText.length > 200) return;
+  
+    const dueDate = new Date(dueDateInput.value);
+    const todayDateOnly = new Date();
+    dueDate.setHours(0, 0, 0, 0);
+    todayDateOnly.setHours(0, 0, 0, 0);
+  
+    if (dueDateInput.value && dueDate < todayDateOnly) return;
+  
+    
     const todos = getTodosFromLocalStorage()
     const newTodo: Todo = {
       id: Date.now(),
@@ -228,7 +236,7 @@ document.addEventListener('DOMContentLoaded', () => {
         dueDateNode.style.color = '#228B22' // green = later
       } else if (dueDateOnly.getTime() < todayDateOnly.getTime()) {
         dueDateNode.style.color = '#FF6B6B' // red = overdue
-      }
+      } 
 
       // Display all elements on container
       li.appendChild(checkbox)
