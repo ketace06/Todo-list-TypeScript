@@ -36,7 +36,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // Update of time each second
+  // Time updated every second
   function updateDateTime() {
     const { day, month, year, hour, minute } = getCurrentDateTime()
     const timeString = `day: ${year}/${month}/${day} | hour: ${hour}:${minute.toString().padStart(2, '0')}`
@@ -49,28 +49,44 @@ document.addEventListener('DOMContentLoaded', () => {
   function randomText() {
     const texts = [
       "Let's go 🚀",
-      'Back already?',
       'Just, do it!',
       "No way, you're back!?",
-      'Yes, you can.',
       'First time.. uh?',
+      'Keep calm, and do your tasks!',
     ]
     return texts[Math.floor(Math.random() * texts.length)]
   }
 
+  // Start main page with latency when click on start-button for no visual bug
+  startButton.disabled = true;
+    
+  setTimeout(() => {
+    startButton.disabled = false;
+  }, 1600);
+
   // Quit the main page
-  function exitMainPage() {
-    app.style.display = 'block'
-    startButton.innerText = randomText()
-    startButton.classList.add('start-button-fade')
-
-    setTimeout(() => welcomeScreen.classList.add('fade-out'), 1000)
+  function exitMainPage() {  
+    startButton.innerText = randomText();
+    startButton.classList.add('start-button-fade');
+  
     setTimeout(() => {
-      welcomeScreen.remove()
-      app.classList.add('slide-in')
-    }, 2000)
+      welcomeScreen.classList.add('fade-out');
+    }, 1000);
+  
+    setTimeout(() => {
+      welcomeScreen.remove();
+  
+      requestAnimationFrame(() => {
+        setTimeout(() => {
+          app.style.display = 'block';
+          void app.offsetWidth;
+          app.classList.add('slide-in');
+        }, 50);
+      });
+  
+    }, 2000);
   }
-
+  
   // UI interactions
   if (curHr < 12) {
     curHrText.innerText = 'Good morning'
