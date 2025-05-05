@@ -25,7 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const curHr = today.getHours()
   const curHrText = document.getElementById('curHrText') as HTMLElement
 
-  // Get current timeyy
+  // Get current time
   function getCurrentDateTime() {
     return {
       day: today.getDate(),
