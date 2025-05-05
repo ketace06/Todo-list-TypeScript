@@ -179,14 +179,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
       // Compare using timestamps
       if (dueDateOnly.getTime() === todayDateOnly.getTime()) {
-        dueDateNode.style.color = '#ff6b6b' // red = today
+        dueDateNode.style.color = '#FFAC1C' // orange = today
       } else if (
         dueDateOnly.getTime() > todayDateOnly.getTime() &&
         dueDateOnly.getTime() <= fourDaysFromToday.getTime()
       ) {
-        dueDateNode.style.color = '#f1d28c' // yellow = within next 4 days
+        dueDateNode.style.color = '#FFEA00' // yellow = within next 4 days
       } else if (dueDateOnly.getTime() > fourDaysFromToday.getTime()) {
-        dueDateNode.style.color = '#a3c67c' // green = later
+        dueDateNode.style.color = '#228B22' // green = later
       }
 
       // Display all elements on container
