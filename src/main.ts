@@ -136,7 +136,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Update a sentence if todos added or not
     if (todos.length === 0) {
-      todoContainer.textContent = 'No Todos recently added'
+      todoContainer.textContent =
+        "No todos yet, but there's always something to do!"
     } else {
       todoContainer.textContent = ''
     }
