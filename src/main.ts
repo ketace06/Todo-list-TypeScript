@@ -104,7 +104,8 @@ document.addEventListener('DOMContentLoaded', () => {
   // add a new task
   function addTodo() {
     const todoText = todoInputElement.value.trim()
-    if (todoText === '' /*|| todoText.length > 200 is for input verification */) return
+    if (todoText === '' /*|| todoText.length > 200 is for input verification */)
+      return
 
     const todos = getTodosFromLocalStorage()
     const newTodo: Todo = {
@@ -168,11 +169,26 @@ document.addEventListener('DOMContentLoaded', () => {
         today.getMonth(),
         today.getDate(),
       )
-      if (dueDate.toDateString() === todayDateOnly.toDateString()) {
-        dueDateNode.style.color = '#ff6b6b';
-      } else if (dueDate.toDateString() > todayDateOnly.toDateString()) {
-        dueDateNode.style.color = '#a3c67c';
+      const dueDateOnly = new Date(
+        dueDate.getFullYear(),
+        dueDate.getMonth(),
+        dueDate.getDate(),
+      )
+      const fourDaysFromToday = new Date(todayDateOnly)
+      fourDaysFromToday.setDate(fourDaysFromToday.getDate() + 4)
+
+      // Compare using timestamps
+      if (dueDateOnly.getTime() === todayDateOnly.getTime()) {
+        dueDateNode.style.color = '#ff6b6b' // red = today
+      } else if (
+        dueDateOnly.getTime() > todayDateOnly.getTime() &&
+        dueDateOnly.getTime() <= fourDaysFromToday.getTime()
+      ) {
+        dueDateNode.style.color = '#f1d28c' // yellow = within next 4 days
+      } else if (dueDateOnly.getTime() > fourDaysFromToday.getTime()) {
+        dueDateNode.style.color = '#a3c67c' // green = later
       }
+
       // display all elements on container
       li.appendChild(checkbox)
       li.appendChild(textNode)
