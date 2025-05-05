@@ -171,7 +171,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Updates localstorage on container to display the tasks
   function updateTodosDisplay() {
-    const todos = getTodosFromLocalStorage()
+    const todos = getTodosFromLocalStorage()    
+    
+    letterCountElement.textContent = 'Letters: 0 / 200'
+
 
     // Update a sentence if todos added or not
     if (todos.length === 0) {
