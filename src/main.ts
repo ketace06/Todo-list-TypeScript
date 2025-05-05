@@ -137,8 +137,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // Add a new task
   function addTodo() {
     const todoText = todoInputElement.value.trim()
-    if (todoText === '' || todoText.length > 200)
-      return
+    if (todoText === '' || todoText.length > 200) return
 
     const todos = getTodosFromLocalStorage()
     const newTodo: Todo = {
