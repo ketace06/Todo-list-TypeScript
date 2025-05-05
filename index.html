@@ -9,16 +9,18 @@
     <title>Your ToDo List</title>
   </head>
   <body>
-    <div id="welcome-screen" class="welcome-screen">
+    <div id="date-time-container">
+      <span id="current-date-time"></span>
+    </div>
+      <div id="welcome-screen" class="welcome-screen">
       <div class="welcome-card">
         <h1>✨ Welcome to your ToDo List ✨</h1>
         <p>Organize your days efficiently.</p>
         <button id="start-button">Click here</button>
       </div>
     </div>
-    <main id="app" class="todolist">
+    <main id="app" class="todolist">        
       <div class="todolistDiv">
-        <div id="current-date-time"></div>
         <h1 id="curHrText"></h1>
         <div class="todo-inputs">
           <textarea name="todo-text" id="todo-input" placeholder="What will you do?" autocomplete="off"></textarea>
