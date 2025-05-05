@@ -36,7 +36,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // update of time each second
+  // Update of time each second
   function updateDateTime() {
     const { day, month, year, hour, minute } = getCurrentDateTime()
     const timeString = `day: ${year}/${month}/${day} | hour: ${hour}:${minute.toString().padStart(2, '0')}`
@@ -45,7 +45,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   setInterval(updateDateTime, 1000)
 
-  // display a random text when pressing the button
+  // Display a random text when pressing the button
   function randomText() {
     const texts = [
       "Let's go 🚀",
@@ -58,7 +58,7 @@ document.addEventListener('DOMContentLoaded', () => {
     return texts[Math.floor(Math.random() * texts.length)]
   }
 
-  // quit the main page
+  // Quit the main page
   function exitMainPage() {
     app.style.display = 'block'
     startButton.innerText = randomText()
@@ -96,12 +96,12 @@ document.addEventListener('DOMContentLoaded', () => {
     return todos ? JSON.parse(todos) : []
   }
 
-  // save tasks on local storage
+  // Save tasks on local storage
   function setTodosToLocalStorage(todos: Todo[]) {
     localStorage.setItem('todos', JSON.stringify(todos))
   }
 
-  // add a new task
+  // Add a new task
   function addTodo() {
     const todoText = todoInputElement.value.trim()
     if (todoText === '' /*|| todoText.length > 200 is for input verification */)
@@ -130,7 +130,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   })
 
-  // updates localstorage on container to display the tasks
+  // Updates localstorage on container to display the tasks
   function updateTodosDisplay() {
     todoContainer.textContent = ''
     dueDateInput.value = ''
@@ -162,7 +162,7 @@ document.addEventListener('DOMContentLoaded', () => {
       dueDateNode.classList.add('due-date')
       dueDateNode.textContent = `${todo.dueDate}`
 
-      // add colors based on task dueDate
+      // Add colors based on task dueDate
       const dueDate = new Date(todo.dueDate)
       const todayDateOnly = new Date(
         today.getFullYear(),
@@ -189,7 +189,7 @@ document.addEventListener('DOMContentLoaded', () => {
         dueDateNode.style.color = '#a3c67c' // green = later
       }
 
-      // display all elements on container
+      // Display all elements on container
       li.appendChild(checkbox)
       li.appendChild(textNode)
       li.appendChild(dueDateNode)
@@ -199,7 +199,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // delete a task
+  // Delete a task
   function deleteTodo(todoId: number) {
     let todos = getTodosFromLocalStorage()
     todos = todos.filter((todo) => todo.id !== todoId)
@@ -207,7 +207,7 @@ document.addEventListener('DOMContentLoaded', () => {
     updateTodosDisplay()
   }
 
-  // delete all tasks
+  // Delete all tasks
   function deleteTasks() {
     localStorage.removeItem('todos')
     todoInputElement.value = ''
