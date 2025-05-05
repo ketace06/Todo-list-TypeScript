@@ -102,22 +102,34 @@ button:hover {
 }
 
 .todolistDiv {
+  width: 400px;
+  height: 800px;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 24px;
-  padding: 40px;
+  padding: 50px;
   background-color: rgba(255, 255, 255, 0.05);
-  border-radius: 20px;
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+  border-radius: 40px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+  position: relative;
+  overflow: hidden;
+  border: 10px solid black;
 }
+
 .todo-inputs {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: center;
-  gap: 70px;
+  align-items: center;
   width: 100%;
 }
+
+#letter-count {
+  margin-bottom: 50px;
+  margin-top: 10px;
+}
+
 .todo-actions {
   display: flex;
   gap: 16px;
@@ -129,7 +141,33 @@ button:hover {
   transform: translateY(0%);
 }
 
+#date-time-container {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  z-index: 1000;
+  background: rgba(255, 255, 255, 0.05);
+  padding: 10px 18px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  font-size: 1.2rem;
+  font-family: var(--fontalt);
+  color: var(--thirdcolor);
+  backdrop-filter: blur(6px);
+}
+
+#todo-creation-error {
+  color: var(--dangercolor);
+  font-family: var(--fontalt);
+  font-size: 1.2rem;
+  margin-top: 10px;
+  text-align: center;
+}
+
 #current-date-time {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
   font-size: 1.5rem;
   color: var(--thirdcolor);
   font-family: var(--fontalt);
@@ -174,12 +212,11 @@ button:hover {
 }
 ul {
   list-style: none;
-  padding: 20px 0;
-  margin: 0 auto;
+  padding: 20px 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  max-width: 600px;
+  max-width: 400px;
   width: 100%;
 
   max-height: 60vh;
