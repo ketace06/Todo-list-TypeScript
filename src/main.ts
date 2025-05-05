@@ -187,6 +187,8 @@ document.addEventListener('DOMContentLoaded', () => {
         dueDateNode.style.color = '#FFEA00' // yellow = within next 4 days
       } else if (dueDateOnly.getTime() > fourDaysFromToday.getTime()) {
         dueDateNode.style.color = '#228B22' // green = later
+      } else if (dueDateOnly.getTime() < todayDateOnly.getTime()) {
+        dueDateNode.style.color = '#FF6B6B' // red = overdue
       }
 
       // Display all elements on container
