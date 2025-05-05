@@ -24,6 +24,24 @@ document.addEventListener('DOMContentLoaded', () => {
   const today = new Date()
   const curHr = today.getHours()
   const curHrText = document.getElementById('curHrText') as HTMLElement
+  const letterCountElement = document.getElementById(
+    'letter-count',
+  ) as HTMLParagraphElement
+
+  // Letters count function
+  todoInputElement.addEventListener('input', () => {
+    const value = todoInputElement.value
+    const letterCount = (value.match(/./g) || []).length
+    letterCountElement.textContent = `Letters: ${letterCount} / 200`
+
+    if (letterCount > 200) {
+      todoInputElement.style.borderColor = 'red'
+      letterCountElement.style.color = 'red'
+    } else {
+      todoInputElement.style.borderColor = '#ccc'
+      letterCountElement.style.color = 'var(--thirdcolor)'
+    }
+  })
 
   // Get current time
   function getCurrentDateTime() {
@@ -119,7 +137,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // Add a new task
   function addTodo() {
     const todoText = todoInputElement.value.trim()
-    if (todoText === '' /*|| todoText.length > 200 is for input verification */)
+    if (todoText === '' || todoText.length > 200)
       return
 
     const todos = getTodosFromLocalStorage()
