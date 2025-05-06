@@ -120,14 +120,7 @@ document.addEventListener('DOMContentLoaded', () => {
     dueDate: string
   }
 
-  function getTodosFromLocalStorage(): Todo[] {
-    const todos = localStorage.getItem('todos')
-    return todos ? JSON.parse(todos) : []
-  }
-
-  function setTodosToLocalStorage(todos: Todo[]) {
-    localStorage.setItem('todos', JSON.stringify(todos))
-  }
+  let todos: Todo[] = []
 
   function addTodo() {
     const todoText = todoInputElement.value.trim()
@@ -158,7 +151,6 @@ document.addEventListener('DOMContentLoaded', () => {
     } 
     dueDateInput.style.borderColor = '#ccc'
     
-    const todos = getTodosFromLocalStorage()
     const newTodo: Todo = {
       id: Date.now(),
       text: todoText,
@@ -167,7 +159,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     todos.push(newTodo)
-    setTodosToLocalStorage(todos)
     updateTodosDisplay()
   }
 
@@ -181,8 +172,6 @@ document.addEventListener('DOMContentLoaded', () => {
   })
 
   function updateTodosDisplay() {
-    const todos = getTodosFromLocalStorage()
-
     // Reset to normal phase
     todoContainer.innerHTML = ''
     letterCountElement.textContent = 'Letters: 0 / 200'
@@ -210,7 +199,7 @@ document.addEventListener('DOMContentLoaded', () => {
       checkbox.checked = todo.checked
       checkbox.addEventListener('change', () => {
         todo.checked = checkbox.checked
-        setTodosToLocalStorage(todos)
+        updateTodosDisplay()
       })
 
       const textNode = document.createTextNode(todo.text)
@@ -267,14 +256,12 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function deleteTodo(todoId: number) {
-    let todos = getTodosFromLocalStorage()
     todos = todos.filter((todo) => todo.id !== todoId)
-    setTodosToLocalStorage(todos)
     updateTodosDisplay()
   }
 
   function deleteTasks() {
-    localStorage.removeItem('todos')
+    todos = []
     todoInputElement.value = ''
     updateTodosDisplay()
   }
