@@ -29,6 +29,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const errorMessageP = document.getElementById(
     'todo-creation-error',
   ) as HTMLParagraphElement
+  const overdueMessage = document.getElementById(
+    'overdue-message',
+  ) as HTMLParagraphElement
 
   todoInputElement.addEventListener('input', () => {
     const value = todoInputElement.value
@@ -133,7 +136,7 @@ document.addEventListener('DOMContentLoaded', () => {
     dueDate.setHours(0, 0, 0, 0)
     todayDateOnly.setHours(0, 0, 0, 0)
 
-    errorMessageP.innerText = '' 
+    errorMessageP.innerText = ''
     todoInputElement.style.borderColor = '#ccc'
 
     if (todoText === '') {
@@ -149,11 +152,6 @@ document.addEventListener('DOMContentLoaded', () => {
       return
     }
 
-    if (dueDateInput.value && dueDate < todayDateOnly) {
-      errorMessageP.innerText = 'Error: due date cannot be in the past.'
-      dueDateInput.style.borderColor = 'red'
-      return
-    }
     const todos = getTodosFromLocalStorage()
     const newTodo: Todo = {
       id: Date.now(),
@@ -188,12 +186,12 @@ document.addEventListener('DOMContentLoaded', () => {
     todoInputElement.value = ''
     todoInputElement.style.borderColor = '#ccc'
 
-
-    // Show placeholder if no todos
     if (todos.length === 0) {
       todoContainer.textContent =
         "No todos yet, but there's always something to do!"
     }
+
+    let hasOverdue = false
 
     for (let i = 0; i < todos.length; i++) {
       const todo = todos[i]
@@ -233,7 +231,6 @@ document.addEventListener('DOMContentLoaded', () => {
       const fourDaysFromToday = new Date(todayDateOnly)
       fourDaysFromToday.setDate(fourDaysFromToday.getDate() + 4)
 
-      // Color code the due date:
       if (dueDateOnly.getTime() === todayDateOnly.getTime()) {
         dueDateNode.style.color = '#FFAC1C' // Today = orange
       } else if (
@@ -245,6 +242,7 @@ document.addEventListener('DOMContentLoaded', () => {
         dueDateNode.style.color = '#228B22' // Later = green
       } else if (dueDateOnly.getTime() < todayDateOnly.getTime()) {
         dueDateNode.style.color = '#FF6B6B' // Overdue = red
+        hasOverdue = true
       }
 
       li.appendChild(checkbox)
@@ -253,6 +251,12 @@ document.addEventListener('DOMContentLoaded', () => {
       li.appendChild(closeSpan)
 
       todoContainer.prepend(li)
+    }
+
+    if (hasOverdue) {
+      overdueMessage.classList.add('show')
+    } else {
+      overdueMessage.classList.remove('show')
     }
   }
 
@@ -263,7 +267,6 @@ document.addEventListener('DOMContentLoaded', () => {
     updateTodosDisplay()
   }
 
-  // Clear all todos and input
   function deleteTasks() {
     localStorage.removeItem('todos')
     todoInputElement.value = ''
