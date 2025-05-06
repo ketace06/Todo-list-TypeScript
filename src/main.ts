@@ -1,6 +1,28 @@
 import './style.css'
 
+async function fetchTodosFromApi() {
+  const url = "https://api.todos.in.jt-lab.ch";
+  try {
+    const response = await fetch(url)
+    if (!response.ok) {
+      throw new Error(`Response status: ${response.status}`);
+    }
+
+    const json = await response.json();
+    console.log(json)
+  } catch (error) {
+    if (error instanceof Error) {
+      console.error(error.message);
+    } else {
+      console.error("An unknown error has occured");
+    }
+  }
+}
+
 document.addEventListener('DOMContentLoaded', () => {
+
+  fetchTodosFromApi()
+
   const startButton = document.getElementById(
     'start-button',
   ) as HTMLButtonElement
