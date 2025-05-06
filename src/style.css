@@ -1,7 +1,7 @@
 html,
 body {
   user-select: none;
-  overflow-y: hidden;
+  overflow: hidden;
   height: 100%;
   margin: 0;
   padding: 0;
@@ -15,13 +15,15 @@ body {
   --warningcolor: #ffea00; /* Pastel yellow for warnings */
   --dangercolor: #ff6b6b; /* Light red for delete/danger actions */
   --todaycolor: #ffac1c; /* Orange color for todayduedate*/
+  --errorcolor: #cc0000; /* Red color for error messages */
 
   --fontmain: "Ubuntu", sans-serif;
   --fontalt: "Poppins", sans-serif;
 }
 
 h1,
-h2 {
+h2,
+p {
   font-family: var(--fontalt);
 }
 
@@ -141,6 +143,14 @@ button:hover {
   transform: translateY(0%);
 }
 
+#todo-creation-error {
+  color: var(--dangercolor);
+  font-family: var(--fontalt);
+  font-size: 1.2rem;
+  margin-top: 10px;
+  text-align: center;
+}
+
 #date-time-container {
   position: fixed;
   top: 20px;
@@ -156,14 +166,6 @@ button:hover {
   backdrop-filter: blur(6px);
 }
 
-#todo-creation-error {
-  color: var(--dangercolor);
-  font-family: var(--fontalt);
-  font-size: 1.2rem;
-  margin-top: 10px;
-  text-align: center;
-}
-
 #current-date-time {
   display: flex;
   flex-direction: row;
@@ -173,6 +175,7 @@ button:hover {
   font-family: var(--fontalt);
   font-weight: 600;
 }
+
 #todo-due-date {
   font-size: 1.7rem;
   color: var(--secondarycolor);
@@ -271,6 +274,22 @@ ul::-webkit-scrollbar-track {
 
 .checkboxes:hover {
   cursor: pointer;
+}
+#overdue-message {
+  position: absolute;
+  margin-top: 80vh;
+  background-color: var(--errorcolor);
+  color: var(--thirdcolor);
+  padding: 20px;
+  border-radius: 15px;
+  font-size: 1.5rem;
+  transition: transform 1s ease;
+  transform: translatex(500%);
+  z-index: 1000;
+}
+
+#overdue-message.show {
+  transform: translatex(130%);
 }
 
 /*Animations*/
