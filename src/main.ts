@@ -155,9 +155,9 @@ document.addEventListener('DOMContentLoaded', () => {
       errorMessageP.innerText = 'Error: due date cannot be in the past.'
       dueDateInput.style.borderColor = 'red'
       return
-    } 
+    }
     dueDateInput.style.borderColor = '#ccc'
-    
+
     const todos = getTodosFromLocalStorage()
     const newTodo: Todo = {
       id: Date.now(),

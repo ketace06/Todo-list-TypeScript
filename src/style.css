@@ -278,7 +278,7 @@ ul::-webkit-scrollbar-track {
 #overdue-message {
   position: absolute;
   margin-top: 80vh;
-  background-color: var(--errorcolor)	;
+  background-color: var(--errorcolor);
   color: var(--thirdcolor);
   padding: 20px;
   border-radius: 15px;
