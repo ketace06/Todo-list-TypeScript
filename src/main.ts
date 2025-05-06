@@ -123,6 +123,7 @@ document.addEventListener('DOMContentLoaded', () => {
   startButton?.addEventListener('click', exitMainPage);
 
   type Todo = {
+    id: string; 
     title: string;
     done: boolean;
     due_date: string | null;
@@ -228,6 +229,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const closeSpan = document.createElement('span');
       closeSpan.textContent = '×';
       closeSpan.classList.add('close');
+      closeSpan.addEventListener('click', () => deleteTodo(todo.id))
 
       const dueDateNode = document.createElement('span');
       dueDateNode.classList.add('due-date');
@@ -268,9 +270,25 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  function deleteTodo() {
-    updateTodosDisplay();
-  }
+  async function deleteTodo(id: string) {
+    try {
+      const response = await fetch(`https://api.todos.in.jt-lab.ch/todos/${id}`, {
+        method: 'DELETE',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+        },
+      });
+      if (!response.ok) {
+        throw new Error(`Error: ${response.statusText}`);
+      }
+
+      await fetchApi();
+      
+    } catch (error) {
+      console.error(error instanceof Error ? error.message : "An unknown error occurred while deleting the todo.");
+    }
+}
 
   async function deleteTasks() {
     todos = [];
