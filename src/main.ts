@@ -43,9 +43,6 @@ document.addEventListener('DOMContentLoaded', () => {
   ) as HTMLInputElement
   const todoContainer = document.getElementById('todo-item') as HTMLElement
   const deleteAllTasks = document.getElementById('delete-all') as HTMLElement
-  const dateTimeElement = document.getElementById(
-    'current-date-time',
-  ) as HTMLElement
   const dueDateInput = document.getElementById(
     'todo-due-date',
   ) as HTMLInputElement
@@ -77,24 +74,6 @@ document.addEventListener('DOMContentLoaded', () => {
       letterCountElement.style.color = 'var(--thirdcolor)'
     }
   })
-
-  function getCurrentDateTime() {
-    return {
-      day: today.getDate(),
-      month: today.getMonth() + 1,
-      year: today.getFullYear(),
-      hour: today.getHours(),
-      minute: today.getMinutes(),
-    }
-  }
-
-  function updateDateTime() {
-    const { day, month, year, hour, minute } = getCurrentDateTime()
-    const timeString = `day: ${year}/${month}/${day} | hour: ${hour}:${minute.toString().padStart(2, '0')}`
-    dateTimeElement.textContent = timeString
-  }
-
-  setInterval(updateDateTime, 1000)
 
   // Random motivational
   function randomText() {
