@@ -1,6 +1,35 @@
 import './style.css'
 
 document.addEventListener('DOMContentLoaded', () => {
+  fetchApi()
+
+  let todos: Todo[] = []
+
+  async function fetchApi() {
+    try {
+      const response = await fetch('https://api.todos.in.jt-lab.ch/todos', {
+        method: 'GET',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+      })
+
+      if (!response.ok) {
+        throw new Error(`Error: ${response.statusText}`)
+      }
+
+      todos = await response.json()
+    } catch (error) {
+      console.error(
+        error instanceof Error
+          ? error.message
+          : 'An unknown error occurred while fetching todos.',
+      )
+    }
+    updateTodosDisplay()
+  }
+
   const startButton = document.getElementById(
     'start-button',
   ) as HTMLButtonElement
@@ -14,9 +43,6 @@ document.addEventListener('DOMContentLoaded', () => {
   ) as HTMLInputElement
   const todoContainer = document.getElementById('todo-item') as HTMLElement
   const deleteAllTasks = document.getElementById('delete-all') as HTMLElement
-  const dateTimeElement = document.getElementById(
-    'current-date-time',
-  ) as HTMLElement
   const dueDateInput = document.getElementById(
     'todo-due-date',
   ) as HTMLInputElement
@@ -32,6 +58,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const overdueMessage = document.getElementById(
     'overdue-message',
   ) as HTMLParagraphElement
+  const sidebar = document.getElementById('sidebar') as HTMLDivElement
+  sidebar.style.opacity = '0'
 
   todoInputElement.addEventListener('input', () => {
     const value = todoInputElement.value
@@ -47,25 +75,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   })
 
-  function getCurrentDateTime() {
-    return {
-      day: today.getDate(),
-      month: today.getMonth() + 1,
-      year: today.getFullYear(),
-      hour: today.getHours(),
-      minute: today.getMinutes(),
-    }
-  }
-
-  function updateDateTime() {
-    const { day, month, year, hour, minute } = getCurrentDateTime()
-    const timeString = `day: ${year}/${month}/${day} | hour: ${hour}:${minute.toString().padStart(2, '0')}`
-    dateTimeElement.textContent = timeString
-  }
-
-  setInterval(updateDateTime, 1000)
-
-  // Random motivational or playful start button text
+  // Random motivational
   function randomText() {
     const texts = [
       "Let's go 🚀",
@@ -98,6 +108,7 @@ document.addEventListener('DOMContentLoaded', () => {
           app.style.display = 'block'
           void app.offsetWidth
           app.classList.add('slide-in')
+          sidebar.style.opacity = '1'
         }, 50)
       })
     }, 2000)
@@ -114,26 +125,22 @@ document.addEventListener('DOMContentLoaded', () => {
   startButton?.addEventListener('click', exitMainPage)
 
   type Todo = {
-    id: number
-    text: string
-    checked: boolean
-    dueDate: string
+    id: string
+    title: string
+    done: boolean
+    due_date: string
   }
 
-  function getTodosFromLocalStorage(): Todo[] {
-    const todos = localStorage.getItem('todos')
-    return todos ? JSON.parse(todos) : []
+  type TodoInsert = {
+    title: string
+    done?: boolean
+    due_date?: string
   }
 
-  function setTodosToLocalStorage(todos: Todo[]) {
-    localStorage.setItem('todos', JSON.stringify(todos))
-  }
-
-  function addTodo() {
+  async function addTodo() {
     const todoText = todoInputElement.value.trim()
     const dueDate = new Date(dueDateInput.value)
     const todayDateOnly = new Date()
-    dueDate.setHours(0, 0, 0, 0)
     todayDateOnly.setHours(0, 0, 0, 0)
 
     errorMessageP.innerText = ''
@@ -151,23 +158,43 @@ document.addEventListener('DOMContentLoaded', () => {
       todoInputElement.style.borderColor = 'red'
       return
     }
+
     if (dueDateInput.value && dueDate < todayDateOnly) {
       errorMessageP.innerText = 'Error: due date cannot be in the past.'
       dueDateInput.style.borderColor = 'red'
       return
-    } 
+    }
     dueDateInput.style.borderColor = '#ccc'
-    
-    const todos = getTodosFromLocalStorage()
-    const newTodo: Todo = {
-      id: Date.now(),
-      text: todoText,
-      checked: false,
-      dueDate: dueDateInput.value || 'no due date',
+
+    const newTodo: TodoInsert = {
+      title: todoText,
+      done: false,
     }
 
-    todos.push(newTodo)
-    setTodosToLocalStorage(todos)
+    if (dueDateInput.value) {
+      newTodo.due_date = dueDate.toISOString().split('T')[0]
+    }
+
+    try {
+      const response = await fetch('https://api.todos.in.jt-lab.ch/todos', {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(newTodo),
+      })
+
+      if (!response.ok) {
+        throw new Error(`Error: ${response.statusText}`)
+      }
+
+      await fetchApi()
+    } catch (error) {
+      console.error(
+        error instanceof Error ? error.message : 'An unknown error occurred',
+      )
+    }
     updateTodosDisplay()
   }
 
@@ -181,9 +208,6 @@ document.addEventListener('DOMContentLoaded', () => {
   })
 
   function updateTodosDisplay() {
-    const todos = getTodosFromLocalStorage()
-
-    // Reset to normal phase
     todoContainer.innerHTML = ''
     letterCountElement.textContent = 'Letters: 0 / 200'
     dueDateInput.style.borderColor = '#ccc'
@@ -207,13 +231,38 @@ document.addEventListener('DOMContentLoaded', () => {
       const checkbox = document.createElement('input')
       checkbox.type = 'checkbox'
       checkbox.classList.add('checkboxes')
-      checkbox.checked = todo.checked
-      checkbox.addEventListener('change', () => {
-        todo.checked = checkbox.checked
-        setTodosToLocalStorage(todos)
+      checkbox.checked = todo.done
+      checkbox.addEventListener('change', async () => {
+        todo.done = checkbox.checked
+
+        try {
+          const response = await fetch(
+            `https://api.todos.in.jt-lab.ch/todos?id=eq.${todo.id}`,
+            {
+              method: 'PATCH',
+              headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({ done: todo.done }),
+            },
+          )
+
+          if (!response.ok) {
+            throw new Error(`Failed to update todo: ${response.statusText}`)
+          }
+
+          await fetchApi()
+        } catch (error) {
+          console.error(
+            error instanceof Error
+              ? error.message
+              : 'An unknown error occurred while updating the todo.',
+          )
+        }
       })
 
-      const textNode = document.createTextNode(todo.text)
+      const textNode = document.createTextNode(todo.title)
       const closeSpan = document.createElement('span')
       closeSpan.textContent = '×'
       closeSpan.classList.add('close')
@@ -221,34 +270,46 @@ document.addEventListener('DOMContentLoaded', () => {
 
       const dueDateNode = document.createElement('span')
       dueDateNode.classList.add('due-date')
-      dueDateNode.textContent = `${todo.dueDate}`
+      dueDateNode.textContent = todo.due_date || 'No due date'
 
-      const dueDate = new Date(todo.dueDate)
+      let dueDate = null
+      if (todo.due_date) {
+        dueDate = new Date(todo.due_date)
+      }
+
+      if (dueDate && Number.isNaN(dueDate.getTime())) {
+        console.error('Invalid due date:', todo.due_date)
+        continue
+      }
+
       const todayDateOnly = new Date(
         today.getFullYear(),
         today.getMonth(),
         today.getDate(),
       )
-      const dueDateOnly = new Date(
-        dueDate.getFullYear(),
-        dueDate.getMonth(),
-        dueDate.getDate(),
-      )
-      const fourDaysFromToday = new Date(todayDateOnly)
-      fourDaysFromToday.setDate(fourDaysFromToday.getDate() + 4)
 
-      if (dueDateOnly.getTime() === todayDateOnly.getTime()) {
-        dueDateNode.style.color = '#FFAC1C' // Today = orange
-      } else if (
-        dueDateOnly.getTime() > todayDateOnly.getTime() &&
-        dueDateOnly.getTime() <= fourDaysFromToday.getTime()
-      ) {
-        dueDateNode.style.color = '#FFEA00' // Soon = yellow
-      } else if (dueDateOnly.getTime() > fourDaysFromToday.getTime()) {
-        dueDateNode.style.color = '#228B22' // Later = green
-      } else if (dueDateOnly.getTime() < todayDateOnly.getTime()) {
-        dueDateNode.style.color = '#FF6B6B' // Overdue = red
-        hasOverdue = true
+      if (dueDate) {
+        const dueDateOnly = new Date(
+          dueDate.getFullYear(),
+          dueDate.getMonth(),
+          dueDate.getDate(),
+        )
+        const fourDaysFromToday = new Date(todayDateOnly)
+        fourDaysFromToday.setDate(fourDaysFromToday.getDate() + 4)
+
+        if (dueDateOnly.getTime() === todayDateOnly.getTime()) {
+          dueDateNode.style.color = '#FFAC1C' // Today = orange
+        } else if (
+          dueDateOnly.getTime() > todayDateOnly.getTime() &&
+          dueDateOnly.getTime() <= fourDaysFromToday.getTime()
+        ) {
+          dueDateNode.style.color = '#FFEA00' // Soon = yellow
+        } else if (dueDateOnly.getTime() > fourDaysFromToday.getTime()) {
+          dueDateNode.style.color = '#228B22' // Later = green
+        } else if (dueDateOnly.getTime() < todayDateOnly.getTime()) {
+          dueDateNode.style.color = '#FF6B6B' // Overdue = red
+          hasOverdue = true
+        }
       }
 
       li.appendChild(checkbox)
@@ -266,22 +327,57 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  function deleteTodo(todoId: number) {
-    let todos = getTodosFromLocalStorage()
-    todos = todos.filter((todo) => todo.id !== todoId)
-    setTodosToLocalStorage(todos)
-    updateTodosDisplay()
+  async function deleteTodo(id: string) {
+    try {
+      const response = await fetch(
+        `https://api.todos.in.jt-lab.ch:443/todos?id=eq.${id}`,
+        {
+          method: 'DELETE',
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+          },
+        },
+      )
+      if (!response.ok) {
+        throw new Error(`Error: ${response.statusText}`)
+      }
+
+      await fetchApi()
+    } catch (error) {
+      console.error(
+        error instanceof Error
+          ? error.message
+          : 'An unknown error occurred while deleting the todo.',
+      )
+    }
   }
 
-  function deleteTasks() {
-    localStorage.removeItem('todos')
+  async function deleteTasks() {
+    todos = []
     todoInputElement.value = ''
+
+    try {
+      const response = await fetch('https://api.todos.in.jt-lab.ch/todos', {
+        method: 'DELETE',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+      })
+
+      if (!response.ok) {
+        throw new Error(`Error: ${response.statusText}`)
+      }
+    } catch (error) {
+      console.error(
+        error instanceof Error ? error.message : 'An unknown error occurred',
+      )
+    }
     updateTodosDisplay()
   }
 
   if (deleteAllTasks) {
     deleteAllTasks.addEventListener('click', deleteTasks)
   }
-
-  updateTodosDisplay()
 })
