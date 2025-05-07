@@ -234,22 +234,25 @@ document.addEventListener('DOMContentLoaded', () => {
       checkbox.checked = todo.done
       checkbox.addEventListener('change', async () => {
         todo.done = checkbox.checked
-      
+
         try {
-          const response = await fetch(`https://api.todos.in.jt-lab.ch/todos?id=eq.${todo.id}`, {
-            method: 'PATCH',
-            headers: {
-              Accept: 'application/json',
-              'Content-Type': 'application/json',
+          const response = await fetch(
+            `https://api.todos.in.jt-lab.ch/todos?id=eq.${todo.id}`,
+            {
+              method: 'PATCH',
+              headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({ done: todo.done }),
             },
-            body: JSON.stringify({ done: todo.done }),
-          })
-      
+          )
+
           if (!response.ok) {
             throw new Error(`Failed to update todo: ${response.statusText}`)
           }
-      
-          await fetchApi() 
+
+          await fetchApi()
         } catch (error) {
           console.error(
             error instanceof Error
