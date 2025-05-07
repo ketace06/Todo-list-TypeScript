@@ -128,7 +128,7 @@ document.addEventListener('DOMContentLoaded', () => {
     id: string
     title: string
     done: boolean
-    due_date: string | null
+    due_date: string
   }
 
   type TodoInsert = {
@@ -141,8 +141,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const todoText = todoInputElement.value.trim()
     const dueDate = new Date(dueDateInput.value)
     const todayDateOnly = new Date()
-    dueDate.setHours(0, 0, 0, 0)
-    todayDateOnly.setHours(0, 0, 0, 0)
+    console.log(dueDate)
+    console.log(todayDateOnly)
 
     errorMessageP.innerText = ''
     todoInputElement.style.borderColor = '#ccc'
@@ -170,6 +170,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const newTodo: TodoInsert = {
       title: todoText,
       done: false,
+      due_date: dueDate.toISOString().split("T")[0],
     }
 
     try {
