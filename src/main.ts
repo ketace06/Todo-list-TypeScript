@@ -169,9 +169,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const newTodo: TodoInsert = {
       title: todoText,
       done: false,
-      due_date: dueDate.toISOString().split('T')[0],
     }
-
+    
+    if (dueDateInput.value) {
+      newTodo.due_date = dueDate.toISOString().split('T')[0]
+    }
+    
     try {
       const response = await fetch('https://api.todos.in.jt-lab.ch/todos', {
         method: 'POST',
@@ -352,6 +355,4 @@ document.addEventListener('DOMContentLoaded', () => {
   if (deleteAllTasks) {
     deleteAllTasks.addEventListener('click', deleteTasks)
   }
-
-  updateTodosDisplay()
 })
