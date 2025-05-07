@@ -234,13 +234,13 @@ document.addEventListener('DOMContentLoaded', () => {
       const dueDateNode = document.createElement('span');
       dueDateNode.classList.add('due-date');
       dueDateNode.textContent = todo.due_date || 'No due date';
-
       const dueDate = new Date(todo.due_date);
       const todayDateOnly = new Date(today.getFullYear(), today.getMonth(), today.getDate());
       const dueDateOnly = new Date(dueDate.getFullYear(), dueDate.getMonth(), dueDate.getDate());
       const fourDaysFromToday = new Date(todayDateOnly);
       fourDaysFromToday.setDate(fourDaysFromToday.getDate() + 4);
 
+      if (todo.due_date) {
       if (dueDateOnly.getTime() === todayDateOnly.getTime()) {
         dueDateNode.style.color = '#FFAC1C'; // Today = orange
       } else if (
@@ -254,6 +254,8 @@ document.addEventListener('DOMContentLoaded', () => {
         dueDateNode.style.color = '#FF6B6B'; // Overdue = red
         hasOverdue = true;
       }
+      }
+
 
       li.appendChild(checkbox);
       li.appendChild(textNode);
