@@ -197,7 +197,7 @@ button:hover {
   align-items: center;
   justify-content: flex-start;
   gap: 15px;
-  transform: translateX(-20vw) translateY(10vh);
+  transform: translateX(-20vw);
 }
 
 #curHrText {
