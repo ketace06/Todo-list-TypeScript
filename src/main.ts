@@ -141,6 +141,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const todoText = todoInputElement.value.trim()
     const dueDate = new Date(dueDateInput.value)
     const todayDateOnly = new Date()
+    todayDateOnly.setHours(0, 0, 0, 0)
     console.log(dueDate)
     console.log(todayDateOnly)
 
