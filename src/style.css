@@ -35,7 +35,7 @@ body {
   background: linear-gradient(to right, var(--primarycolor), #2c2f3c);
   color: var(--thirdcolor);
   font-family: var(--fontmain);
-  flex-direction: row;
+  flex-direction: column;
   box-sizing: border-box;
   width: 100%;
   height: 100vh;
@@ -45,7 +45,7 @@ body {
   position: fixed;
   top: 0;
   left: 0;
-  width: 80px;
+  width: 80px; 
   height: 100vh;
   background-color: var(--primarycolor);
   color: var(--thirdcolor);
@@ -55,12 +55,13 @@ body {
   padding-top: 20px;
   box-shadow: 2px 0 10px rgba(0, 0, 0, 0.3);
   z-index: 10;
-  transition: width 0.3s ease;
+  transition: width 0.3s ease; 
   justify-content: center;
+
 }
 
 .sidebar:hover {
-  width: 350px;
+  width: 350px; 
 }
 
 .sidebar ul {
@@ -75,7 +76,7 @@ body {
   padding: 20px;
   cursor: pointer;
   transition: background-color 0.3s ease;
-  position: relative;
+  position: relative; 
 }
 
 .sidebar ul li:hover {
@@ -83,7 +84,7 @@ body {
 }
 
 .sidebar ul li::before {
-  content: "";
+  content: '';
   font-size: 1.8rem;
   display: block;
   text-align: center;
@@ -91,27 +92,27 @@ body {
 }
 
 #home-link::before {
-  content: "🏠";
+  content: '🏠'; 
 }
 
 #overview-link::before {
-  content: "📊";
+  content: '📊';
 }
 
 #calendar-link::before {
-  content: "📅";
+  content: '📅';
 }
 
 .sidebar:hover #home-link::before {
-  content: "🏠 Home";
+  content: '🏠 Home'; 
 }
 
 .sidebar:hover #overview-link::before {
-  content: "📊 Overview";
+  content: '📊 Overview';
 }
 
 .sidebar:hover #calendar-link::before {
-  content: "📅 Calendar";
+  content: '📅 Calendar'; 
 }
 .welcome-screen {
   display: flex;
