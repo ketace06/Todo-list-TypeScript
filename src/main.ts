@@ -232,9 +232,31 @@ document.addEventListener('DOMContentLoaded', () => {
       checkbox.type = 'checkbox'
       checkbox.classList.add('checkboxes')
       checkbox.checked = todo.done
-      checkbox.addEventListener('change', () => {
+      checkbox.addEventListener('change', async () => {
         todo.done = checkbox.checked
-        updateTodosDisplay()
+      
+        try {
+          const response = await fetch(`https://api.todos.in.jt-lab.ch/todos?id=eq.${todo.id}`, {
+            method: 'PATCH',
+            headers: {
+              Accept: 'application/json',
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ done: todo.done }),
+          })
+      
+          if (!response.ok) {
+            throw new Error(`Failed to update todo: ${response.statusText}`)
+          }
+      
+          await fetchApi() 
+        } catch (error) {
+          console.error(
+            error instanceof Error
+              ? error.message
+              : 'An unknown error occurred while updating the todo.',
+          )
+        }
       })
 
       const textNode = document.createTextNode(todo.title)
