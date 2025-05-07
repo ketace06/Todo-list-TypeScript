@@ -34,8 +34,49 @@ body {
   background: linear-gradient(to right, var(--primarycolor), #2c2f3c);
   color: var(--thirdcolor);
   font-family: var(--fontmain);
-  flex-direction: column;
+  flex-direction: row;
   box-sizing: border-box;
+  width: 100%;
+  height: 100vh;
+}
+
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 250px;
+  height: 100vh;
+  background-color: var(--primarycolor);
+  color: var(--thirdcolor);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 20px;
+  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.3);
+  z-index: 10;
+  justify-content: center;
+}
+
+.sidebar ul {
+  list-style-type: none;
+  padding: 0;
+  width: 100%;
+  text-align: center;
+}
+
+.sidebar ul li {
+  width: 100%;
+  padding: 20px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.sidebar ul li:hover {
+  background-color: var(--secondarycolor);
+}
+
+.sidebar ul li:active {
+  background-color: var(--todaycolor);
 }
 
 .welcome-screen {
@@ -58,8 +99,11 @@ body {
   animation: slideUp 1.2s ease;
 }
 
-button {
+button#start-button {
   margin-top: 20px;
+}
+
+button {
   padding: 10px 20px;
   font-size: 1rem;
   border: none;
@@ -97,26 +141,32 @@ button:hover {
   pointer-events: none;
 }
 .todolist {
+  display: flex;
+  flex-direction: column;
+  width: 80vw;
+  height: 80vh;
   display: none;
   opacity: 0;
   transform: translateY(-100%);
   transition: opacity 1s ease, transform 1s ease;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+  border: 10px solid black;
+  border-radius: 40px;
+  background-color: rgba(255, 255, 255, 0.05);
 }
 
 .todolistDiv {
-  width: 400px;
-  height: 800px;
+  height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 24px;
-  padding: 50px;
-  background-color: rgba(255, 255, 255, 0.05);
-  border-radius: 40px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
-  position: relative;
-  overflow: hidden;
-  border: 10px solid black;
+  justify-content: flex-start;
+  gap: 15px;
+}
+
+#curHrText {
+  margin-top: 100px;
 }
 
 .todo-inputs {
@@ -137,6 +187,7 @@ button:hover {
   gap: 16px;
   justify-content: center;
   flex-wrap: wrap;
+  margin-bottom: 40px;
 }
 .todolist.slide-in {
   opacity: 1;
@@ -214,17 +265,18 @@ button:hover {
   color: var(--secondarycolor);
 }
 ul {
-  list-style: none;
-  padding: 20px 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  max-width: 400px;
+  max-width: 40vh;
   width: 100%;
-
-  max-height: 60vh;
+  padding: 20px 40px;
+  max-height: 38vh;
   overflow-y: auto;
   overflow-x: hidden;
+  margin: 20px 0;
+  background-color: var(--primarycolor);
+  border-radius: 15px;
 }
 
 ul::-webkit-scrollbar {
@@ -236,23 +288,19 @@ ul::-webkit-scrollbar-thumb {
   border-radius: 4px;
 }
 
-ul::-webkit-scrollbar-track {
-  background: transparent;
-}
-
 .todo-item {
   display: flex;
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  max-width: 500px;
+  min-height: 75px;
   word-break: break-word;
-  padding: 10px 20px;
-  background: rgba(255, 255, 255, 0.05);
+  padding: 10px 12px;
+  background-color: rgba(255, 255, 255, 0.05);
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   color: var(--thirdcolor);
-  margin: 10px 0;
-  border-radius: 10px;
+  margin: 12px 0px;
+  border-radius: 15px;
   transition: background 0.3s ease;
 }
 
@@ -275,21 +323,23 @@ ul::-webkit-scrollbar-track {
 .checkboxes:hover {
   cursor: pointer;
 }
+
 #overdue-message {
-  position: absolute;
-  margin-top: 80vh;
+  position: fixed;
+  top: 80vh;
+  left: 50vw;
+  transform: translateX(800%);
   background-color: var(--errorcolor);
   color: var(--thirdcolor);
   padding: 20px;
   border-radius: 15px;
   font-size: 1.5rem;
-  transition: transform 1s ease;
-  transform: translatex(500%);
+  transition: transform 1s cubic-bezier(1, 0, 0, 1);
   z-index: 1000;
 }
 
 #overdue-message.show {
-  transform: translatex(130%);
+  transform: translateX(75%);
 }
 
 /*Animations*/
