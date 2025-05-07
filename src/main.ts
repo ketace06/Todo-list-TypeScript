@@ -131,6 +131,12 @@ document.addEventListener('DOMContentLoaded', () => {
     due_date: string | null
   }
 
+  type TodoInsert = {
+    title: string
+    done?: boolean
+    due_date?: string
+  }
+
   async function addTodo() {
     const todoText = todoInputElement.value.trim()
     const dueDate = new Date(dueDateInput.value)
@@ -161,10 +167,9 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     dueDateInput.style.borderColor = '#ccc'
 
-    const newTodo: Todo = {
+    const newTodo: TodoInsert = {
       title: todoText,
       done: false,
-      due_date: dueDateInput.value || null,
     }
 
     try {
@@ -200,7 +205,6 @@ document.addEventListener('DOMContentLoaded', () => {
   })
 
   function updateTodosDisplay() {
-    // Reset to normal phase
     todoContainer.innerHTML = ''
     letterCountElement.textContent = 'Letters: 0 / 200'
     dueDateInput.style.borderColor = '#ccc'
@@ -239,21 +243,32 @@ document.addEventListener('DOMContentLoaded', () => {
       const dueDateNode = document.createElement('span')
       dueDateNode.classList.add('due-date')
       dueDateNode.textContent = todo.due_date || 'No due date'
-      const dueDate = new Date(todo.due_date)
+
+      let dueDate = null
+      if (todo.due_date) {
+        dueDate = new Date(todo.due_date)
+      }
+
+      if (dueDate && Number.isNaN(dueDate.getTime())) {
+        console.error('Invalid due date:', todo.due_date)
+        continue
+      }
+
       const todayDateOnly = new Date(
         today.getFullYear(),
         today.getMonth(),
         today.getDate(),
       )
-      const dueDateOnly = new Date(
-        dueDate.getFullYear(),
-        dueDate.getMonth(),
-        dueDate.getDate(),
-      )
-      const fourDaysFromToday = new Date(todayDateOnly)
-      fourDaysFromToday.setDate(fourDaysFromToday.getDate() + 4)
 
-      if (todo.due_date) {
+      if (dueDate) {
+        const dueDateOnly = new Date(
+          dueDate.getFullYear(),
+          dueDate.getMonth(),
+          dueDate.getDate(),
+        )
+        const fourDaysFromToday = new Date(todayDateOnly)
+        fourDaysFromToday.setDate(fourDaysFromToday.getDate() + 4)
+
         if (dueDateOnly.getTime() === todayDateOnly.getTime()) {
           dueDateNode.style.color = '#FFAC1C' // Today = orange
         } else if (
