@@ -8,14 +8,15 @@ body {
 }
 
 :root {
-  --primarycolor: #1e1e2e; /* General background, very dark blue/black */
-  --secondarycolor: #3b4b64; /* Deep secondary blue (buttons/hover) */
-  --thirdcolor: #e6ecf1; /* Light text, almost white */
-  --successcolor: #228b22; /* Soft green for success messages */
-  --warningcolor: #ffea00; /* Pastel yellow for warnings */
-  --dangercolor: #ff6b6b; /* Light red for delete/danger actions */
-  --todaycolor: #ffac1c; /* Orange color for todayduedate*/
-  --errorcolor: #cc0000; /* Red color for error messages */
+  --primarycolor: #1e1e2e;
+  --secondarycolor: #3b4b64;
+  --thirdcolor: #e6ecf1;
+  --successcolor: #228b22;
+  --warningcolor: #ffea00;
+  --dangercolor: #ff6b6b;
+  --todaycolor: #ffac1c;
+  --errorcolor: #cc0000;
+  --clickcolor: #0047ab;
 
   --fontmain: "Ubuntu", sans-serif;
   --fontalt: "Poppins", sans-serif;
@@ -44,7 +45,7 @@ body {
   position: fixed;
   top: 0;
   left: 0;
-  width: 250px;
+  width: 70px; /* Taille de base */
   height: 100vh;
   background-color: var(--primarycolor);
   color: var(--thirdcolor);
@@ -55,6 +56,11 @@ body {
   box-shadow: 2px 0 10px rgba(0, 0, 0, 0.3);
   z-index: 10;
   justify-content: center;
+  transition: width 0.3s ease; 
+}
+
+.sidebar:hover {
+  width: 250px; 
 }
 
 .sidebar ul {
@@ -69,16 +75,44 @@ body {
   padding: 20px;
   cursor: pointer;
   transition: background-color 0.3s ease;
+  position: relative; 
 }
 
 .sidebar ul li:hover {
   background-color: var(--secondarycolor);
 }
 
-.sidebar ul li:active {
-  background-color: var(--todaycolor);
+.sidebar ul li::before {
+  content: '';
+  font-size: 1.8rem;
+  display: block;
+  text-align: center;
+  transition: content 0.3s ease;
 }
 
+#home-link::before {
+  content: '🏠'; 
+}
+
+#overview-link::before {
+  content: '📊';
+}
+
+#calendar-link::before {
+  content: '📅';
+}
+
+.sidebar:hover #home-link::before {
+  content: '🏠 Home'; 
+}
+
+.sidebar:hover #overview-link::before {
+  content: '📊 Overview';
+}
+
+.sidebar:hover #calendar-link::before {
+  content: '📅 Calendar'; 
+}
 .welcome-screen {
   display: flex;
   justify-content: center;

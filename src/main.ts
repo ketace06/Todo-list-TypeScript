@@ -61,6 +61,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const overdueMessage = document.getElementById(
     'overdue-message',
   ) as HTMLParagraphElement
+  const sidebar = document.getElementById('sidebar') as HTMLDivElement
+  sidebar.style.opacity = '0'
 
   todoInputElement.addEventListener('input', () => {
     const value = todoInputElement.value
@@ -127,6 +129,7 @@ document.addEventListener('DOMContentLoaded', () => {
           app.style.display = 'block'
           void app.offsetWidth
           app.classList.add('slide-in')
+          sidebar.style.opacity = '1'
         }, 50)
       })
     }, 2000)
