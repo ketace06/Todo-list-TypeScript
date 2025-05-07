@@ -272,7 +272,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   async function deleteTodo(id: string) {
     try {
-      const response = await fetch(`https://api.todos.in.jt-lab.ch/todos/${id}`, {
+      const response = await fetch(`https://api.todos.in.jt-lab.ch:443/todos?id=eq.${id}`, {
         method: 'DELETE',
         headers: {
           'Accept': 'application/json',
@@ -288,7 +288,7 @@ document.addEventListener('DOMContentLoaded', () => {
     } catch (error) {
       console.error(error instanceof Error ? error.message : "An unknown error occurred while deleting the todo.");
     }
-}
+  }
 
   async function deleteTasks() {
     todos = [];
