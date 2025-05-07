@@ -170,11 +170,11 @@ document.addEventListener('DOMContentLoaded', () => {
       title: todoText,
       done: false,
     }
-    
+
     if (dueDateInput.value) {
       newTodo.due_date = dueDate.toISOString().split('T')[0]
     }
-    
+
     try {
       const response = await fetch('https://api.todos.in.jt-lab.ch/todos', {
         method: 'POST',
