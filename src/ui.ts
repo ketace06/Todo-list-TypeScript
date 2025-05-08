@@ -34,7 +34,7 @@ function fadeOutWelcomeScreen(
 
   setTimeout(() => {
     welcomeScreen.remove()
-    displayApp(app, sidebar, navBar,)
+    displayApp(app, sidebar, navBar)
   }, 2000)
 }
 
