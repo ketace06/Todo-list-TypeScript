@@ -11,6 +11,7 @@ export function getDomElements() {
       'add-todo-button',
     ) as HTMLButtonElement,
     todoInputElement: document.getElementById('todo-input') as HTMLInputElement,
+    navBar: document.getElementById('nav-bar') as HTMLDivElement,
     todoContainer: document.getElementById('todo-item') as HTMLElement,
     dueDateInput: document.getElementById('todo-due-date') as HTMLInputElement,
     errorMessageP: document.getElementById(

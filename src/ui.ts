@@ -14,13 +14,13 @@ export function randomText() {
 }
 
 export function exitMainPage() {
-  const { startButton, welcomeScreen, app, sidebar } = getDomElements()
+  const { startButton, welcomeScreen, app, sidebar, navBar } = getDomElements()
 
   startButton.innerText = randomText()
   startButton.classList.add('start-button-fade')
 
   setTimeout(() => {
-    fadeOutWelcomeScreen(welcomeScreen, app, sidebar)
+    fadeOutWelcomeScreen(welcomeScreen, app, sidebar, navBar)
   }, 1000)
 }
 
@@ -28,22 +28,24 @@ function fadeOutWelcomeScreen(
   welcomeScreen: HTMLElement,
   app: HTMLElement,
   sidebar: HTMLDivElement,
+  navBar: HTMLDivElement,
 ) {
   welcomeScreen.classList.add('fade-out')
 
   setTimeout(() => {
     welcomeScreen.remove()
-    displayApp(app, sidebar)
+    displayApp(app, sidebar, navBar)
   }, 2000)
 }
 
-function displayApp(app: HTMLElement, sidebar: HTMLDivElement) {
+function displayApp(app: HTMLElement, sidebar: HTMLDivElement, navBar: HTMLDivElement) {
   requestAnimationFrame(() => {
     setTimeout(() => {
       app.style.display = 'block'
       void app.offsetWidth
       app.classList.add('slide-in')
       sidebar.style.opacity = '1'
+      navBar.style.opacity = '1'
     }, 50)
   })
 }

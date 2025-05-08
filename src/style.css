@@ -44,6 +44,8 @@ body {
   top: 0;
   left: 0;
   width: 100%;
+  height: 100px;
+  left: 200px;
   background-color: var(--primarycolor);
   padding: 0px 20px;
   z-index: 20;
@@ -51,6 +53,7 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  opacity: 0;
 }
 
 #nav-bar input.search-bar {
@@ -67,7 +70,7 @@ body {
   position: fixed;
   top: 0;
   left: 0;
-  width: 80px;
+  width: 120px;
   height: 100vh;
   background-color: var(--primarycolor);
   color: var(--thirdcolor);
@@ -76,9 +79,10 @@ body {
   align-items: center;
   padding-top: 20px;
   box-shadow: 2px 0 10px rgba(0, 0, 0, 0.3);
-  z-index: 10;
+  z-index: 300;
   transition: width 0.3s ease;
   justify-content: center;
+  opacity: 0;
 }
 
 .sidebar:hover {
@@ -141,6 +145,7 @@ body {
   justify-content: center;
   align-items: center;
   animation: fadeIn 2s ease;
+  height: 7000vh;
 }
 
 .welcome-card {
@@ -208,41 +213,91 @@ button:hover {
   background-color: rgba(255, 255, 255, 0.05);
 }
 
-
 .todolist-wrapper {
   display: grid;
-  top: 0;
-  left: 0;
   grid-template-columns: 1fr 1fr;
   gap: 15px;
   height: 100%;
   width: 100%;
-  justify-content: center;
-  align-items: center;
+  padding: 20px;
+  box-sizing: border-box;
 }
 
-.todolistDiv {
+.right-panel {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
   gap: 15px;
   height: 100%;
-  overflow: hidden;
-  background-color: rgba(255, 255, 255, 0.05);
-
+  width: 100%;
 }
 
 .recently-added-div {
+  flex: 1;
+  background-color: rgba(255, 255, 255, 0.05);
+  padding: 10px;
+  border-radius: 15px;
+}
+
+.Categories {
+  flex: 1;
+  background-color: rgba(255, 255, 255, 0.05);
+  padding: 10px;
+  border-radius: 15px;
+}
+ul {
   display: flex;
-  width: 100%;
-  height: 100%;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  overflow: hidden;
-  background-color: rgba(255, 255, 255, 0.05);
+  padding: 20px 40px;
+  max-height: 25vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+  background-color: var(--primarycolor);
+  border-radius: 15px;
+}
 
+ul::-webkit-scrollbar {
+  width: 8px;
+}
+
+ul::-webkit-scrollbar-thumb {
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+}
+
+.todo-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  min-height: 65px;
+  word-break: break-word;
+  padding: 10px 12px;
+  background-color: rgba(255, 255, 255, 0.05);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--thirdcolor);
+  margin: 12px 0px;
+  border-radius: 15px;
+  transition: background 0.3s ease;
+}
+
+.todo-item:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.close {
+  cursor: pointer;
+  transform: scale(1.5);
+  transition: transform 0.2s ease;
+}
+
+.close:hover {
+  color: var(--dangercolor);
+  transform: scale(3);
+}
+
+.checkboxes:hover {
+  cursor: pointer;
 }
 
 .todo-inputs {
@@ -314,65 +369,6 @@ button:hover {
 
 #todo-input:focus::placeholder {
   color: var(--secondarycolor);
-}
-
-ul {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  max-width: 60vh;
-  width: 100%;
-  padding: 20px 40px;
-  max-height: 50vh;
-  overflow-y: auto;
-  overflow-x: hidden;
-  margin: 20px 0;
-  background-color: var(--primarycolor);
-  border-radius: 15px;
-}
-
-ul::-webkit-scrollbar {
-  width: 8px;
-}
-
-ul::-webkit-scrollbar-thumb {
-  background-color: rgba(255, 255, 255, 0.2);
-  border-radius: 4px;
-}
-
-.todo-item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-  min-height: 75px;
-  word-break: break-word;
-  padding: 10px 12px;
-  background-color: rgba(255, 255, 255, 0.05);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-  color: var(--thirdcolor);
-  margin: 12px 0px;
-  border-radius: 15px;
-  transition: background 0.3s ease;
-}
-
-.todo-item:hover {
-  background: rgba(255, 255, 255, 0.1);
-}
-
-.close {
-  cursor: pointer;
-  transform: scale(1.5);
-  transition: transform 0.2s ease;
-}
-
-.close:hover {
-  color: var(--dangercolor);
-  transform: scale(3);
-}
-
-.checkboxes:hover {
-  cursor: pointer;
 }
 
 #overdue-message {
