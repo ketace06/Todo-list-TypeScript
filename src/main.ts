@@ -7,6 +7,8 @@ export function initDomLoad() {
   document.addEventListener('DOMContentLoaded', initializeApp)
 }
 
+initDomLoad()
+
 function initializeApp() {
   updateTodosDisplay()
   fetchApi()
@@ -31,7 +33,6 @@ function setupEventListeners({
   todoInputElement.addEventListener('keydown', handleEnterKeyPress)
 
   startButton.addEventListener('click', exitMainPage)
-  console.log("test")
   todoAddElement.addEventListener('click', addTodo)
 
   if (deleteAllTasks) {
