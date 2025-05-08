@@ -9,42 +9,38 @@
     <title>Your ToDo List</title>
   </head>
   <body>
-    <section id="home">
-      <div id="sidebar" class="sidebar">
-        <ul>
-          <li id="home-link"></li>
-          <li id="overview-link"></li>
-          <li id="calendar-link"></li>
-        </ul>
+    <div id="sidebar" class="sidebar">
+      <ul>
+        <li id="home-link"></li>
+        <li id="overview-link"></li>
+        <li id="calendar-link"></li>
+      </ul>
+    </div>
+
+      <div id="welcome-screen" class="welcome-screen">
+      <div class="welcome-card">
+        <h1>✨ Welcome to your ToDo List ✨</h1>
+        <p>Organize your days efficiently.</p>
+        <button id="start-button">Click here</button>
       </div>
-  
-        <div id="welcome-screen" class="welcome-screen">
-        <div class="welcome-card">
-          <h1>✨ Welcome to your ToDo List ✨</h1>
-          <p>Organize your days efficiently.</p>
-          <button id="start-button">Click here</button>
+    </div>
+    <main id="app" class="todolist">        
+      <div class="todolistDiv">
+        <h1 id="curHrText">this h1 show the text based on js hour</h1>
+        <div class="todo-inputs">
+          <textarea name="todo-text" id="todo-input" placeholder="What will you do?" autocomplete="off"></textarea>
+          <p id="letter-count">Letters: 0 / 200</p>
+          <input type="date" id="todo-due-date">
+          <p id="todo-creation-error"></p>
+        </div>        
+        <ul id="todo-item"></ul>
+        <div class="todo-actions">
+          <button id="add-todo-button">Add</button>
+          <button id="delete-all">Clear your tasks</button>
         </div>
       </div>
-      <main id="app" class="todolist">        
-        <div class="todolistDiv">
-          <h1 id="curHrText">this h1 show the text based on js hour</h1>
-          <div class="todo-inputs">
-            <textarea name="todo-text" id="todo-input" placeholder="What will you do?" autocomplete="off"></textarea>
-            <p id="letter-count">Letters: 0 / 200</p>
-            <input type="date" id="todo-due-date">
-            <p id="todo-creation-error"></p>
-  
-          </div>        
-          <ul id="todo-item"></ul>
-  
-          <div class="todo-actions">
-            <button id="add-todo-button">Add</button>
-            <button id="delete-all">Clear your tasks</button>
-          </div>
-        </div>
-      </main>
-    </section>
-    <p id="overdue-message">⚠️ Warning: One or more tasks are overdue!</p>
-    <script type="module" src="/src/main.ts"></script>
-  </body>
+    </main>
+  <p id="overdue-message">⚠️ Warning: One or more tasks are overdue!</p>
+  <script type="module" src="/src/main.ts"></script>
+</body>
 </html>

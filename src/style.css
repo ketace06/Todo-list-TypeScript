@@ -28,7 +28,7 @@ p {
   font-family: var(--fontalt);
 }
 
-#home {
+body {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -197,7 +197,7 @@ button:hover {
   align-items: center;
   justify-content: flex-start;
   gap: 15px;
-  transform: translateX(-20vw);
+  transform: translateX(0vw);
 }
 
 #curHrText {
