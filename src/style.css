@@ -28,7 +28,7 @@ p {
   font-family: var(--fontalt);
 }
 
-#home {
+body {
   display: flex;
   justify-content: center;
   align-items: center;
