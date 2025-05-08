@@ -5,7 +5,7 @@ import { updateTodosDisplay } from './ui'
 const API_URL = 'https://api.todos.in.jt-lab.ch/todos'
 export let todos: Todo[] = []
 
-async function handleApiError(response: Response): Promise<void> {
+function handleApiError(response: Response) {
   if (!response.ok) {
     throw new Error(`Error: ${response.statusText}`)
   }
