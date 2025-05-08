@@ -9,6 +9,12 @@
     <title>Your ToDo List</title>
   </head>
   <body>
+    <div id="nav-bar">
+      <ul>
+        <input type="text" class="search-bar" placeholder="Search for something..">
+      </ul>
+    </div>
+  
     <div id="sidebar" class="sidebar">
       <ul>
         <li id="home-link"></li>
@@ -16,15 +22,16 @@
         <li id="calendar-link"></li>
       </ul>
     </div>
-
-      <div id="welcome-screen" class="welcome-screen">
+  
+    <div id="welcome-screen" class="welcome-screen">
       <div class="welcome-card">
-        <h1>✨ Welcome to your ToDo List ✨</h1>
+        <h1>Welcome back, User 👋</h1>
         <p>Organize your days efficiently.</p>
         <button id="start-button">Click here</button>
       </div>
     </div>
-    <main id="app" class="todolist">        
+  
+    <main id="app" class="todolist">
       <div class="todolistDiv">
         <h1 id="curHrText">this h1 show the text based on js hour</h1>
         <div class="todo-inputs">
@@ -40,7 +47,7 @@
         </div>
       </div>
     </main>
-  <p id="overdue-message">⚠️ Warning: One or more tasks are overdue!</p>
-  <script type="module" src="/src/main.ts"></script>
-</body>
-</html>
+    <p id="overdue-message">⚠️ Warning: One or more tasks are overdue!</p>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>  

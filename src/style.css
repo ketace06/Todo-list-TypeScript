@@ -41,6 +41,34 @@ body {
   height: 100vh;
 }
 
+#nav-bar {
+  position: fixed;
+  flex-direction: row;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: var(--primarycolor);
+  padding: 10px 20px;
+  z-index: 20;
+  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.3);
+}
+
+#nav-bar ul {
+  display: flex;
+
+}
+
+#nav-bar input.search-bar {
+  padding: 5px 10px;
+  border-radius: 5px;
+  border: 1px solid var(--secondarycolor);
+  background-color: var(--thirdcolor);
+  color: var(--primarycolor);
+  font-size: 1rem;
+  width: 250px;
+}
+
+
 .sidebar {
   position: fixed;
   top: 0;
