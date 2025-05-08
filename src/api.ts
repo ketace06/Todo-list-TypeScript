@@ -62,7 +62,7 @@ export async function addTodo() {
       console.error(
         error instanceof Error
           ? error.message
-          : 'Une erreur inconnue est survenue',
+          : 'An error has occurred while adding todos',
       )
     }
   }
