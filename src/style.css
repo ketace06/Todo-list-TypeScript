@@ -215,7 +215,7 @@ button:hover {
 .todolist-wrapper {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 40px;
+  gap: 20px;
   height: 100%;
   width: 100%;
   padding: 20px;
@@ -262,6 +262,7 @@ button:hover {
   font-weight: bold;
   border-radius: 20px;
   box-shadow: 0 70px 10px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
 }
 
 ul {
