@@ -37,7 +37,8 @@ export async function addTodo() {
   const { todoInputElement, errorMessageP, dueDateInput, todayDateOnly } =
     getDomElements()
   const todoText = todoInputElement.value.trim()
-  const newTodo: TodoInsert = { title: todoText, done: false }
+  const newTodo: TodoInsert = { title: todoText, done: false, due_date: dueDateInput.value}
+  
 
   resetInputStyles()
 
