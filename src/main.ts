@@ -83,7 +83,7 @@ function disableButtonTemporarily(button: HTMLButtonElement) {
   button.disabled = true
   setTimeout(() => {
     button.disabled = false
-  }, 1600)
+  }, 1000)
 }
 
 function updateWelcomeMessage() {
