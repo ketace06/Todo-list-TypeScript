@@ -34,11 +34,15 @@ function fadeOutWelcomeScreen(
 
   setTimeout(() => {
     welcomeScreen.remove()
-    displayApp(app, sidebar, navBar)
+    displayApp(app, sidebar, navBar,)
   }, 2000)
 }
 
-function displayApp(app: HTMLElement, sidebar: HTMLDivElement, navBar: HTMLDivElement) {
+function displayApp(
+  app: HTMLElement,
+  sidebar: HTMLDivElement,
+  navBar: HTMLDivElement,
+) {
   requestAnimationFrame(() => {
     setTimeout(() => {
       app.style.display = 'block'
