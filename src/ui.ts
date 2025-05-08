@@ -55,6 +55,7 @@ export function updateTodosDisplay() {
     dueDateInput,
     errorMessageP,
     overdueMessage,
+    todoInputElement,
   } = getDomElements()
 
   clearTodoContainer(
@@ -62,6 +63,7 @@ export function updateTodosDisplay() {
     letterCountElement,
     dueDateInput,
     errorMessageP,
+    todoInputElement,
   )
 
   if (todos.length === 0) {
@@ -87,12 +89,14 @@ function clearTodoContainer(
   letterCountElement: HTMLParagraphElement,
   dueDateInput: HTMLInputElement,
   errorMessageP: HTMLParagraphElement,
+  todoInputElement: HTMLInputElement,
 ) {
   todoContainer.innerHTML = ''
   letterCountElement.textContent = 'Letters: 0 / 200'
   dueDateInput.style.borderColor = '#ccc'
   dueDateInput.value = ''
   errorMessageP.innerText = ''
+  todoInputElement.value = ''
 }
 
 function createTodoElement(todo: Todo) {
@@ -137,37 +141,44 @@ function updateTodoStatus(todo: Todo) {
     .catch(console.error)
 }
 function styleDueDate(todo: Todo, dueDateNode: HTMLSpanElement) {
-  const dueDate = todo.due_date ? new Date(todo.due_date) : null;
-  if (!dueDate) return;
+  const dueDate = todo.due_date ? new Date(todo.due_date) : null
+  if (!dueDate) return
 
-  const today = new Date();
-  const todayDateOnly = new Date(today.getFullYear(), today.getMonth(), today.getDate());
-  const fourDays = new Date(todayDateOnly);
-  fourDays.setDate(fourDays.getDate() + 4);
+  const today = new Date()
+  const todayDateOnly = new Date(
+    today.getFullYear(),
+    today.getMonth(),
+    today.getDate(),
+  )
+  const fourDays = new Date(todayDateOnly)
+  fourDays.setDate(fourDays.getDate() + 4)
 
-  const dueOnly = new Date(dueDate.getFullYear(), dueDate.getMonth(), dueDate.getDate());
+  const dueOnly = new Date(
+    dueDate.getFullYear(),
+    dueDate.getMonth(),
+    dueDate.getDate(),
+  )
 
   if (dueOnly.getTime() === todayDateOnly.getTime()) {
-    dueDateNode.style.color = '#FFAC1C';
+    dueDateNode.style.color = '#FFAC1C'
   } else if (
     dueOnly.getTime() > todayDateOnly.getTime() &&
     dueOnly.getTime() <= fourDays.getTime()
   ) {
-    dueDateNode.style.color = '#FFEA00';
+    dueDateNode.style.color = '#FFEA00'
   } else if (dueOnly.getTime() > fourDays.getTime()) {
-    dueDateNode.style.color = '#228B22';
+    dueDateNode.style.color = '#228B22'
   } else {
-    dueDateNode.style.color = '#FF6B6B';
+    dueDateNode.style.color = '#FF6B6B'
   }
 }
 
-
 function isOverdue(todo: Todo) {
-  if (!todo.due_date) return false;
-  const due = new Date(todo.due_date);
-  const todayOnly = new Date();
-  todayOnly.setHours(0, 0, 0, 0);
-  return due < todayOnly;
+  if (!todo.due_date) return false
+  const due = new Date(todo.due_date)
+  const todayOnly = new Date()
+  todayOnly.setHours(0, 0, 0, 0)
+  return due < todayOnly
 }
 
 function toggleOverdueMessage(

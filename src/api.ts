@@ -37,8 +37,11 @@ export async function addTodo() {
   const { todoInputElement, errorMessageP, dueDateInput, todayDateOnly } =
     getDomElements()
   const todoText = todoInputElement.value.trim()
-  const newTodo: TodoInsert = { title: todoText, done: false, due_date: dueDateInput.value}
-  
+
+  const newTodo: TodoInsert = { title: todoText, done: false }
+  if (dueDateInput.value) {
+    newTodo.due_date = dueDateInput.value
+  }
 
   resetInputStyles()
 
@@ -52,12 +55,14 @@ export async function addTodo() {
         },
         body: JSON.stringify(newTodo),
       })
-
       await handleApiError(response)
+
       await fetchApi()
     } catch (error) {
       console.error(
-        error instanceof Error ? error.message : 'An unknown error occurred',
+        error instanceof Error
+          ? error.message
+          : 'Une erreur inconnue est survenue',
       )
     }
   }

@@ -30,7 +30,7 @@ function setupEventListeners({
     'input',
     updateLetterCount(letterCountElement),
   )
-  todoInputElement.addEventListener('keydown', handleEnterKeyPress)
+  todoInputElement.addEventListener('keydown', handleEnterKeyPress())
 
   startButton.addEventListener('click', exitMainPage)
   todoAddElement.addEventListener('click', addTodo)
