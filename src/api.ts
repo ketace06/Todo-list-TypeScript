@@ -33,6 +33,11 @@ export async function fetchApi() {
   updateTodosDisplay()
 }
 
+function removePopup() {
+  const { newTodoPopUp } = getDomElements()
+  newTodoPopUp.style.display = 'none'
+}
+
 export async function addTodo() {
   const { todoInputElement, errorMessageP, dueDateInput, todayDateOnly } =
     getDomElements()
@@ -44,6 +49,7 @@ export async function addTodo() {
   }
 
   resetInputStyles()
+  removePopup()
 
   if (isValidTodoInput(todoText, errorMessageP, dueDateInput, todayDateOnly)) {
     try {
@@ -105,6 +111,7 @@ export async function deleteTasks() {
 
     await handleApiError(response)
     updateTodosDisplay()
+    removePopup()
   } catch (error) {
     console.error(
       error instanceof Error ? error.message : 'An unknown error occurred',

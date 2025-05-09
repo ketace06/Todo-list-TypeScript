@@ -24,6 +24,24 @@ export function exitMainPage() {
   }, 1000)
 }
 
+function setupAddNewTaskButton() {
+  const { addNewTaskButton, newTodoPopUp } = getDomElements()
+  addNewTaskButton.addEventListener('click', () => {
+    if (newTodoPopUp) {
+      newTodoPopUp.style.display = 'flex'
+    }
+  })
+}
+setupAddNewTaskButton()
+export function removeAddNewTaskButton() {
+  const { newTodoPopUp, newTodoCloseButton } = getDomElements()
+
+  newTodoCloseButton.addEventListener('click', () => {
+    newTodoPopUp.style.display = 'none'
+  })
+}
+removeAddNewTaskButton()
+
 function fadeOutWelcomeScreen(
   welcomeScreen: HTMLElement,
   app: HTMLElement,

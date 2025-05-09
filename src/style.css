@@ -229,34 +229,32 @@ button:hover {
 .left-panel {
   display: flex;
   flex-direction: column;
+  justify-content: start;
   gap: 15px;
   background-color: var(--divcolor);
   border-radius: 20px;
   padding: 30px;
 }
-.new-todo-pop-up {
+
+#new-todo-pop-up {
   display: none;
   position: fixed;
-  top: 50;
-  left: 50;
+  top: 30%;
   flex-direction: column;
   align-items: center;
   z-index: 40;
   background-color: var(--divcolor);
-  padding: 50px 40px;
-  border-radius: 20px;
+  border-radius: 20% 0;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
   animation: slideUp 0.5s ease;
+  transition: transform 0.3s ease;
+  padding: 80px 40px;
 }
 
 .right-panel {
   display: flex;
   flex-direction: column;
   gap: 15px;
-}
-
-.recently-added-div {
-  background-color: var(--divcolor);
 }
 
 .task-status {
@@ -313,7 +311,7 @@ ul {
   flex-direction: column;
   align-items: center;
   padding: 20px 40px;
-  max-height: 25vh;
+  max-height: 50vh;
   overflow-y: auto;
   overflow-x: hidden;
   border-radius: 15px;
@@ -333,11 +331,10 @@ ul::-webkit-scrollbar-thumb {
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  min-height: 65px;
-  word-break: break-word;
+  min-height: 100px;
+  height: 100%;
   padding: 10px 25px;
   background-color: var(--secondarycolor);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   color: var(--whitecolor);
   margin: 12px 0px;
   border-radius: 15px;
@@ -346,6 +343,29 @@ ul::-webkit-scrollbar-thumb {
 
 .todo-item:hover {
   background: rgba(255, 255, 255, 0.1);
+  cursor: pointer;
+}
+#close-todo-popup {
+  top: 20px;
+  right: 20px;
+  cursor: pointer;
+  transform: scale(1.5);
+  transition: transform 0.2s ease, background-color 0.2s ease;
+  width: 40px;
+  height: 20px;
+  background: var(--errorcolor);
+  color: white;
+  font-weight: bold;
+  font-size: 14px;
+  line-height: 20px;
+  text-align: center;
+  border-radius: 3px;
+  box-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
+  position: absolute;
+}
+
+#close-todo-popup:hover {
+  background-color: #c50f1f;
 }
 
 .close {

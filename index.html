@@ -27,7 +27,8 @@
         <button id="start-button">Click here</button>
       </div>
     </div>
-    <div class="new-todo-pop-up">
+    <div id="new-todo-pop-up">
+      <span id="close-todo-popup">×</span>
       <div class="todo-inputs">
         <textarea name="todo-text" id="todo-input" placeholder="What will you do?" autocomplete="off"></textarea>
         <p id="letter-count">Letters: 0 / 200</p>
@@ -43,9 +44,8 @@
       <div class="todolist-dashboard-wrapper">
         <div class="left-panel">
           <h2>Recently Added</h2>
-          <div class="recently-added-div">
-            <ul id="todo-item"></ul>
-          </div>
+          <button id="button-popup-new-todo">Add new task</button>
+          <ul id="todo-item"></ul>
         </div>
         <div class="right-panel">
           <div class="task-status">

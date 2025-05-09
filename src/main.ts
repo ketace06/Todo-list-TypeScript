@@ -6,13 +6,11 @@ import { exitMainPage, updateTodosDisplay } from './ui.ts'
 export function initDomLoad() {
   document.addEventListener('DOMContentLoaded', initializeApp)
 }
-
 initDomLoad()
 
 function initializeApp() {
   updateTodosDisplay()
   fetchApi()
-
   const domElements = getDomElements()
 
   setupEventListeners(domElements)

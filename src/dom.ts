@@ -14,6 +14,13 @@ export function getDomElements() {
     navBar: document.getElementById('nav-bar') as HTMLDivElement,
     todoContainer: document.getElementById('todo-item') as HTMLElement,
     dueDateInput: document.getElementById('todo-due-date') as HTMLInputElement,
+    newTodoPopUp: document.getElementById('new-todo-pop-up') as HTMLDivElement,
+    newTodoCloseButton: document.getElementById(
+      'close-todo-popup',
+    ) as HTMLSpanElement,
+    addNewTaskButton: document.getElementById(
+      'button-popup-new-todo',
+    ) as HTMLButtonElement,
     errorMessageP: document.getElementById(
       'todo-creation-error',
     ) as HTMLParagraphElement,
