@@ -133,6 +133,32 @@ export async function fetchCategories() {
   }
 }
 
+export async function addCategory() {
+  const { colorInput, newCategoryInput } = getDomElements();
+
+  const categoryData = {
+    title: newCategoryInput.value.trim(),
+    color: colorInput.value.trim()
+  };
+
+  try {
+    const response = await fetch(API_URL_CATEGORY, {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(categoryData)
+    });
+
+    if (!response.ok) {
+      throw new Error('Erreur while add category');
+    }
+  } catch (error) {
+    console.error('Error:', error);
+  }
+}
+
 
 function resetInputStyles() {
   const { errorMessageP, todoInputElement, dueDateInput } = getDomElements()

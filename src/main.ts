@@ -1,5 +1,5 @@
 import './style.css'
-import { addTodo, deleteTasks, fetchApi, fetchCategories} from './api.ts'
+import { addTodo, deleteTasks, fetchApi, fetchCategories, addCategory } from './api.ts'
 import { getDomElements } from './dom.ts'
 import { exitMainPage, updateTodosDisplay } from './ui.ts'
 
@@ -24,6 +24,7 @@ function setupEventListeners({
   todoInputElement,
   deleteAllTasks,
   letterCountElement,
+  addCategoryButton,
 }: ReturnType<typeof getDomElements>) {
   todoInputElement.addEventListener(
     'input',
@@ -33,6 +34,8 @@ function setupEventListeners({
 
   startButton.addEventListener('click', exitMainPage)
   todoAddElement.addEventListener('click', addTodo)
+  addCategoryButton.addEventListener('click', addCategory)
+  
 
   if (deleteAllTasks) {
     deleteAllTasks.addEventListener('click', deleteTasks)
