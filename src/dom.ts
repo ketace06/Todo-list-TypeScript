@@ -26,7 +26,7 @@ export function getDomElements() {
       'new-category-name',
     ) as HTMLInputElement,
     categoriesList: document.getElementById(
-      'categories-list',
+      'categories-todo',
     ) as HTMLUListElement,
     noCategoryText: document.getElementById('no-category-text') as HTMLElement,
     colorInput: document.getElementById('color-input') as HTMLInputElement,

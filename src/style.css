@@ -283,7 +283,7 @@ button:hover {
   padding: 30px;
   border-radius: 15px;
 }
-.categories-todo {
+#categories-todo {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
   gap: 16px;
@@ -291,9 +291,10 @@ button:hover {
   padding: 0;
 }
 
-.categories-todo li {
+#categories-todo li {
   background-color: var(--secondarycolor);
-  aspect-ratio: 1 / 1;
+  width: 100px;
+  height: 100px;
   display: flex;
   align-items: center;
   justify-content: center;

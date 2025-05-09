@@ -3,7 +3,7 @@ import type { CategoryInsert, Todo, TodoInsert } from './types'
 import { updateTodosDisplay } from './ui'
 
 const API_URL = 'https://api.todos.in.jt-lab.ch/todos'
-const API_URL_CATEGORY = "https://api.todos.in.jt-lab.ch/categories"
+const API_URL_CATEGORY = 'https://api.todos.in.jt-lab.ch/categories'
 export let todos: Todo[] = []
 
 function handleApiError(response: Response) {
@@ -113,6 +113,12 @@ export async function deleteTasks() {
   }
 }
 export async function fetchCategories() {
+  const { categoriesList } = getDomElements()
+
+  if (categoriesList) {
+    const li = document.createElement('li')
+    li.classList.add('li')
+  }
 
   try {
     const response = await fetch(API_URL_CATEGORY, {
@@ -121,44 +127,56 @@ export async function fetchCategories() {
         Accept: 'application/json',
         'Content-Type': 'application/json',
       },
-    });
-    await handleApiError(response);
+    })
+    await handleApiError(response)
 
-    const categories = await response.json();
-    return categories;
+    const categories = await response.json()
+    return categories
   } catch (error) {
     console.error(
-      error instanceof Error ? error.message : 'An error occurred while fetching categories.'
-    );
+      error instanceof Error
+        ? error.message
+        : 'An error occurred while fetching categories.',
+    )
   }
 }
-
 export async function addCategory() {
-  const { colorInput, newCategoryInput } = getDomElements();
+  const { colorInput, newCategoryInput, categoriesList } = getDomElements()
 
-  const categoryData = {
-    title: newCategoryInput.value.trim(),
-    color: colorInput.value.trim()
-  };
+  const title = newCategoryInput.value.trim()
+  const color = colorInput.value.trim()
 
+  if (!title || !color) {
+    console.warn('Title or color is empty')
+    return
+  }
+
+  const newCategory: CategoryInsert = {
+    title,
+    color,
+  }
+  if (categoriesList) {
+    const li = document.createElement('li')
+    li.classList.add('li')
+    categoriesList.appendChild(li)
+  }
   try {
     const response = await fetch(API_URL_CATEGORY, {
       method: 'POST',
       headers: {
         Accept: 'application/json',
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
       },
-      body: JSON.stringify(categoryData)
-    });
+      body: JSON.stringify(newCategory),
+    })
 
     if (!response.ok) {
-      throw new Error('Erreur while add category');
+      throw new Error('Error while adding category')
     }
   } catch (error) {
-    console.error('Error:', error);
+    console.error('Error:', error)
   }
 }
-
 
 function resetInputStyles() {
   const { errorMessageP, todoInputElement, dueDateInput } = getDomElements()
