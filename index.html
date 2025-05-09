@@ -11,7 +11,8 @@
   <body>
     <div id="nav-bar">
       <h1 id="curHrText">this h1 shows the text based on js hour</h1>
-     <input type="text" class="search-bar" placeholder="Search for something..">
+      <input type="text" class="search-bar" placeholder="Search for something..">
+      <button id="search-button">🔍</button>
     </div>
     <div id="sidebar" class="sidebar">
       <ul>
@@ -65,13 +66,17 @@
           </div>
           <div class="categories">
             <h2>Categories</h2>
-            <ul class="categories-todo">
-              <li>1</li>
-              <li>2</li>
-              <li>3</li>
-              <li>4</li>
+            <ul class="categories-todo" id="categories-list">
             </ul>
+            <h3 id="no-category-text">You haven't made any categories</h3>
+            <button id="create-categories">Click here to create categories</button>
+            <div id="category-popup" style="display: none; margin-top: 10px;">
+              <input type="text" id="new-category-name" placeholder="Enter category name">
+              <input type="color" id="color-input" name="head" value="#e66465" />             
+              <button id="add-category-button">Add Category</button>
+            </div>
           </div>
+          
         </div>
       </div>
     </div>

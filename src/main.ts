@@ -1,5 +1,5 @@
 import './style.css'
-import { addTodo, deleteTasks, fetchApi } from './api.ts'
+import { addTodo, deleteTasks, fetchApi, fetchCategories} from './api.ts'
 import { getDomElements } from './dom.ts'
 import { exitMainPage, updateTodosDisplay } from './ui.ts'
 
@@ -11,6 +11,7 @@ initDomLoad()
 function initializeApp() {
   updateTodosDisplay()
   fetchApi()
+  fetchCategories()
   const domElements = getDomElements()
 
   setupEventListeners(domElements)

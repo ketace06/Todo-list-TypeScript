@@ -1,8 +1,9 @@
 import { getDomElements } from './dom'
-import type { Todo, TodoInsert } from './types'
+import type { CategoryInsert, Todo, TodoInsert } from './types'
 import { updateTodosDisplay } from './ui'
 
 const API_URL = 'https://api.todos.in.jt-lab.ch/todos'
+const API_URL_CATEGORY = "https://api.todos.in.jt-lab.ch/categories"
 export let todos: Todo[] = []
 
 function handleApiError(response: Response) {
@@ -33,11 +34,6 @@ export async function fetchApi() {
   updateTodosDisplay()
 }
 
-function removePopup() {
-  const { newTodoPopUp } = getDomElements()
-  newTodoPopUp.style.display = 'none'
-}
-
 export async function addTodo() {
   const { todoInputElement, errorMessageP, dueDateInput, todayDateOnly } =
     getDomElements()
@@ -49,7 +45,6 @@ export async function addTodo() {
   }
 
   resetInputStyles()
-  removePopup()
 
   if (isValidTodoInput(todoText, errorMessageP, dueDateInput, todayDateOnly)) {
     try {
@@ -111,19 +106,41 @@ export async function deleteTasks() {
 
     await handleApiError(response)
     updateTodosDisplay()
-    removePopup()
   } catch (error) {
     console.error(
       error instanceof Error ? error.message : 'An unknown error occurred',
     )
   }
 }
+export async function fetchCategories() {
+
+  try {
+    const response = await fetch(API_URL_CATEGORY, {
+      method: 'GET',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+    });
+    await handleApiError(response);
+
+    const categories = await response.json();
+    return categories;
+  } catch (error) {
+    console.error(
+      error instanceof Error ? error.message : 'An error occurred while fetching categories.'
+    );
+  }
+}
+
 
 function resetInputStyles() {
   const { errorMessageP, todoInputElement, dueDateInput } = getDomElements()
   errorMessageP.innerText = ''
   todoInputElement.style.borderColor = '#ccc'
   dueDateInput.style.borderColor = '#ccc'
+  const { newTodoPopUp } = getDomElements()
+  newTodoPopUp.style.display = 'none'
 }
 
 function isValidTodoInput(

@@ -15,6 +15,21 @@ export function getDomElements() {
     todoContainer: document.getElementById('todo-item') as HTMLElement,
     dueDateInput: document.getElementById('todo-due-date') as HTMLInputElement,
     newTodoPopUp: document.getElementById('new-todo-pop-up') as HTMLDivElement,
+    createCategoryBtn: document.getElementById(
+      'create-categories',
+    ) as HTMLButtonElement,
+    categoryPopup: document.getElementById('category-popup') as HTMLDivElement,
+    addCategoryButton: document.getElementById(
+      'add-category-button',
+    ) as HTMLButtonElement,
+    newCategoryInput: document.getElementById(
+      'new-category-name',
+    ) as HTMLInputElement,
+    categoriesList: document.getElementById(
+      'categories-list',
+    ) as HTMLUListElement,
+    noCategoryText: document.getElementById('no-category-text') as HTMLElement,
+    colorInput: document.getElementById('color-input') as HTMLInputElement,
     newTodoCloseButton: document.getElementById(
       'close-todo-popup',
     ) as HTMLSpanElement,
