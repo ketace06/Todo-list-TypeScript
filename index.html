@@ -10,19 +10,16 @@
   </head>
   <body>
     <div id="nav-bar">
-      <ul>
-        <input type="text" class="search-bar" placeholder="Search for something..">
-      </ul>
+      <h1 id="curHrText">this h1 shows the text based on js hour</h1>
+     <input type="text" class="search-bar" placeholder="Search for something..">
     </div>
-
     <div id="sidebar" class="sidebar">
       <ul>
-        <li id="home-link"></li>
+        <li id="dashboard-link"></li>
         <li id="overview-link"></li>
         <li id="calendar-link"></li>
       </ul>
     </div>
-
     <div id="welcome-screen" class="welcome-screen">
       <div class="welcome-card">
         <h1>Welcome back, User 👋</h1>
@@ -30,29 +27,43 @@
         <button id="start-button">Click here</button>
       </div>
     </div>
+    <div class="new-todo-pop-up">
+      <div class="todo-inputs">
+        <textarea name="todo-text" id="todo-input" placeholder="What will you do?" autocomplete="off"></textarea>
+        <p id="letter-count">Letters: 0 / 200</p>
+        <input type="date" id="todo-due-date">
+        <p id="todo-creation-error"></p>
+      </div>        
+      <div class="todo-actions">
+        <button id="add-todo-button">Add</button>
+        <button id="delete-all">Clear your tasks</button>
+      </div>
+    </div>
     <main id="app" class="todolist">      
-      <div class="todolist-wrapper">
-        
-        <div class="todolistDiv">
-          <h1 id="curHrText">this h1 shows the text based on js hour</h1>
-          <div class="todo-inputs">
-            <textarea name="todo-text" id="todo-input" placeholder="What will you do?" autocomplete="off"></textarea>
-            <p id="letter-count">Letters: 0 / 200</p>
-            <input type="date" id="todo-due-date">
-            <p id="todo-creation-error"></p>
-          </div>        
-          <div class="todo-actions">
-            <button id="add-todo-button">Add</button>
-            <button id="delete-all">Clear your tasks</button>
-          </div>
-        </div>
-    
-        <div class="right-panel">
+      <div class="todolist-dashboard-wrapper">
+        <div class="left-panel">
+          <h2>Recently Added</h2>
           <div class="recently-added-div">
-            <h2>Recently Added</h2>
             <ul id="todo-item"></ul>
           </div>
-          <div class="Categories">
+        </div>
+        <div class="right-panel">
+          <div class="task-status">
+            <h2>Task status</h2>
+            <div class="task-status-circles">
+              <div class="circular-progress" data-inner-circle-color="lightgrey" data-percentage="80" data-progress-color="crimson" data-bg-color="black">
+                <div class="inner-circle"></div>
+                <p class="percentage">0%</p>
+                <h2>Done</h2>
+              </div>
+              <div class="circular-progress" data-inner-circle-color="lightgrey" data-percentage="80" data-progress-color="crimson" data-bg-color="black">
+                <div class="inner-circle"></div>
+                <p class="percentage">0%</p>
+                <h2>Not Done</h2>
+              </div>
+            </div>
+          </div>
+          <div class="categories">
             <h2>Categories</h2>
             <ul class="categories-todo">
               <li>1</li>
@@ -62,13 +73,9 @@
             </ul>
           </div>
         </div>
-    
       </div>
     </main>
-    
-
     <p id="overdue-message">⚠️ Warning: One or more tasks are overdue!</p>
-    
     <script type="module" src="/src/main.ts"></script>
   </body>
 </html>

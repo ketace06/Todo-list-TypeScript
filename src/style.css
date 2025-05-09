@@ -8,9 +8,12 @@ body {
 }
 
 :root {
-  --primarycolor: #1f1f1f;
+  --softblackcolor: #333333;
+  --divcolor: #3b393a;
+  --primarycolor: #1e1e1e;
   --secondarycolor: #2c2c2e;
-  --thirdcolor: #f0f0f0;
+  --thirdcolor: #c0c3bc;
+  --whitecolor: #f0f0f0;
   --successcolor: #34d399;
   --warningcolor: #fbbf24;
   --dangercolor: #ef4444;
@@ -26,13 +29,18 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  background: radial-gradient(circle at top left, #1f1f1f, #121212);
-  color: var(--thirdcolor);
+  background-color: var(--softblackcolor);
+  color: var(--whitecolor);
   font-family: var(--fontmain);
   flex-direction: column;
   box-sizing: border-box;
   width: 100%;
   height: 100vh;
+}
+
+h1,
+h2 {
+  font-size: 10;
 }
 
 #nav-bar {
@@ -41,9 +49,7 @@ body {
   left: 0;
   width: 100%;
   height: 100px;
-  left: 200px;
   background-color: var(--primarycolor);
-  border-radius: 15px;
   padding: 0px 20px;
   z-index: 20;
   box-shadow: 2px 0 10px rgba(0, 0, 0, 0.3);
@@ -51,13 +57,14 @@ body {
   justify-content: space-between;
   align-items: center;
   opacity: 0;
+  padding: 0 40px;
 }
 
 #nav-bar input.search-bar {
   padding: 8px 12px;
   border-radius: 5px;
   border: 1px solid var(--secondarycolor);
-  background-color: var(--thirdcolor);
+  background-color: var(--whitecolor);
   color: var(--primarycolor);
   font-size: 1rem;
   width: 300px;
@@ -65,12 +72,13 @@ body {
 
 .sidebar {
   position: fixed;
-  top: 0;
+  top: 130px;
+  border-radius: 0% 70% 70% 0%;
   left: 0;
   width: 120px;
-  height: 100vh;
+  height: 83vh;
   background-color: var(--primarycolor);
-  color: var(--thirdcolor);
+  color: var(--whitecolor);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -78,7 +86,6 @@ body {
   box-shadow: 2px 0 10px rgba(0, 0, 0, 0.3);
   z-index: 300;
   transition: width 0.3s ease;
-  justify-content: center;
   opacity: 0;
 }
 
@@ -90,7 +97,9 @@ body {
   list-style-type: none;
   padding: 0;
   width: 100%;
-  text-align: center;
+  margin-top: 300px;
+  overflow: hidden;
+  border-radius: 0% 15% 15% 0%;
 }
 
 .sidebar ul li {
@@ -113,7 +122,7 @@ body {
   transition: content 0.3s ease;
 }
 
-#home-link::before {
+#dashboard-link::before {
   content: "🏠";
 }
 
@@ -125,7 +134,7 @@ body {
   content: "📅";
 }
 
-.sidebar:hover #home-link::before {
+.sidebar:hover #dashboard-link::before {
   content: "🏠 Home";
 }
 
@@ -150,7 +159,7 @@ body {
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  background: rgba(255, 255, 255, 0.1);
+  background: var(--divcolor);
   backdrop-filter: blur(10px);
   border-radius: 20px;
   padding: 40px;
@@ -168,17 +177,16 @@ button {
   border: none;
   border-radius: 12px;
   cursor: pointer;
-  background: var(--thirdcolor);
   color: black;
   transition: background 0.3s ease;
   background: var(--secondarycolor);
-  color: var(--thirdcolor);
+  color: var(--whitecolor);
   transform: scale(1.05);
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
 }
 
 button:hover {
-  background: var(--thirdcolor);
+  background: var(--whitecolor);
   color: var(--primarycolor);
 }
 
@@ -189,11 +197,7 @@ button:hover {
 }
 
 .start-button-fade {
-  background: linear-gradient(
-    270deg,
-    var(--successcolor),
-    var(--secondarycolor)
-  );
+  background: linear-gradient(270deg, var(--todaycolor), var(--secondarycolor));
   background-size: 600% 100%;
   animation: moveGradient 1s ease forwards;
   color: black;
@@ -209,23 +213,42 @@ button:hover {
   transition: opacity 1s ease, transform 1s ease;
   overflow: hidden;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+  background-color: var(--primarycolor);
   border-radius: 40px;
 }
 
-.todolist-wrapper {
+.todolist-dashboard-wrapper {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 20px;
   height: 100%;
   width: 100%;
-  padding: 20px;
+  padding: 24px;
   box-sizing: border-box;
 }
-.todolistDiv {
-  background-color: rgba(255, 255, 255, 0.05);
+.left-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  background-color: var(--divcolor);
   border-radius: 20px;
-  padding: 20px;
+  padding: 30px;
 }
+.new-todo-pop-up {
+  display: none;
+  position: fixed;
+  top: 50;
+  left: 50;
+  flex-direction: column;
+  align-items: center;
+  z-index: 40;
+  background-color: var(--divcolor);
+  padding: 50px 40px;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  animation: slideUp 0.5s ease;
+}
+
 .right-panel {
   display: flex;
   flex-direction: column;
@@ -233,16 +256,30 @@ button:hover {
 }
 
 .recently-added-div {
+  background-color: var(--divcolor);
+}
+
+.task-status {
   flex: 1;
-  background-color: rgba(255, 255, 255, 0.05);
-  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 70px;
+  background-color: var(--divcolor);
+  padding: 30px;
   border-radius: 15px;
 }
 
-.Categories {
+.task-status-circles {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 150px;
+}
+
+.categories {
   flex: 1;
-  background-color: rgba(255, 255, 255, 0.05);
-  padding: 20px;
+  background-color: var(--divcolor);
+  padding: 30px;
   border-radius: 15px;
 }
 .categories-todo {
@@ -263,6 +300,12 @@ button:hover {
   border-radius: 20px;
   box-shadow: 0 70px 10px rgba(0, 0, 0, 0.2);
   cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.categories-todo li:hover {
+  background-color: var(--thirdcolor);
+  color: var(--primarycolor);
 }
 
 ul {
@@ -273,7 +316,6 @@ ul {
   max-height: 25vh;
   overflow-y: auto;
   overflow-x: hidden;
-  background-color: var(--primarycolor);
   border-radius: 15px;
 }
 
@@ -293,10 +335,10 @@ ul::-webkit-scrollbar-thumb {
   width: 100%;
   min-height: 65px;
   word-break: break-word;
-  padding: 10px 12px;
-  background-color: rgba(255, 255, 255, 0.05);
+  padding: 10px 25px;
+  background-color: var(--secondarycolor);
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-  color: var(--thirdcolor);
+  color: var(--whitecolor);
   margin: 12px 0px;
   border-radius: 15px;
   transition: background 0.3s ease;
@@ -334,10 +376,7 @@ ul::-webkit-scrollbar-thumb {
 
 .todo-actions {
   display: flex;
-  gap: 16px;
-  justify-content: center;
-  flex-wrap: wrap;
-  margin-bottom: 40px;
+  gap: 25px;
 }
 
 .todolist.slide-in {
@@ -355,7 +394,7 @@ ul::-webkit-scrollbar-thumb {
 
 #todo-due-date {
   font-size: 1.7rem;
-  color: var(--secondarycolor);
+  color: var(--primarycolor);
   font-family: var(--fontalt);
   font-weight: 600;
   border-radius: 10px;
@@ -373,7 +412,7 @@ ul::-webkit-scrollbar-thumb {
   outline: none;
   resize: none;
   transition: width 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
-  background-color: white;
+  background-color: var(--whitecolor);
   font-family: var(--fontmain);
 }
 
@@ -398,7 +437,7 @@ ul::-webkit-scrollbar-thumb {
   left: 50vw;
   transform: translateX(800%);
   background-color: var(--errorcolor);
-  color: var(--thirdcolor);
+  color: var(--whitecolor);
   padding: 20px;
   border-radius: 15px;
   font-size: 1.5rem;
