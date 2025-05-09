@@ -116,30 +116,37 @@ export async function fetchCategories() {
   const { categoriesList } = getDomElements()
 
   if (categoriesList) {
-    const li = document.createElement('li')
-    li.classList.add('li')
-  }
+    categoriesList.innerHTML = ''
 
-  try {
-    const response = await fetch(API_URL_CATEGORY, {
-      method: 'GET',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-    })
-    await handleApiError(response)
+    try {
+      const response = await fetch(API_URL_CATEGORY, {
+        method: 'GET',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+      })
+      await handleApiError(response)
 
-    const categories = await response.json()
-    return categories
-  } catch (error) {
-    console.error(
-      error instanceof Error
-        ? error.message
-        : 'An error occurred while fetching categories.',
-    )
+      const categories = await response.json()
+
+      categories.forEach((category: { title: string, color: string }) => {
+        const li = document.createElement('li')
+        li.classList.add('li')
+        li.style.backgroundColor = category.color
+        li.textContent = category.title        
+        categoriesList.appendChild(li)
+      })
+    } catch (error) {
+      console.error(
+        error instanceof Error
+          ? error.message
+          : 'An error occurred while fetching categories.',
+      )
+    }
   }
 }
+
 export async function addCategory() {
   const { colorInput, newCategoryInput, categoriesList } = getDomElements()
 
@@ -155,11 +162,15 @@ export async function addCategory() {
     title,
     color,
   }
+
   if (categoriesList) {
     const li = document.createElement('li')
     li.classList.add('li')
+    li.style.backgroundColor = color
+    li.textContent = title            
     categoriesList.appendChild(li)
   }
+
   try {
     const response = await fetch(API_URL_CATEGORY, {
       method: 'POST',
