@@ -129,14 +129,15 @@ export async function fetchCategories() {
       await handleApiError(response)
 
       const categories = await response.json()
-
-      categories.forEach((category: { title: string, color: string }) => {
-        const li = document.createElement('li')
-        li.classList.add('li')
-        li.style.backgroundColor = category.color
-        li.textContent = category.title        
-        categoriesList.appendChild(li)
-      })
+      for (let i = 0; i < categories.length; i++) {
+        const category = categories[i];                    
+        const li = document.createElement('li');       
+        li.classList.add('li');                         
+        li.style.backgroundColor = category.color;        
+        li.textContent = category.title;               
+        categoriesList.appendChild(li);                  
+      }
+      
     } catch (error) {
       console.error(
         error instanceof Error
