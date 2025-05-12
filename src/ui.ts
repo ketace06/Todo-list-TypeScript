@@ -215,3 +215,19 @@ function toggleOverdueMessage(
     overdueMessage.classList.remove('show')
   }
 }
+
+function createCategory() {
+  const { createCategoryBtn, categoryPopup, newCategoryCloseButton } =
+    getDomElements()
+  createCategoryBtn.addEventListener('click', () => {
+    if (categoryPopup) {
+      categoryPopup.style.display = 'flex'
+    }
+  })
+  newCategoryCloseButton.addEventListener('click', () => {
+    if (categoryPopup.style.display === 'flex') {
+      categoryPopup.style.display = 'none'
+    }
+  })
+}
+createCategory()

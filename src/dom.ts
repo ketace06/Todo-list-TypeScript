@@ -14,16 +14,19 @@ export function getDomElements() {
     navBar: document.getElementById('nav-bar') as HTMLDivElement,
     todoContainer: document.getElementById('todo-item') as HTMLElement,
     dueDateInput: document.getElementById('todo-due-date') as HTMLInputElement,
-    newTodoPopUp: document.getElementById('new-todo-pop-up') as HTMLDivElement,
+    newTodoPopUp: document.getElementById('new-todo-popup') as HTMLDivElement,
     createCategoryBtn: document.getElementById(
       'create-categories',
     ) as HTMLButtonElement,
     categoryPopup: document.getElementById('category-popup') as HTMLDivElement,
+    categorySelect: document.getElementById(
+      'category-select',
+    ) as HTMLSelectElement,
     addCategoryButton: document.getElementById(
       'add-category-button',
     ) as HTMLButtonElement,
     newCategoryInput: document.getElementById(
-      'new-category-name',
+      'category-input',
     ) as HTMLInputElement,
     categoriesList: document.getElementById(
       'categories-todo',
@@ -32,6 +35,9 @@ export function getDomElements() {
     colorInput: document.getElementById('color-input') as HTMLInputElement,
     newTodoCloseButton: document.getElementById(
       'close-todo-popup',
+    ) as HTMLSpanElement,
+    newCategoryCloseButton: document.getElementById(
+      'close-category-popup',
     ) as HTMLSpanElement,
     addNewTaskButton: document.getElementById(
       'button-popup-new-todo',
@@ -44,6 +50,10 @@ export function getDomElements() {
     app: document.getElementById('app') as HTMLElement,
     sidebar: document.getElementById('sidebar') as HTMLDivElement,
     deleteAllTasks: document.getElementById('delete-all') as HTMLElement,
+    clearAllCategories: document.getElementById(
+      'clear-all-categories',
+    ) as HTMLElement,
+
     letterCountElement: document.getElementById(
       'letter-count',
     ) as HTMLParagraphElement,

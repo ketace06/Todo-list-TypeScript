@@ -52,10 +52,13 @@ h2 {
   z-index: 20;
   box-shadow: 2px 0 10px rgba(0, 0, 0, 0.3);
   display: flex;
-  justify-content: flex-start;
+  justify-content: space-between;
   align-items: center;
   opacity: 0;
-  padding: 0 150px;
+}
+
+#curHrText {
+  margin-left: 100px;
 }
 
 #nav-bar input.search-bar {
@@ -70,7 +73,8 @@ h2 {
 }
 
 #search-button {
-  margin-left: 10px;
+  margin-left: 55px;
+  margin-right: 150px;
 }
 
 .sidebar {
@@ -84,7 +88,7 @@ h2 {
   color: var(--whitecolor);
   display: flex;
   flex-direction: column;
-  align-items: center;
+  justify-content: center;
   padding-top: 20px;
   box-shadow: 2px 0 10px rgba(0, 0, 0, 0.3);
   z-index: 300;
@@ -100,7 +104,6 @@ h2 {
   list-style-type: none;
   padding: 0;
   width: 100%;
-  margin-top: 300px;
   overflow: hidden;
   border-radius: 0% 15% 15% 0%;
 }
@@ -208,8 +211,6 @@ button:hover {
 }
 
 .todolist {
-  display: flex;
-  flex-direction: column;
   width: 80vw;
   height: 80vh;
   opacity: 0;
@@ -225,9 +226,9 @@ button:hover {
   grid-template-columns: 1fr 1fr;
   gap: 20px;
   height: 100%;
-  width: 100%;
   padding: 24px;
   box-sizing: border-box;
+  overflow: hidden;
 }
 .left-panel {
   display: flex;
@@ -237,9 +238,10 @@ button:hover {
   background-color: var(--divcolor);
   border-radius: 20px;
   padding: 30px;
+  overflow: hidden;
 }
 
-#new-todo-pop-up {
+#new-todo-popup {
   display: none;
   position: fixed;
   top: 30%;
@@ -252,12 +254,16 @@ button:hover {
   animation: slideUp 0.5s ease;
   transition: transform 0.3s ease;
   padding: 80px 40px;
+  width: 20vw;
+  height: 30vh;
+  justify-content: center;
 }
 
 .right-panel {
   display: flex;
   flex-direction: column;
   gap: 15px;
+  overflow: hidden;
 }
 
 .task-status {
@@ -278,49 +284,107 @@ button:hover {
 }
 
 .categories {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
   flex: 1;
   background-color: var(--divcolor);
   padding: 30px;
   border-radius: 15px;
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 #categories-todo {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 16px;
   list-style: none;
-  padding: 0;
 }
 
 #categories-todo li {
-  background-color: var(--secondarycolor);
-  width: 100px;
-  height: 100px;
+  width: auto;
+  height: 5vh;
   display: flex;
   align-items: center;
   justify-content: center;
   font-weight: bold;
   border-radius: 20px;
-  box-shadow: 0 70px 10px rgba(0, 0, 0, 0.2);
   cursor: pointer;
-  transition: background 0.3s ease;
+  transition: 0.3s ease;
+  transform: scale(1);
 }
 
-.categories-todo li:hover {
-  background-color: var(--thirdcolor);
-  color: var(--primarycolor);
+#categories-todo li:hover {
+  transform: scale(1.1);
 }
 
-#category-popup input {
-  padding: 10px;
+#category-popup {
+  display: none;
+  position: fixed;
+  top: 30%;
+  flex-direction: column;
+  align-items: center;
+  z-index: 40;
+  background-color: var(--divcolor);
+  border-radius: 20% 0%;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  animation: slideUp 0.5s ease;
+  transition: transform 0.3s ease;
+  padding: 80px 40px;
+  justify-content: center;
+  gap: 30px;
+  width: 20vw;
+  height: 30vh;
+}
+
+#close-category-popup {
+  top: 20px;
+  right: 20px;
+  cursor: pointer;
+  transform: scale(1.5);
+  transition: transform 0.2s ease, background-color 0.2s ease;
+  width: 40px;
+  height: 20px;
+  background: var(--errorcolor);
+  color: var(--whitecolor);
+  font-weight: bold;
+  font-size: 14px;
+  line-height: 20px;
+  text-align: center;
+  border-radius: 3px;
+  box-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
+  position: absolute;
+}
+
+#category-input {
+  width: 100%;
+  max-width: 350px;
+  height: auto;
+  field-sizing: content;
+  padding: 12px 16px;
+  font-size: 16px;
+  border: 2px solid #ccc;
   border-radius: 8px;
-  border: 1px solid var(--thirdcolor);
+  outline: none;
+  resize: none;
+  transition: width 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+  background-color: var(--whitecolor);
   font-family: var(--fontmain);
-  font-size: 1rem;
 }
 
-#new-category-name {
-  margin-top: 20px;
-  margin-right: 15px;
+#category-input:focus {
+  border-color: var(--primarycolor);
+  transform: scale(1.05);
+}
+
+#category-input::placeholder {
+  color: #888;
+  font-style: italic;
+  transition: color 0.3s ease;
+}
+
+#category-input:focus::placeholder {
+  color: var(--secondarycolor);
 }
 
 ul {
@@ -513,5 +577,30 @@ ul::-webkit-scrollbar-thumb {
   to {
     transform: translateY(0);
     opacity: 1;
+  }
+}
+
+@media only screen and (max-width: 900px) {
+  .todolist-dashboard-wrapper {
+    display: flex;
+    flex-direction: column;
+  }
+  .sidebar {
+    width: 60px;
+  }
+  .todolist {
+    margin-left: 50px;
+  }
+  #new-todo-popup {
+    width: 40vw;
+  }
+  #category-popup {
+    width: 40vw;
+  }
+  .welcome-card {
+    transform: scale(0.88);
+  }
+  #nav-bar input.search-bar {
+    display: none;
   }
 }

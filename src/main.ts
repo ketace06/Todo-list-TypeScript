@@ -2,6 +2,7 @@ import './style.css'
 import {
   addCategory,
   addTodo,
+  clearCategories,
   deleteTasks,
   fetchApi,
   fetchCategories,
@@ -13,13 +14,11 @@ export function initDomLoad() {
   document.addEventListener('DOMContentLoaded', initializeApp)
 }
 initDomLoad()
-
 function initializeApp() {
   updateTodosDisplay()
   fetchApi()
   fetchCategories()
   const domElements = getDomElements()
-
   setupEventListeners(domElements)
   updateWelcomeMessage()
 }
@@ -31,6 +30,7 @@ function setupEventListeners({
   deleteAllTasks,
   letterCountElement,
   addCategoryButton,
+  clearAllCategories,
 }: ReturnType<typeof getDomElements>) {
   todoInputElement.addEventListener(
     'input',
@@ -46,6 +46,9 @@ function setupEventListeners({
     deleteAllTasks.addEventListener('click', deleteTasks)
   }
 
+  if (clearAllCategories) {
+    clearAllCategories.addEventListener('click', clearCategories)
+  }
   disableButtonTemporarily(startButton)
 }
 
