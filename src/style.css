@@ -259,6 +259,26 @@ button:hover {
   justify-content: center;
 }
 
+#category-select {
+  margin-top: 30px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-image: url("https://cdn-icons-png.flaticon.com/128/32/32195.png");
+  background-repeat: no-repeat;
+  background-position: 110px;
+  background-size: 25px;
+  padding: 15px 60px 15px 15px;
+  border: 2px solid var(--thirdcolor);
+  transition: all 0.5s ease;
+  border-radius: 10px;
+}
+
+#category-select:hover {
+  border: 2px solid var(--successcolor);
+  border-radius: 0px 20px;
+}
+
 .right-panel {
   display: flex;
   flex-direction: column;
@@ -405,6 +425,12 @@ ul::-webkit-scrollbar {
 ul::-webkit-scrollbar-thumb {
   background-color: rgba(255, 255, 255, 0.2);
   border-radius: 4px;
+}
+
+.color-dot {
+  border-radius: 50%;
+  width: 10px;
+  height: 10px;
 }
 
 .todo-item {

@@ -25,15 +25,27 @@ async function parseJsonSafe<T>(response: Response): Promise<T> {
 
 export async function fetchApi() {
   try {
-    const response = await fetch(`${API_URL}?select=*,category:categories(*)`, {
-      method: 'GET',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
+    const response = await fetch(
+      `${API_URL}?select=*,categories_todos!inner(category:categories(*))`,
+      {
+        method: 'GET',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
       },
-    })
+    )
+
     await handleApiError(response)
-    todos = await parseJsonSafe<(Todo & { category?: Category })[]>(response)
+    const raw =
+      await parseJsonSafe<
+        (Todo & { categories_todos?: { category: Category }[] })[]
+      >(response)
+
+    todos = raw.map((todo) => ({
+      ...todo,
+      category: todo.categories_todos?.[0]?.category,
+    }))
   } catch (error) {
     console.error(
       error instanceof Error

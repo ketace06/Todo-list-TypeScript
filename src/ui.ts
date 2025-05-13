@@ -122,7 +122,6 @@ function clearTodoContainer(
   errorMessageP.innerText = ''
   todoInputElement.value = ''
 }
-
 function createTodoElement(todo: Todo) {
   const li = document.createElement('li') as HTMLLIElement
   li.classList.add('todo-item')
@@ -142,12 +141,19 @@ function createTodoElement(todo: Todo) {
   const dueDateNode = document.createElement('span')
   dueDateNode.classList.add('due-date')
   dueDateNode.textContent = todo.due_date || 'No due date'
-
   styleDueDate(todo, dueDateNode)
+  const colorDot = document.createElement('span')
+  colorDot.classList.add('color-dot')
+  if (todo.category?.color) {
+    colorDot.style.backgroundColor = todo.category.color
+  } else {
+    colorDot.style.backgroundColor = '#ccc'
+  }
 
   li.appendChild(checkbox)
   li.appendChild(textNode)
   li.appendChild(dueDateNode)
+  li.appendChild(colorDot)
   li.appendChild(closeSpan)
 
   return li

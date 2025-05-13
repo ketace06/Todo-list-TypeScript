@@ -4,6 +4,7 @@ export type Todo = {
   done: boolean
   due_date: string
   category_id?: string
+  category?: Category
 }
 
 export type TodoInsert = {
