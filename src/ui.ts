@@ -147,7 +147,7 @@ function createTodoElement(todo: Todo) {
   if (todo.category?.color) {
     colorDot.style.backgroundColor = todo.category.color
   } else {
-    colorDot.style.backgroundColor = '#ccc'
+    colorDot.style.backgroundColor = ''
   }
 
   li.appendChild(checkbox)
@@ -155,6 +155,76 @@ function createTodoElement(todo: Todo) {
   li.appendChild(dueDateNode)
   li.appendChild(colorDot)
   li.appendChild(closeSpan)
+  li.addEventListener('click', (event) => {
+    if (
+      (event.target as HTMLElement).classList.contains('checkboxes') ||
+      (event.target as HTMLElement).classList.contains('close')
+    ) {
+      return
+    }
+
+    const { editListPopupDiv, editListPopupContent } = getDomElements()
+
+    if (editListPopupDiv && editListPopupContent) {
+      const rect = li.getBoundingClientRect()
+      const popupHeight = 150
+      const spaceBelow = window.innerHeight - rect.bottom
+      const spaceAbove = rect.top
+
+      editListPopupDiv.style.position = 'absolute'
+      editListPopupDiv.style.left = `${rect.left}px`
+
+      if (spaceBelow >= popupHeight) {
+        editListPopupDiv.style.top = `${rect.bottom + window.scrollY}px`
+      } else if (spaceAbove >= popupHeight) {
+        editListPopupDiv.style.top = `${rect.top - popupHeight + window.scrollY}px`
+      } else {
+        editListPopupDiv.style.top = `${rect.bottom + window.scrollY}px`
+      }
+      editListPopupDiv.style.display = 'flex'
+      editListPopupContent.innerHTML = `
+      <div class="actions-close-input">
+        <button id="edit">Edit</button>
+        <span id="close-edit-popup">×</span>
+      </div>
+      <div class="edit-group">
+        <h3>${todo.title}</h3>
+        <p><strong>Due date:</strong> ${todo.due_date || 'No due date'}</p>
+        <p><strong>Category:</strong> ${todo.category?.title || 'None'}</p>
+        <p><strong>Status:</strong> ${todo.done ? 'Done' : 'Not done'}</p>
+      </div>
+    `
+      editListPopupContent
+        .querySelector('#edit')
+        ?.addEventListener('click', () => {
+          editListPopupContent.innerHTML = `
+          <div class="actions-close-input">
+            <button id="save-edit">Save</button>
+            <span id="close-edit-popup">×</span>
+          </div>
+          <div class="edit-group">
+            <label>
+              Title:
+              <input type="text" id="edit-title" value="${todo.title}">
+            </label>
+            <label>
+              Due date:
+              <input type="date" id="edit-due-date" value="${todo.due_date || ''}">
+            </label>
+            <label>
+              Category:
+              <select id="category-select"></select>
+            </label>
+          </div>
+        `
+        })
+      editListPopupContent
+        .querySelector('#close-edit-popup')
+        ?.addEventListener('click', () => {
+          editListPopupDiv.style.display = 'none'
+        })
+    }
+  })
 
   return li
 }

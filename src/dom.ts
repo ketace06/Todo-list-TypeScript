@@ -42,10 +42,17 @@ export function getDomElements() {
     addNewTaskButton: document.getElementById(
       'button-popup-new-todo',
     ) as HTMLButtonElement,
+    editListPopupDiv: document.getElementById('edit-list-popup') as HTMLElement,
     errorMessageP: document.getElementById(
       'todo-creation-error',
     ) as HTMLParagraphElement,
     startButton: document.getElementById('start-button') as HTMLButtonElement,
+    editListPopupContent: document.getElementById(
+      'edit-list-popup-content',
+    ) as HTMLDivElement,
+    closeEditPopup: document.getElementById(
+      'close-edit-popup',
+    ) as HTMLSpanElement,
     welcomeScreen: document.getElementById('welcome-screen') as HTMLElement,
     app: document.getElementById('app') as HTMLElement,
     sidebar: document.getElementById('sidebar') as HTMLDivElement,

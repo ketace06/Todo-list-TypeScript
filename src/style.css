@@ -272,6 +272,8 @@ button:hover {
   border: 2px solid var(--thirdcolor);
   transition: all 0.5s ease;
   border-radius: 10px;
+  max-width: 160px;
+  text-overflow: ellipsis;
 }
 
 #category-select:hover {
@@ -429,8 +431,8 @@ ul::-webkit-scrollbar-thumb {
 
 .color-dot {
   border-radius: 50%;
-  width: 10px;
-  height: 10px;
+  width: 12px;
+  height: 12px;
 }
 
 .todo-item {
@@ -453,6 +455,60 @@ ul::-webkit-scrollbar-thumb {
   background: rgba(255, 255, 255, 0.1);
   cursor: pointer;
 }
+
+#edit-list-popup {
+  position: absolute;
+  top: 40%;
+  left: 22%;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  z-index: 20;
+  background-color: var(--divcolor);
+  border-radius: 0% 20% 20% 20%;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  animation: slideUp 0.5s ease;
+  transition: all transform 0.3s ease;
+  padding: 40px 30px;
+  width: 15vw;
+  height: 20vh;
+}
+
+.actions-close-input {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.edit-group {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-direction: column;
+}
+
+#close-edit-popup {
+  top: 20px;
+  right: 20px;
+  cursor: pointer;
+  transform: scale(1.5);
+  transition: transform 0.2s ease, background-color 0.2s ease;
+  width: 40px;
+  height: 20px;
+  background: var(--errorcolor);
+  color: var(--whitecolor);
+  font-weight: bold;
+  font-size: 14px;
+  line-height: 20px;
+  text-align: center;
+  border-radius: 3px;
+  box-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
+}
+
+#close-edit-popup:hover {
+  background-color: #c50f1f;
+}
+
 #close-todo-popup {
   top: 20px;
   right: 20px;
@@ -484,7 +540,7 @@ ul::-webkit-scrollbar-thumb {
 
 .close:hover {
   color: var(--dangercolor);
-  transform: scale(3);
+  transform: scale(2);
 }
 
 .checkboxes:hover {

@@ -26,7 +26,7 @@ async function parseJsonSafe<T>(response: Response): Promise<T> {
 export async function fetchApi() {
   try {
     const response = await fetch(
-      `${API_URL}?select=*,categories_todos!inner(category:categories(*))`,
+      `${API_URL}?select=*,categories_todos!left(category:categories(*))`,
       {
         method: 'GET',
         headers: {
