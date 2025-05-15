@@ -1,20 +1,24 @@
 import './style.css'
-import { addTodo, deleteTasks, fetchApi } from './api.ts'
+import {
+  addCategory,
+  addTodo,
+  clearCategories,
+  deleteTasks,
+  fetchApi,
+  fetchCategories,
+} from './api.ts'
 import { getDomElements } from './dom.ts'
 import { exitMainPage, updateTodosDisplay } from './ui.ts'
 
 export function initDomLoad() {
   document.addEventListener('DOMContentLoaded', initializeApp)
 }
-
 initDomLoad()
-
 function initializeApp() {
   updateTodosDisplay()
   fetchApi()
-
+  fetchCategories()
   const domElements = getDomElements()
-
   setupEventListeners(domElements)
   updateWelcomeMessage()
 }
@@ -25,6 +29,8 @@ function setupEventListeners({
   todoInputElement,
   deleteAllTasks,
   letterCountElement,
+  addCategoryButton,
+  clearAllCategories,
 }: ReturnType<typeof getDomElements>) {
   todoInputElement.addEventListener(
     'input',
@@ -34,11 +40,15 @@ function setupEventListeners({
 
   startButton.addEventListener('click', exitMainPage)
   todoAddElement.addEventListener('click', addTodo)
+  addCategoryButton.addEventListener('click', addCategory)
 
   if (deleteAllTasks) {
     deleteAllTasks.addEventListener('click', deleteTasks)
   }
 
+  if (clearAllCategories) {
+    clearAllCategories.addEventListener('click', clearCategories)
+  }
   disableButtonTemporarily(startButton)
 }
 
@@ -92,10 +102,10 @@ function updateWelcomeMessage() {
   const curHr = today.getHours()
 
   if (curHr < 12) {
-    curHrText.innerText = 'Good morning'
+    curHrText.innerText = 'Good morning ☀️🌅🍳'
   } else if (curHr < 18) {
-    curHrText.innerText = 'Good afternoon'
+    curHrText.innerText = 'Good afternoon 🌤️🌞🍵'
   } else {
-    curHrText.innerText = 'Good evening'
+    curHrText.innerText = 'Good evening 🌇🌙🌃'
   }
 }
