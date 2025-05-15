@@ -40,8 +40,8 @@
         <p id="todo-creation-error"></p>
       </div>
       <div class="todo-actions">
-        <button id="add-todo-button">Add</button>
         <button id="delete-all">Clear your tasks</button>
+        <button id="add-todo-button">Add</button>
       </div>
     </div>
     <div id="edit-list-popup" style="display: none" class="popup-overlay">
@@ -51,10 +51,12 @@
     <div id="category-popup">
       <span id="close-category-popup">×</span>
       <input type="text" id="category-input" placeholder="Enter category name" autocomplete="off">
+      <p class="select-the-color">Select the color of your choice</p>
       <input type="color" id="color-input" name="head" value="#e66465">  
       <div class="todo-actions">      
-      <button id="add-category-button">Add Category</button>
-      <button id="clear-all-categories">Clear your categories</button></div>           
+        <button id="clear-all-categories">Clear your categories</button>        
+        <button id="add-category-button">Add Category</button>
+      </div>
     </div>
     <div id="app" class="todolist">      
       <div class="todolist-dashboard-wrapper">

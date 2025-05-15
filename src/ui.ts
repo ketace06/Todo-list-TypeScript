@@ -1,6 +1,6 @@
-import { deleteTodo, fetchApi, todos } from './api'
+import { categories, deleteTodo, todos, updateTodoStatus } from './api'
 import { getDomElements } from './dom'
-import type { Todo } from './types'
+import type { Todo, TodoUpdate } from './types'
 
 export function randomText() {
   const texts = [
@@ -27,19 +27,18 @@ export function exitMainPage() {
 function setupAddNewTaskButton() {
   const { addNewTaskButton, newTodoPopUp } = getDomElements()
   addNewTaskButton.addEventListener('click', () => {
-    if (newTodoPopUp) {
-      newTodoPopUp.style.display = 'flex'
-    }
+    if (newTodoPopUp) newTodoPopUp.style.display = 'flex'
   })
 }
-setupAddNewTaskButton()
-export function removeAddNewTaskButton() {
-  const { newTodoPopUp, newTodoCloseButton } = getDomElements()
 
+function removeAddNewTaskButton() {
+  const { newTodoPopUp, newTodoCloseButton } = getDomElements()
   newTodoCloseButton.addEventListener('click', () => {
-    newTodoPopUp.style.display = 'none'
+    if (newTodoPopUp) newTodoPopUp.style.display = 'none'
   })
 }
+
+setupAddNewTaskButton()
 removeAddNewTaskButton()
 
 function fadeOutWelcomeScreen(
@@ -122,15 +121,29 @@ function clearTodoContainer(
   errorMessageP.innerText = ''
   todoInputElement.value = ''
 }
-function createTodoElement(todo: Todo) {
-  const li = document.createElement('li') as HTMLLIElement
+
+export function createTodoElement(todo: Todo) {
+  const li = document.createElement('li')
   li.classList.add('todo-item')
 
   const checkbox = document.createElement('input')
   checkbox.type = 'checkbox'
   checkbox.classList.add('checkboxes')
   checkbox.checked = todo.done
-  checkbox.addEventListener('change', () => updateTodoStatus(todo))
+
+  checkbox.addEventListener('change', () => {
+    const newStatus = checkbox.checked
+    if (newStatus !== todo.done) {
+      todo.done = newStatus
+      updateTodoStatus({
+        id: todo.id,
+        title: todo.title,
+        due_date: todo.due_date,
+        done: newStatus,
+        category_id: todo.category?.id ?? undefined,
+      })
+    }
+  })
 
   const textNode = document.createTextNode(todo.title)
   const closeSpan = document.createElement('span')
@@ -142,168 +155,181 @@ function createTodoElement(todo: Todo) {
   dueDateNode.classList.add('due-date')
   dueDateNode.textContent = todo.due_date || 'No due date'
   styleDueDate(todo, dueDateNode)
+
   const colorDot = document.createElement('span')
   colorDot.classList.add('color-dot')
-  if (todo.category?.color) {
-    colorDot.style.backgroundColor = todo.category.color
-  } else {
-    colorDot.style.backgroundColor = ''
-  }
+  colorDot.style.backgroundColor = todo.category?.color || ''
 
-  li.appendChild(checkbox)
-  li.appendChild(textNode)
-  li.appendChild(dueDateNode)
-  li.appendChild(colorDot)
-  li.appendChild(closeSpan)
+  li.append(checkbox, textNode, dueDateNode, colorDot, closeSpan)
+
   li.addEventListener('click', (event) => {
+    const target = event.target as HTMLElement
     if (
-      (event.target as HTMLElement).classList.contains('checkboxes') ||
-      (event.target as HTMLElement).classList.contains('close')
-    ) {
+      target.classList.contains('checkboxes') ||
+      target.classList.contains('close')
+    )
       return
-    }
 
     const { editListPopupDiv, editListPopupContent } = getDomElements()
+    if (!editListPopupDiv || !editListPopupContent) return
 
-    if (editListPopupDiv && editListPopupContent) {
-      const rect = li.getBoundingClientRect()
-      const popupHeight = 150
-      const spaceBelow = window.innerHeight - rect.bottom
-      const spaceAbove = rect.top
+    editListPopupDiv.style.display = 'flex'
+    editListPopupDiv.tabIndex = -1
+    editListPopupDiv.focus()
+    editListPopupDiv.addEventListener('blur', (e) => {
+      if (!editListPopupDiv.contains(e.relatedTarget as Node))
+        editListPopupDiv.style.display = 'none'
+    })
+    const mouseY = event.clientY
+    const mouseX = event.clientX
 
-      editListPopupDiv.style.position = 'absolute'
-      editListPopupDiv.style.left = `${rect.left}px`
+    const popupWidth = 400
+    const popupHeight = 500
 
-      if (spaceBelow >= popupHeight) {
-        editListPopupDiv.style.top = `${rect.bottom + window.scrollY}px`
-      } else if (spaceAbove >= popupHeight) {
-        editListPopupDiv.style.top = `${rect.top - popupHeight + window.scrollY}px`
-      } else {
-        editListPopupDiv.style.top = `${rect.bottom + window.scrollY}px`
-      }
-      editListPopupDiv.style.display = 'flex'
-      editListPopupContent.innerHTML = `
-      <div class="actions-close-input">
-        <button id="edit">Edit</button>
-        <span id="close-edit-popup">×</span>
-      </div>
+    const screenHeight = window.innerHeight
+    const screenWidth = window.innerWidth
+
+    let top = mouseY
+    let left = mouseX
+
+    if (mouseY + popupHeight > screenHeight) {
+      top = screenHeight - popupHeight - 10
+    }
+    if (mouseY < 100) {
+      top = 100
+    }
+    if (mouseX + popupWidth > screenWidth) {
+      left = screenWidth - popupWidth - 10
+    }
+    if (mouseX < 100) {
+      left = 100
+    }
+
+    editListPopupDiv.style.position = 'fixed'
+    editListPopupDiv.style.top = `${top}px`
+    editListPopupDiv.style.left = `${left}px`
+
+    editListPopupContent.innerHTML = `
       <div class="edit-group">
         <h3>${todo.title}</h3>
         <p><strong>Due date:</strong> ${todo.due_date || 'No due date'}</p>
         <p><strong>Category:</strong> ${todo.category?.title || 'None'}</p>
         <p><strong>Status:</strong> ${todo.done ? 'Done' : 'Not done'}</p>
       </div>
+      <button id="edit">Edit</button>
     `
-      editListPopupContent
-        .querySelector('#edit')
-        ?.addEventListener('click', () => {
-          editListPopupContent.innerHTML = `
-          <div class="actions-close-input">
-            <button id="save-edit">Save</button>
-            <span id="close-edit-popup">×</span>
-          </div>
-          <div class="edit-group">
-            <label>
-              Title:
-              <input type="text" id="edit-title" value="${todo.title}">
-            </label>
-            <label>
-              Due date:
-              <input type="date" id="edit-due-date" value="${todo.due_date || ''}">
-            </label>
-            <label>
-              Category:
-              <select id="category-select"></select>
-            </label>
-          </div>
-        `
-        })
-      editListPopupContent
-        .querySelector('#close-edit-popup')
-        ?.addEventListener('click', () => {
-          editListPopupDiv.style.display = 'none'
-        })
-    }
+    attachClose(editListPopupDiv)
+
+    editListPopupContent
+      .querySelector<HTMLButtonElement>('#edit')
+      ?.addEventListener('click', () => {
+        editListPopupContent.innerHTML = `
+        <div class="actions-close-input2">
+          <span class="close-edit-popup">×</span>
+        </div>
+        <div class="edit-group">
+          <label class="label-info">Title:<input type="text" id="todo-input" value="${todo.title}" autocomplete="off" /></label>
+          <label class="label-info">Due date:<input type="date" id="todo-due-date" value="${todo.due_date || ''}" /></label>
+          <label class="label-info">Category:<select id="category-select">
+          <option>${todo.category?.title}</option>
+          </select></label>
+        </div>
+        <button id="save-edit">Save</button>
+      `
+        const categorySelect = editListPopupContent.querySelector(
+          '#category-select',
+        ) as HTMLSelectElement
+        categorySelect.innerHTML = ''
+
+        const noOption = document.createElement('option')
+        noOption.value = ''
+        noOption.textContent = 'No category'
+        categorySelect.appendChild(noOption)
+
+        for (let i = 0; i < categories.length; i++) {
+          const cat = categories[i]
+          const option = document.createElement('option')
+          option.value = cat.id
+          option.textContent = cat.title
+          if (todo.category && todo.category.id === cat.id) {
+            option.selected = true
+          }
+          categorySelect.appendChild(option)
+        }
+
+        attachClose(editListPopupDiv)
+
+        editListPopupContent
+          .querySelector('#save-edit')
+          ?.addEventListener('click', () => {
+            const updated: TodoUpdate = {
+              id: todo.id,
+              title: (
+                editListPopupContent.querySelector(
+                  '#todo-input',
+                ) as HTMLInputElement
+              ).value,
+              due_date:
+                (
+                  editListPopupContent.querySelector(
+                    '#todo-due-date',
+                  ) as HTMLInputElement
+                ).value || todo.due_date,
+              category_id: categorySelect.value || todo.category_id,
+              done: todo.done,
+            }
+            updateTodoStatus(updated)
+            editListPopupDiv.style.display = 'none'
+          })
+      })
   })
 
   return li
 }
 
-function updateTodoStatus(todo: Todo) {
-  todo.done = !todo.done
-
-  fetch(`https://api.todos.in.jt-lab.ch/todos?id=eq.${todo.id}`, {
-    method: 'PATCH',
-    headers: { Accept: 'application/json', 'Content-Type': 'application/json' },
-    body: JSON.stringify({ done: todo.done }),
+function attachClose(div: HTMLElement) {
+  div.querySelector('.close-edit-popup')?.addEventListener('click', () => {
+    div.style.display = 'none'
   })
-    .then(fetchApi)
-    .catch(console.error)
 }
+
 function styleDueDate(todo: Todo, dueDateNode: HTMLSpanElement) {
-  const dueDate = todo.due_date ? new Date(todo.due_date) : null
-  if (!dueDate) return
+  const due = todo.due_date ? new Date(todo.due_date) : null
+  if (!due) return
+  const now = new Date()
+  const today = new Date(now.getFullYear(), now.getMonth(), now.getDate())
+  const in4 = new Date(today)
+  in4.setDate(today.getDate() + 4)
+  const dOnly = new Date(due.getFullYear(), due.getMonth(), due.getDate())
 
-  const today = new Date()
-  const todayDateOnly = new Date(
-    today.getFullYear(),
-    today.getMonth(),
-    today.getDate(),
-  )
-  const fourDays = new Date(todayDateOnly)
-  fourDays.setDate(fourDays.getDate() + 4)
-
-  const dueOnly = new Date(
-    dueDate.getFullYear(),
-    dueDate.getMonth(),
-    dueDate.getDate(),
-  )
-
-  if (dueOnly.getTime() === todayDateOnly.getTime()) {
-    dueDateNode.style.color = '#FFAC1C'
-  } else if (
-    dueOnly.getTime() > todayDateOnly.getTime() &&
-    dueOnly.getTime() <= fourDays.getTime()
-  ) {
-    dueDateNode.style.color = '#FFEA00'
-  } else if (dueOnly.getTime() > fourDays.getTime()) {
-    dueDateNode.style.color = '#228B22'
-  } else {
-    dueDateNode.style.color = '#FF6B6B'
-  }
+  if (dOnly.getTime() === today.getTime()) dueDateNode.style.color = '#FFAC1C'
+  else if (dOnly > today && dOnly <= in4) dueDateNode.style.color = '#FFEA00'
+  else if (dOnly > in4) dueDateNode.style.color = '#228B22'
+  else dueDateNode.style.color = '#FF6B6B'
 }
 
 function isOverdue(todo: Todo) {
   if (!todo.due_date) return false
   const due = new Date(todo.due_date)
-  const todayOnly = new Date()
-  todayOnly.setHours(0, 0, 0, 0)
-  return due < todayOnly
+  const today = new Date()
+  today.setHours(0, 0, 0, 0)
+  return due < today
 }
 
-function toggleOverdueMessage(
-  hasOverdue: boolean,
-  overdueMessage: HTMLParagraphElement,
-) {
-  if (hasOverdue) {
-    overdueMessage.classList.add('show')
-  } else {
-    overdueMessage.classList.remove('show')
-  }
+function toggleOverdueMessage(has: boolean, msg: HTMLParagraphElement) {
+  msg.classList.toggle('show', has)
 }
 
 function createCategory() {
   const { createCategoryBtn, categoryPopup, newCategoryCloseButton } =
     getDomElements()
   createCategoryBtn.addEventListener('click', () => {
-    if (categoryPopup) {
-      categoryPopup.style.display = 'flex'
-    }
+    if (categoryPopup) categoryPopup.style.display = 'flex'
   })
   newCategoryCloseButton.addEventListener('click', () => {
-    if (categoryPopup.style.display === 'flex') {
+    if (categoryPopup?.style.display === 'flex')
       categoryPopup.style.display = 'none'
-    }
   })
 }
+
 createCategory()

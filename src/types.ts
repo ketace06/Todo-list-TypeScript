@@ -7,6 +7,14 @@ export type Todo = {
   category?: Category
 }
 
+export type TodoUpdate = {
+  id: string
+  title?: string
+  done?: boolean
+  due_date?: string
+  category_id?: string
+}
+
 export type TodoInsert = {
   title: string
   done?: boolean

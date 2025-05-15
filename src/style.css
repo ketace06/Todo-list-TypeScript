@@ -38,9 +38,26 @@ body {
   height: 100vh;
 }
 
-h1,
+h1 {
+  font-size: 38px;
+  line-height: 1.2rem;
+  margin-bottom: 32px;
+}
+
 h2 {
-  font-size: 10;
+  font-size: 32px;
+  line-height: 1.3rem;
+  margin-bottom: 24px;
+}
+
+p {
+  font-size: 18px;
+  line-height: 1.6rem;
+  margin-bottom: 16px;
+}
+
+.select-the-color {
+  margin-bottom: 0px;
 }
 
 #nav-bar {
@@ -48,6 +65,7 @@ h2 {
   top: 0;
   left: 0;
   width: 100%;
+  height: 7vh;
   background-color: var(--primarycolor);
   z-index: 20;
   box-shadow: 2px 0 10px rgba(0, 0, 0, 0.3);
@@ -58,7 +76,7 @@ h2 {
 }
 
 #curHrText {
-  margin-left: 100px;
+  margin: 0px 0px 0px 100px;
 }
 
 #nav-bar input.search-bar {
@@ -194,6 +212,7 @@ button {
 button:hover {
   background: var(--thirdcolor);
   color: var(--primarycolor);
+  cursor: pointer;
 }
 
 .fade-out {
@@ -260,13 +279,6 @@ button:hover {
 }
 
 #category-select {
-  margin-top: 30px;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-  background-image: url("https://cdn-icons-png.flaticon.com/128/32/32195.png");
-  background-repeat: no-repeat;
-  background-position: 110px;
   background-size: 25px;
   padding: 15px 60px 15px 15px;
   border: 2px solid var(--thirdcolor);
@@ -378,6 +390,10 @@ button:hover {
   position: absolute;
 }
 
+#close-category-popup:hover {
+  background-color: #c50f1f;
+}
+
 #category-input {
   width: 100%;
   max-width: 350px;
@@ -457,27 +473,39 @@ ul::-webkit-scrollbar-thumb {
 }
 
 #edit-list-popup {
-  position: absolute;
-  top: 40%;
-  left: 22%;
+  position: fixed;
   flex-direction: column;
   align-items: flex-start;
   justify-content: center;
   z-index: 20;
   background-color: var(--divcolor);
-  border-radius: 0% 20% 20% 20%;
+  border-radius: 20% 0%;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
   animation: slideUp 0.5s ease;
   transition: all transform 0.3s ease;
   padding: 40px 30px;
   width: 15vw;
-  height: 20vh;
+  height: 25vh;
 }
 
 .actions-close-input {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  flex-direction: row;
+}
+
+.actions-close-input2 {
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+  flex-direction: column;
+}
+
+.label-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
 }
 
 .edit-group {
@@ -487,7 +515,7 @@ ul::-webkit-scrollbar-thumb {
   flex-direction: column;
 }
 
-#close-edit-popup {
+.close-edit-popup {
   top: 20px;
   right: 20px;
   cursor: pointer;
@@ -543,7 +571,25 @@ ul::-webkit-scrollbar-thumb {
   transform: scale(2);
 }
 
+.checkboxes {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border-radius: 4px;
+  position: relative;
+}
+
 .checkboxes:hover {
+  cursor: pointer;
+}
+
+.checkboxes input {
+  opacity: 0;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  margin: 0;
+  z-index: 2;
   cursor: pointer;
 }
 
@@ -551,16 +597,13 @@ ul::-webkit-scrollbar-thumb {
   display: flex;
   flex-direction: column;
   align-items: center;
-}
-
-#letter-count {
-  margin-bottom: 50px;
-  margin-top: 10px;
+  justify-content: space-between;
+  gap: 1px;
 }
 
 .todo-actions {
   display: flex;
-  gap: 25px;
+  gap: 80px;
 }
 
 .todolist.slide-in {
@@ -572,7 +615,6 @@ ul::-webkit-scrollbar-thumb {
   color: var(--dangercolor);
   font-family: var(--fontalt);
   font-size: 1.2rem;
-  margin-top: 10px;
   text-align: center;
 }
 

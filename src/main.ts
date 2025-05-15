@@ -102,10 +102,10 @@ function updateWelcomeMessage() {
   const curHr = today.getHours()
 
   if (curHr < 12) {
-    curHrText.innerText = 'Good morning'
+    curHrText.innerText = 'Good morning ☀️🌅🍳'
   } else if (curHr < 18) {
-    curHrText.innerText = 'Good afternoon'
+    curHrText.innerText = 'Good afternoon 🌤️🌞🍵'
   } else {
-    curHrText.innerText = 'Good evening'
+    curHrText.innerText = 'Good evening 🌇🌙🌃'
   }
 }

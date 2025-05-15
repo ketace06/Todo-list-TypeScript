@@ -1,5 +1,11 @@
 import { getDomElements } from './dom'
-import type { Category, CategoryInsert, Todo, TodoInsert } from './types'
+import type {
+  Category,
+  CategoryInsert,
+  Todo,
+  TodoInsert,
+  TodoUpdate,
+} from './types'
 import { updateTodosDisplay } from './ui'
 
 const API_URL = 'https://api.todos.in.jt-lab.ch/todos'
@@ -56,6 +62,72 @@ export async function fetchApi() {
   }
   updateTodosDisplay()
 }
+async function changeTodoCategory(
+  todoId: string,
+  newCatId: string | '',
+  done: boolean,
+) {
+  const res = await fetch(`${API_URL_TODO_CATEGORY}?todo_id=eq.${todoId}`, {
+    headers: { Accept: 'application/json' },
+  })
+
+  const [link] = await res.json()
+  const oldCatId = link?.category_id
+
+  if (oldCatId && oldCatId !== newCatId) {
+    await fetch(
+      `${API_URL_TODO_CATEGORY}?todo_id=eq.${todoId}&category_id=eq.${oldCatId}`,
+      { method: 'DELETE' },
+    )
+  }
+
+  if (newCatId) {
+    await fetch(API_URL_TODO_CATEGORY, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        todo_id: todoId,
+        category_id: newCatId,
+      }),
+    })
+  }
+
+  await fetch(`${API_URL}?id=eq.${todoId}`, {
+    method: 'PATCH',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ done }),
+  })
+}
+
+export async function updateTodoStatus(todo: TodoUpdate) {
+  try {
+    await fetch(`${API_URL}?id=eq.${todo.id}`, {
+      method: 'PATCH',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        title: todo.title,
+        due_date: todo.due_date,
+        done: todo.done,
+      }),
+    })
+
+    if (todo.category_id) {
+      await changeTodoCategory(
+        todo.id,
+        String(todo.category_id) || '',
+        todo.done ?? false,
+      )
+    }
+
+    await fetchApi()
+    updateTodosDisplay()
+  } catch (error) {
+    console.error(error)
+  }
+}
 
 export async function addTodo() {
   const {
@@ -70,10 +142,7 @@ export async function addTodo() {
   const todoText = todoInputElement.value.trim()
   const selectedCategoryId = categorySelect.value
 
-  const newTodo: TodoInsert = {
-    title: todoText,
-    done: false,
-  }
+  const newTodo: TodoInsert = { title: todoText, done: false }
 
   if (dueDateInput.value) {
     newTodo.due_date = dueDateInput.value
@@ -173,12 +242,14 @@ export async function deleteTasks() {
     )
   }
 }
+
 export async function clearCategories() {
   todos = []
   const { newCategoryInput, colorInput, categoryPopup } = getDomElements()
   newCategoryInput.value = ''
   colorInput.value = ''
   categoryPopup.style.display = 'none'
+
   try {
     const response = await fetch(API_URL_CATEGORY, {
       method: 'DELETE',
@@ -196,6 +267,7 @@ export async function clearCategories() {
     )
   }
 }
+
 export async function fetchCategories() {
   const { categorySelect, categoriesList } = getDomElements()
 
@@ -265,7 +337,6 @@ export async function addCategory() {
       body: JSON.stringify(newCategory),
     })
     await handleApiError(response)
-
     await fetchCategories()
   } catch (error) {
     console.error(
